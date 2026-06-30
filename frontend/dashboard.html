@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <title>WOWCRAB - Dashboard</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6f8}
+    .topbar{background:#fff;border-bottom:1px solid #eee;padding:14px 32px;display:flex;align-items:center;justify-content:space-between}
+    .logo-wrap{display:flex;align-items:center;gap:10px}
+    .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#e8f5e9,#b2dfdb);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+    .logo-name{font-size:20px;font-weight:800;color:#1a2233;letter-spacing:2px}
+    .user-info{display:flex;align-items:center;gap:12px;font-size:14px;color:#3d4a5c}
+    .btn-logout{padding:8px 16px;background:#f4f6f8;border:1px solid #dce1e9;border-radius:8px;cursor:pointer;font-size:13px;color:#3d4a5c}
+    .btn-logout:hover{background:#ffe5e5;border-color:#ffcccc;color:#cc0000}
+    .content{padding:40px 32px}
+    .welcome{font-size:24px;font-weight:700;color:#1a2233;margin-bottom:8px}
+    .welcome span{color:#2bbbad}
+    .subtitle{font-size:14px;color:#6b7a8d}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:32px}
+    .card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .card h3{font-size:13px;color:#6b7a8d;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+    .card p{font-size:28px;font-weight:700;color:#1a2233}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo-wrap">
+      <div class="logo-icon">&#x1F980;</div>
+      <span class="logo-name">WOWCRAB</span>
+    </div>
+    <div class="user-info">
+      <span id="usernameDisplay">...</span>
+      <button class="btn-logout" onclick="logout()">Se deconnecter</button>
+    </div>
+  </div>
+  <div class="content">
+    <p class="welcome">Bonjour, <span id="welcomeName">...</span></p>
+    <p class="subtitle">Bienvenue sur votre tableau de bord WOWCRAB.</p>
+    <div class="cards">
+      <div class="card"><h3>Revenus</h3><p>EUR 0.00</p></div>
+      <div class="card"><h3>Commandes</h3><p>0</p></div>
+      <div class="card"><h3>Commande moyenne</h3><p>EUR 0.00</p></div>
+      <div class="card"><h3>Taux de remboursement</h3><p>0.0%</p></div>
+    </div>
+  </div>
+  <script>
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    if (!token) { window.location.href = '/login.html'; }
+    else {
+      document.getElementById('usernameDisplay').textContent = username;
+      document.getElementById('welcomeName').textContent = username;
+      fetch('/api/auth/verify', { headers: { 'Authorization': 'Bearer ' + token } })
+        .then(res => { if (!res.ok) { localStorage.clear(); window.location.href = '/login.html'; } });
+    }
+    function logout() { localStorage.clear(); window.location.href = '/login.html'; }
+  </script>
+</body>
+</html>
