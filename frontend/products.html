@@ -39,12 +39,13 @@
     .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
     .badge-green{background:#dcfce7;color:#16a34a}
     .badge-red{background:#fee2e2;color:#dc2626}
+    .badge-grey{background:#f3f4f6;color:#6b7280}
     .item-id{font-family:monospace;font-size:12px;color:#9ca3af}
     .actions{display:flex;gap:6px}
-    .btn-edit{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
-    .btn-edit:hover{background:#f3f4f6}
-    .btn-delete{padding:5px 10px;border:1px solid #fee2e2;border-radius:6px;background:#fff;color:#dc2626;font-size:12px;cursor:pointer}
-    .btn-delete:hover{background:#fef2f2}
+    .btn-toggle-on{padding:5px 14px;border:none;border-radius:6px;background:#dcfce7;color:#16a34a;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+    .btn-toggle-on:hover{background:#bbf7d0}
+    .btn-toggle-off{padding:5px 14px;border:none;border-radius:6px;background:#fee2e2;color:#dc2626;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+    .btn-toggle-off:hover{background:#fecaca}
     .count-label{font-size:13px;color:#9ca3af}
     /* Modal styles */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
@@ -137,8 +138,7 @@
           <td class="item-id">e3558ea5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -148,8 +148,7 @@
           <td class="item-id">0a5379a5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -159,8 +158,7 @@
           <td class="item-id">95ba5eb2</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -170,8 +168,7 @@
           <td class="item-id">0e03e4cf</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -181,8 +178,7 @@
           <td class="item-id">f01affec</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -192,8 +188,7 @@
           <td class="item-id">1e30f7e8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -203,8 +198,7 @@
           <td class="item-id">fc390b32</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -214,8 +208,7 @@
           <td class="item-id">716f4bf3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -225,8 +218,7 @@
           <td class="item-id">b6461edb</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -236,8 +228,7 @@
           <td class="item-id">9806298a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -247,8 +238,7 @@
           <td class="item-id">970a89bd</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -258,8 +248,7 @@
           <td class="item-id">8e8dd33d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -269,8 +258,7 @@
           <td class="item-id">0bc7f3b5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -280,8 +268,7 @@
           <td class="item-id">0b3a226e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -291,8 +278,7 @@
           <td class="item-id">c58a591c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -302,8 +288,7 @@
           <td class="item-id">fbc85c78</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -313,8 +298,7 @@
           <td class="item-id">8045e32d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -324,8 +308,7 @@
           <td class="item-id">11d17c21</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -335,8 +318,7 @@
           <td class="item-id">7fe5411c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -346,8 +328,7 @@
           <td class="item-id">cc225855</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -357,8 +338,7 @@
           <td class="item-id">29336f0b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -368,8 +348,7 @@
           <td class="item-id">a30662cb</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -379,8 +358,7 @@
           <td class="item-id">f930d910</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -390,8 +368,7 @@
           <td class="item-id">6b293993</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -401,8 +378,7 @@
           <td class="item-id">8b46ee4e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -412,8 +388,7 @@
           <td class="item-id">b09e6b30</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -423,8 +398,7 @@
           <td class="item-id">564d12e8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -434,8 +408,7 @@
           <td class="item-id">0682210c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -445,8 +418,7 @@
           <td class="item-id">b8b6a65c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -456,8 +428,7 @@
           <td class="item-id">f7181b03</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -467,8 +438,7 @@
           <td class="item-id">7fea8d5e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -478,8 +448,7 @@
           <td class="item-id">63229f72</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -489,8 +458,7 @@
           <td class="item-id">ff2bcba8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -500,8 +468,7 @@
           <td class="item-id">b99bcb38</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -511,8 +478,7 @@
           <td class="item-id">4911ca46</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -522,8 +488,7 @@
           <td class="item-id">b3a567e1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -533,8 +498,7 @@
           <td class="item-id">25d6d9f5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -544,8 +508,7 @@
           <td class="item-id">c2f16265</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -555,8 +518,7 @@
           <td class="item-id">b859eaef</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -566,8 +528,7 @@
           <td class="item-id">d275c167</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -577,8 +538,7 @@
           <td class="item-id">2607a19c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -588,8 +548,7 @@
           <td class="item-id">4f555cd0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -599,8 +558,7 @@
           <td class="item-id">a82a8234</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -610,8 +568,7 @@
           <td class="item-id">00ef941d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -621,8 +578,7 @@
           <td class="item-id">04ff0cf1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -632,8 +588,7 @@
           <td class="item-id">e03a5eb3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -643,8 +598,7 @@
           <td class="item-id">1a243dd0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -654,8 +608,7 @@
           <td class="item-id">604b66fb</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -665,8 +618,7 @@
           <td class="item-id">e2558e3d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -676,8 +628,7 @@
           <td class="item-id">f19e82c3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -687,8 +638,7 @@
           <td class="item-id">99e0c7d4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -698,8 +648,7 @@
           <td class="item-id">f4c094fd</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -709,8 +658,7 @@
           <td class="item-id">19c57c7b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -720,8 +668,7 @@
           <td class="item-id">701f4391</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -731,8 +678,7 @@
           <td class="item-id">2bde6948</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -742,8 +688,7 @@
           <td class="item-id">f0f5cae5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -753,8 +698,7 @@
           <td class="item-id">fac9a69f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -764,8 +708,7 @@
           <td class="item-id">cc6727ed</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -775,8 +718,7 @@
           <td class="item-id">a428b328</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -786,8 +728,7 @@
           <td class="item-id">cd642490</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -797,8 +738,7 @@
           <td class="item-id">5b83baa0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -808,8 +748,7 @@
           <td class="item-id">50ba9316</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -819,8 +758,7 @@
           <td class="item-id">9d777d67</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -830,8 +768,7 @@
           <td class="item-id">2af7618c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -841,8 +778,7 @@
           <td class="item-id">e2847eec</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -852,8 +788,7 @@
           <td class="item-id">db76ba45</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -863,8 +798,7 @@
           <td class="item-id">5f637946</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -874,8 +808,7 @@
           <td class="item-id">4b275a6f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -885,8 +818,7 @@
           <td class="item-id">7c272261</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -896,8 +828,7 @@
           <td class="item-id">737e840b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -907,8 +838,7 @@
           <td class="item-id">3340b116</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -918,8 +848,7 @@
           <td class="item-id">3b2f0d7a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -929,8 +858,7 @@
           <td class="item-id">9eaf5178</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -940,8 +868,7 @@
           <td class="item-id">8ac21580</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -951,8 +878,7 @@
           <td class="item-id">19adeb87</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -962,8 +888,7 @@
           <td class="item-id">4b6db615</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -973,8 +898,7 @@
           <td class="item-id">d04047cd</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -984,8 +908,7 @@
           <td class="item-id">29b6b4fc</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -995,8 +918,7 @@
           <td class="item-id">bfbe240e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1006,8 +928,7 @@
           <td class="item-id">12f5cbed</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1017,8 +938,7 @@
           <td class="item-id">e019a178</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1028,8 +948,7 @@
           <td class="item-id">063682da</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1039,8 +958,7 @@
           <td class="item-id">fbdadae3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1050,8 +968,7 @@
           <td class="item-id">b52e5323</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1061,8 +978,7 @@
           <td class="item-id">7bbbcdae</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1072,8 +988,7 @@
           <td class="item-id">c7ab6ae3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1083,8 +998,7 @@
           <td class="item-id">450b8ee4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1094,8 +1008,7 @@
           <td class="item-id">ddfdd43f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1105,8 +1018,7 @@
           <td class="item-id">cf4e55b1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1116,8 +1028,7 @@
           <td class="item-id">a452ab8b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1127,8 +1038,7 @@
           <td class="item-id">d94f12f0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1138,8 +1048,7 @@
           <td class="item-id">2737db48</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1149,8 +1058,7 @@
           <td class="item-id">9923d962</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1160,8 +1068,7 @@
           <td class="item-id">fea44dc0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1171,8 +1078,7 @@
           <td class="item-id">bb0230b4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1182,8 +1088,7 @@
           <td class="item-id">23bdfa3f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1193,8 +1098,7 @@
           <td class="item-id">a172c5ae</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1204,8 +1108,7 @@
           <td class="item-id">c58b1cfb</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1215,8 +1118,7 @@
           <td class="item-id">ac948a3f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1226,8 +1128,7 @@
           <td class="item-id">056b841d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1237,8 +1138,7 @@
           <td class="item-id">4db7f380</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1248,8 +1148,7 @@
           <td class="item-id">04dd1941</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1259,8 +1158,7 @@
           <td class="item-id">d9d140fa</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1270,8 +1168,7 @@
           <td class="item-id">a21e72b7</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1281,8 +1178,7 @@
           <td class="item-id">5fbcd668</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1292,8 +1188,7 @@
           <td class="item-id">7219f716</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1303,8 +1198,7 @@
           <td class="item-id">79a8af0a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1314,8 +1208,7 @@
           <td class="item-id">84909f6d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1325,8 +1218,7 @@
           <td class="item-id">e9191b4e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1336,8 +1228,7 @@
           <td class="item-id">9750e3d7</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1347,8 +1238,7 @@
           <td class="item-id">a9f1f0c5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1358,8 +1248,7 @@
           <td class="item-id">49c47104</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1369,8 +1258,7 @@
           <td class="item-id">59b50398</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1380,8 +1268,7 @@
           <td class="item-id">f0041e7f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1391,8 +1278,7 @@
           <td class="item-id">af8b43e4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1402,8 +1288,7 @@
           <td class="item-id">82baa81e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1413,8 +1298,7 @@
           <td class="item-id">8e603c54</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1424,8 +1308,7 @@
           <td class="item-id">cab285da</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1435,8 +1318,7 @@
           <td class="item-id">8f2663f8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1446,8 +1328,7 @@
           <td class="item-id">fa259dab</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1457,8 +1338,7 @@
           <td class="item-id">4aabd5b3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1468,8 +1348,7 @@
           <td class="item-id">5b2d1d7d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1479,8 +1358,7 @@
           <td class="item-id">51a249dc</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1490,8 +1368,7 @@
           <td class="item-id">7364fb9c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1501,8 +1378,7 @@
           <td class="item-id">605323dc</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1512,8 +1388,7 @@
           <td class="item-id">5124c2df</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1523,8 +1398,7 @@
           <td class="item-id">e396a4a4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1534,8 +1408,7 @@
           <td class="item-id">b36c14b5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1545,8 +1418,7 @@
           <td class="item-id">1f20125c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1556,8 +1428,7 @@
           <td class="item-id">9de761c1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1567,8 +1438,7 @@
           <td class="item-id">29d9a9e2</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1578,8 +1448,7 @@
           <td class="item-id">fc25e7c7</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1589,8 +1458,7 @@
           <td class="item-id">00c6ca34</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1600,8 +1468,7 @@
           <td class="item-id">7ecc736c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1611,8 +1478,7 @@
           <td class="item-id">d002d5a5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1622,8 +1488,7 @@
           <td class="item-id">90da9ed0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1633,8 +1498,7 @@
           <td class="item-id">4a130cd8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1644,8 +1508,7 @@
           <td class="item-id">d45bdbf1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1655,8 +1518,7 @@
           <td class="item-id">e832b51f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1666,8 +1528,7 @@
           <td class="item-id">be5136ed</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1677,8 +1538,7 @@
           <td class="item-id">37d9d409</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1688,8 +1548,7 @@
           <td class="item-id">9f98ef6e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1699,8 +1558,7 @@
           <td class="item-id">2ec4c3d8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1710,8 +1568,7 @@
           <td class="item-id">b7ad2699</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1721,8 +1578,7 @@
           <td class="item-id">15bfb10f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1732,8 +1588,7 @@
           <td class="item-id">bf1904c5</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1743,8 +1598,7 @@
           <td class="item-id">652bfd85</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1754,8 +1608,7 @@
           <td class="item-id">b71a9a62</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1765,8 +1618,7 @@
           <td class="item-id">279393db</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1776,8 +1628,7 @@
           <td class="item-id">b7a6227b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1787,8 +1638,7 @@
           <td class="item-id">dfeedbe8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1798,8 +1648,7 @@
           <td class="item-id">71c13cc8</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1809,8 +1658,7 @@
           <td class="item-id">670cfdba</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1820,8 +1668,7 @@
           <td class="item-id">f0e65165</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1831,8 +1678,7 @@
           <td class="item-id">a2f2f8e1</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1842,8 +1688,7 @@
           <td class="item-id">61a2bf48</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1853,8 +1698,7 @@
           <td class="item-id">768248d4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1864,8 +1708,7 @@
           <td class="item-id">8e7430dc</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1875,8 +1718,7 @@
           <td class="item-id">b95a3adb</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1886,8 +1728,7 @@
           <td class="item-id">a1f3f08a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1897,8 +1738,7 @@
           <td class="item-id">2352737a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1908,8 +1748,7 @@
           <td class="item-id">fc168d4b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1919,8 +1758,7 @@
           <td class="item-id">5a25d23c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1930,8 +1768,7 @@
           <td class="item-id">e18b2e8c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1941,8 +1778,7 @@
           <td class="item-id">bf42d228</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1952,8 +1788,7 @@
           <td class="item-id">2807541f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1963,8 +1798,7 @@
           <td class="item-id">595e1fbe</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1974,8 +1808,7 @@
           <td class="item-id">1afed1ca</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1985,8 +1818,7 @@
           <td class="item-id">44c46e91</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -1996,8 +1828,7 @@
           <td class="item-id">5f62ff05</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2007,8 +1838,7 @@
           <td class="item-id">ed4fabc2</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2018,8 +1848,7 @@
           <td class="item-id">7d68087e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2029,8 +1858,7 @@
           <td class="item-id">1b17635a</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2040,8 +1868,7 @@
           <td class="item-id">06f074b4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2051,8 +1878,7 @@
           <td class="item-id">d045723b</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2062,8 +1888,7 @@
           <td class="item-id">f26cc216</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2073,8 +1898,7 @@
           <td class="item-id">33506177</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2084,8 +1908,7 @@
           <td class="item-id">56bc4fd3</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2095,8 +1918,7 @@
           <td class="item-id">c920dc8e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2106,8 +1928,7 @@
           <td class="item-id">06a7b2e4</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2117,8 +1938,7 @@
           <td class="item-id">8a6535ea</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2128,8 +1948,7 @@
           <td class="item-id">a35a4b91</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2139,8 +1958,7 @@
           <td class="item-id">846eb4c7</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2150,8 +1968,7 @@
           <td class="item-id">0dc6df69</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2161,8 +1978,7 @@
           <td class="item-id">92d8fe5f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2172,8 +1988,7 @@
           <td class="item-id">3b6e3558</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2183,8 +1998,7 @@
           <td class="item-id">d8a4638f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2194,8 +2008,7 @@
           <td class="item-id">5ab17a73</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2205,8 +2018,7 @@
           <td class="item-id">1cdc4aef</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2216,8 +2028,7 @@
           <td class="item-id">99f367fa</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2227,8 +2038,7 @@
           <td class="item-id">64ec117f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2238,8 +2048,7 @@
           <td class="item-id">5745ef7e</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2249,8 +2058,7 @@
           <td class="item-id">d9302701</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2260,8 +2068,7 @@
           <td class="item-id">dfb10c6f</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2271,8 +2078,7 @@
           <td class="item-id">6a49f06d</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2282,8 +2088,7 @@
           <td class="item-id">68743c43</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2293,8 +2098,7 @@
           <td class="item-id">773288a6</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2304,8 +2108,7 @@
           <td class="item-id">b24d96f0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2315,8 +2118,7 @@
           <td class="item-id">bcb193ce</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2326,8 +2128,7 @@
           <td class="item-id">3ee6cecd</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2337,8 +2138,7 @@
           <td class="item-id">5e31bfb2</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2348,8 +2148,7 @@
           <td class="item-id">9399e5b9</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2359,8 +2158,7 @@
           <td class="item-id">c577c4a7</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2370,8 +2168,7 @@
           <td class="item-id">42fe4868</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2381,8 +2178,7 @@
           <td class="item-id">11d59133</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2392,8 +2188,7 @@
           <td class="item-id">29fa2673</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2403,8 +2198,7 @@
           <td class="item-id">8fc584a0</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2414,8 +2208,7 @@
           <td class="item-id">8b23ce13</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2425,8 +2218,7 @@
           <td class="item-id">5b3b510c</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2436,8 +2228,7 @@
           <td class="item-id">3e6da7b2</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2447,8 +2238,7 @@
           <td class="item-id">80a3e6df</td>
           <td>
             <div class="actions">
-              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
-              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+              <button class="btn-toggle-on" onclick="toggleActive(this)" title="Toggle availability">Activé</button>
             </div>
           </td>
         </tr>
@@ -2675,10 +2465,21 @@
       _editRow = null;
     }
 
-    function deleteRow(btn) {
-      if (confirm('Delete this product?')) {
-        btn.closest('tr').remove();
-        updateCount();
+    function toggleActive(btn) {
+      const tr = btn.closest('tr');
+      const badge = tr.querySelector('.badge');
+      if (btn.classList.contains('btn-toggle-on')) {
+        // Currently enabled → disable it
+        btn.classList.remove('btn-toggle-on');
+        btn.classList.add('btn-toggle-off');
+        btn.textContent = 'Désactivé';
+        if (badge) { badge.classList.remove('badge-green'); badge.classList.add('badge-grey'); badge.textContent = 'Off'; }
+      } else {
+        // Currently disabled → enable it
+        btn.classList.remove('btn-toggle-off');
+        btn.classList.add('btn-toggle-on');
+        btn.textContent = 'Activé';
+        if (badge) { badge.classList.remove('badge-grey'); badge.classList.add('badge-green'); badge.textContent = 'On'; }
       }
     }
   </script>
