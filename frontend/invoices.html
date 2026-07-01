@@ -1,81 +1,298 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WOWCRAB - Invoices</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
-    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0}
-    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
-    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
-    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
-    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
-    .sidebar-chevron{color:#9ca3af;font-size:12px}
-    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
-    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
-    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
-    .nav-item:hover{background:#f3f4f6;color:#111827;border-radius:6px}
-    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
-    .nav-item.disabled{opacity:0.45;pointer-events:none}
-    .sidebar-footer-email{font-size:12px;color:#9ca3af;padding:12px 16px}
-    .main{margin-left:236px;flex:1;padding:24px}
-    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-    .page-title{font-size:24px;font-weight:700;color:#111827}
-    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:300px;outline:none}
-    table{width:100%;background:#fff;border-radius:12px;border-collapse:collapse;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-    th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6}
-    td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
-    tr:last-child td{border-bottom:none}
-    tr:hover td{background:#f9fafb}
-    .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
-    .badge-green{background:#dcfce7;color:#16a34a}
-    .btn-view{padding:4px 12px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
-    .btn-view:hover{background:#f3f4f6}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WOWCRAB – Invoices</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f3f4f6;display:flex;min-height:100vh}
+.sidebar{width:240px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid #e5e7eb;font-size:20px;font-weight:700;color:#16a34a;display:flex;align-items:center;gap:8px}
+.sidebar-section{padding:8px 0}
+.sidebar-section-title{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;padding:8px 16px 4px}
+.sidebar-link{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;color:#374151;text-decoration:none;border-radius:6px;margin:1px 8px;transition:background .15s}
+.sidebar-link:hover{background:#f3f4f6}
+.sidebar-link.active{background:#dcfce7;color:#16a34a;font-weight:600}
+.sidebar-link.disabled{color:#9ca3af;pointer-events:none}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:22px;font-weight:700;color:#111827}
+.content{padding:24px;flex:1}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar input{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;width:260px}
+.toolbar select{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:background .15s}
+.btn-primary{background:#16a34a;color:#fff}
+.btn-primary:hover{background:#15803d}
+.btn-outline{background:#fff;color:#374151;border:1px solid #d1d5db}
+.btn-outline:hover{background:#f9fafb}
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;color:#6b7280;font-size:12px;text-transform:uppercase;border-bottom:1px solid #e5e7eb}
+tbody tr{border-bottom:1px solid #f3f4f6;transition:background .1s}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:10px 12px;color:#111827;vertical-align:middle}
+.badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:500}
+.badge-issued{background:#dcfce7;color:#16a34a}
+.badge-draft{background:#fef9c3;color:#854d0e}
+.badge-cancelled{background:#fee2e2;color:#dc2626}
+.badge-invoice{background:#dbeafe;color:#1d4ed8}
+.badge-simplified{background:#f3e8ff;color:#6b21a8}
+.actions{display:flex;gap:6px}
+.actions button{padding:5px 10px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500}
+.btn-edit{background:#dbeafe;color:#1d4ed8}
+.btn-edit:hover{background:#bfdbfe}
+.btn-del{background:#fee2e2;color:#dc2626}
+.btn-del:hover{background:#fecaca}
+.pagination{display:flex;align-items:center;gap:4px;padding:16px;justify-content:flex-end}
+.pagination span{font-size:13px;color:#6b7280;margin-right:8px}
+.page-btn{padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;font-size:13px}
+.page-btn:hover{background:#f3f4f6}
+.page-btn.active{background:#16a34a;color:#fff;border-color:#16a34a}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:16px;color:#111827}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.no-results{text-align:center;padding:40px;color:#9ca3af;font-size:14px}
+</style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div class="sidebar-logo"><div class="sidebar-logo-left"><div class="sidebar-logo-img">🦀</div><div><div class="sidebar-logo-text">WOWCRAB</div><div class="sidebar-logo-sub">Wowcrab EU</div></div></div><svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg></div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">Overview</div>
-      <a class="nav-item" href="dashboard.html">Dashboard</a>
-      <div class="nav-section">Catalog</div>
-      <a class="nav-item" href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 10h16M4 14h10M4 18h6"/></svg>Categories</a>
-    <a class="nav-item" href="catalog-products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>Products</a>
-      <a class="nav-item" href="products.html">Product Availability</a>
-      <a class="nav-item disabled" href="#">Modifier Availability</a>
-      <div class="nav-section">Sales</div>
-      <a class="nav-item" href="tables.html">Tables</a>
-      <a class="nav-item" href="orders.html">Orders</a>
-      <a class="nav-item active" href="invoices.html">Invoices</a>
-      <a class="nav-item disabled" href="#">Product Sales</a>
-      <a class="nav-item disabled" href="#">Order Items</a>
-      <a class="nav-item disabled" href="#">Deleted Items</a>
-      <div class="nav-section">Marketing</div>
-      <a class="nav-item" href="members.html">Members</a>
-      <a class="nav-item disabled" href="#">Coupons</a>
-      <div class="nav-section">Payments &amp; Tax</div>
-      <a class="nav-item" href="payment-methods.html">Payment Methods</a>
-      <a class="nav-item disabled" href="#">Payment Availability</a>
-      <a class="nav-item disabled" href="#">Payment Stats</a>
-    </nav>
-    <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
-  </aside>
-  <main class="main">
-    <div class="page-header">
-      <div class="page-title">Invoices</div>
-      <input class="search-bar" placeholder="Search invoices..."/>
+<aside class="sidebar">
+  <div class="sidebar-logo">&#x1F980; WOWCRAB</div>
+  <nav>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Main</div>
+      <a href="dashboard.html" class="sidebar-link">&#x1F4CA; Dashboard</a>
     </div>
-    <table>
-      <thead>
-        <tr><th>Invoice ID</th><th>Date</th><th>Payment</th><th>Total</th><th>Actions</th></tr>
-      </thead>
-      <tbody><tr><td>FS-E43B-2026-000002</td><td>2026/6/26 17:18:01</td><td><span class="badge badge-green">paid</span></td><td>€19.60</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000003</td><td>2026/6/26 22:09:31</td><td><span class="badge badge-green">paid</span></td><td>€35.30</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000004</td><td>2026/6/27 00:16:49</td><td><span class="badge badge-green">paid</span></td><td>€112.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000005</td><td>2026/6/27 09:03:41</td><td><span class="badge badge-green">paid</span></td><td>€15.60</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000006</td><td>2026/6/27 09:14:01</td><td><span class="badge badge-green">paid</span></td><td>€22.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000007</td><td>2026/6/27 13:31:56</td><td><span class="badge badge-green">paid</span></td><td>€9.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000008</td><td>2026/6/28 14:05:39</td><td><span class="badge badge-green">paid</span></td><td>€9.80</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000009</td><td>2026/6/28 14:08:04</td><td><span class="badge badge-green">paid</span></td><td>€127.20</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000010</td><td>2026/6/29 08:52:57</td><td><span class="badge badge-green">paid</span></td><td>€105.20</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000011</td><td>2026/6/29 10:21:13</td><td><span class="badge badge-green">paid</span></td><td>€18.70</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000012</td><td>2026/6/29 16:28:30</td><td><span class="badge badge-green">paid</span></td><td>€290.80</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000013</td><td>2026/6/29 16:48:52</td><td><span class="badge badge-green">paid</span></td><td>€345.75</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000014</td><td>2026/6/29 18:14:22</td><td><span class="badge badge-green">paid</span></td><td>€67.40</td><td><button class="btn-view">View</button></td></tr></tbody>
-    </table>
-  </main>
-  <script>if(!localStorage.getItem('token')){window.location.href='/login.html';}</script>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Catalog</div>
+      <a href="categories.html" class="sidebar-link">&#x1F4CB; Categories</a>
+      <a href="catalog-products.html" class="sidebar-link">&#x1F6CD; Products</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4E6; Product Order</a>
+      <a href="#" class="sidebar-link disabled">&#x1F371; Combos</a>
+      <a href="#" class="sidebar-link disabled">&#x2699;&#xFE0F; Modifiers</a>
+      <a href="#" class="sidebar-link disabled">&#x26A0;&#xFE0F; Allergens</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4DD; Menus</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Availability</div>
+      <a href="products.html" class="sidebar-link">&#x2714;&#xFE0F; Product Availability</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Sales</div>
+      <a href="tables.html" class="sidebar-link">&#x1F374; Tables</a>
+      <a href="orders.html" class="sidebar-link">&#x1F4CB; Orders</a>
+      <a href="invoices.html" class="sidebar-link active">&#x1F4C4; Invoices</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">People</div>
+      <a href="members.html" class="sidebar-link">&#x1F465; Members</a>
+      <a href="payment-methods.html" class="sidebar-link">&#x1F4B3; Payment Methods</a>
+    </div>
+  </nav>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h1>Invoices <span id="count-badge" style="font-size:14px;font-weight:400;color:#6b7280;margin-left:8px"></span></h1>
+    <button class="btn btn-primary" onclick="openAdd()">+ New Invoice</button>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search invoices..." oninput="applyFilter()"/>
+      <select id="statusFilter" onchange="applyFilter()">
+        <option value="">All Status</option>
+        <option value="issued">Issued</option>
+        <option value="draft">Draft</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr>
+          <th>INVOICE #</th><th>STORE</th><th>TYPE</th><th>CATEGORY</th><th>ORDER</th><th>STATUS</th><th>TOTAL</th><th>ISSUED AT</th><th>ACTIONS</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="pagination" id="paginationBar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h3>New Invoice</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Invoice #</label><input id="add_num" placeholder="FS-E43B-2026-000001"/></div>
+      <div class="form-group"><label>Store</label><input id="add_store" value="WOWCRAB Lisboa"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Type</label>
+        <select id="add_type"><option value="Invoice">Invoice</option><option value="Receipt">Receipt</option></select>
+      </div>
+      <div class="form-group"><label>Category</label>
+        <select id="add_cat"><option value="Simplified">Simplified</option><option value="Standard">Standard</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Order #</label><input id="add_order" placeholder="#abc123"/></div>
+      <div class="form-group"><label>Status</label>
+        <select id="add_status"><option value="issued">issued</option><option value="draft">draft</option><option value="cancelled">cancelled</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Total (EUR)</label><input id="add_total" type="number" step="0.01" placeholder="0.00"/></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAdd()">Create Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>Edit Invoice</h3>
+    <input type="hidden" id="edit_id"/>
+    <div class="form-row">
+      <div class="form-group"><label>Invoice #</label><input id="edit_num"/></div>
+      <div class="form-group"><label>Store</label><input id="edit_store"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Type</label>
+        <select id="edit_type"><option value="Invoice">Invoice</option><option value="Receipt">Receipt</option></select>
+      </div>
+      <div class="form-group"><label>Category</label>
+        <select id="edit_cat"><option value="Simplified">Simplified</option><option value="Standard">Standard</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Order #</label><input id="edit_order"/></div>
+      <div class="form-group"><label>Status</label>
+        <select id="edit_status"><option value="issued">issued</option><option value="draft">draft</option><option value="cancelled">cancelled</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Total (EUR)</label><input id="edit_total" type="number" step="0.01"/></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEdit()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PAGE_SIZE=50;
+let currentPage=1;
+let filtered=[];
+
+const INVOICES=[
+{id:1,num:"FS-E43B-2026-000014",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#1531f9e1",status:"issued",total:345.75,issuedAt:"2026/6/29 16:48:52"},
+{id:2,num:"FS-E43B-2026-000013",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#05116057",status:"issued",total:290.80,issuedAt:"2026/6/29 16:28:42"},
+{id:3,num:"FS-E43B-2026-000012",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#78ab9e39",status:"issued",total:18.70,issuedAt:"2026/6/29 10:34:30"},
+{id:4,num:"FS-E43B-2026-000011",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#fd6de0e9",status:"issued",total:9.80,issuedAt:"2026/6/29 09:54:18"},
+{id:5,num:"FS-E43B-2026-000010",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#86d7f169",status:"issued",total:105.20,issuedAt:"2026/6/29 08:53:21"},
+{id:6,num:"FS-E43B-2026-000009",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#534c56b3",status:"issued",total:127.20,issuedAt:"2026/6/28 14:10:49"},
+{id:7,num:"FS-E43B-2026-000008",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#250da57a",status:"issued",total:9.80,issuedAt:"2026/6/28 14:06:12"},
+{id:8,num:"FS-E43B-2026-000007",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#5bf9b820",status:"issued",total:112.40,issuedAt:"2026/6/27 00:19:52"},
+{id:9,num:"FS-E43B-2026-000006",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#3f34fac8",status:"issued",total:308.13,issuedAt:"2026/6/26 18:27:57"},
+{id:10,num:"FS-E43B-2026-000005",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#143f4cac",status:"issued",total:18.70,issuedAt:"2026/6/26 17:27:35"},
+{id:11,num:"FS-E43B-2026-000004",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#a29b6e11",status:"issued",total:9.80,issuedAt:"2026/6/26 15:14:18"},
+{id:12,num:"FS-E43B-2026-000003",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#b72f8c40",status:"issued",total:28.50,issuedAt:"2026/6/26 14:17:09"},
+{id:13,num:"FS-E43B-2026-000002",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#c19d5a20",status:"issued",total:95.40,issuedAt:"2026/6/26 13:58:22"},
+{id:14,num:"FS-E43B-2026-000001",store:"WOWCRAB Lisboa",type:"Invoice",category:"Simplified",order:"#d00e1f72",status:"issued",total:19.60,issuedAt:"2026/6/25 20:11:08"}
+];
+let nextId=INVOICES.length+1;
+
+function statusBadge(s){const m={issued:'badge-issued',draft:'badge-draft',cancelled:'badge-cancelled'};return '<span class="badge '+(m[s]||'')+'">'+esc(s)+'</span>';}
+function typeBadge(s){return '<span class="badge badge-invoice">'+esc(s)+'</span>';}
+function catBadge(s){return '<span class="badge badge-simplified">'+esc(s)+'</span>';}
+
+function applyFilter(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const st=document.getElementById('statusFilter').value;
+  filtered=INVOICES.filter(o=>{
+    const mQ=!q||(o.num.toLowerCase().includes(q)||o.store.toLowerCase().includes(q)||o.order.toLowerCase().includes(q));
+    const mS=!st||o.status===st;
+    return mQ&&mS;
+  });
+  currentPage=1;renderPage();
+}
+
+function renderPage(){
+  const start=(currentPage-1)*PAGE_SIZE;
+  const page=filtered.slice(start,start+PAGE_SIZE);
+  document.getElementById('count-badge').textContent=filtered.length+' invoices';
+  const tbody=document.getElementById('tbody');
+  if(!page.length){tbody.innerHTML='<tr><td colspan="9" class="no-results">No invoices found</td></tr>';buildPagination();return;}
+  tbody.innerHTML=page.map(o=>'<tr><td style="font-weight:600;font-family:monospace">'+esc(o.num)+'</td><td>'+esc(o.store)+'</td><td>'+typeBadge(o.type)+'</td><td>'+catBadge(o.category)+'</td><td style="font-size:12px;color:#6b7280;font-family:monospace">'+esc(o.order)+'</td><td>'+statusBadge(o.status)+'</td><td style="font-weight:600">€'+o.total.toFixed(2)+'</td><td style="font-size:13px;color:#6b7280">'+esc(o.issuedAt)+'</td><td class="actions"><button class="btn-edit" onclick="openEdit('+o.id+')">Edit</button><button class="btn-del" onclick="delInvoice('+o.id+')">Delete</button></td></tr>').join('');
+  buildPagination();
+}
+
+function buildPagination(){
+  const total=Math.ceil(filtered.length/PAGE_SIZE);
+  const bar=document.getElementById('paginationBar');
+  if(total<=1){bar.innerHTML='';return;}
+  let html='<span>Page '+currentPage+' of '+total+'</span>';
+  if(currentPage>1)html+='<button class="page-btn" onclick="goPage('+(currentPage-1)+')">Prev</button>';
+  for(let i=1;i<=total;i++)html+='<button class="page-btn'+(i===currentPage?' active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
+  if(currentPage<total)html+='<button class="page-btn" onclick="goPage('+(currentPage+1)+')">Next</button>';
+  bar.innerHTML=html;
+}
+
+function goPage(p){currentPage=p;renderPage();window.scrollTo(0,0);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function openAdd(){['add_num','add_store','add_order','add_total'].forEach(id=>document.getElementById(id).value='');document.getElementById('add_store').value='WOWCRAB Lisboa';document.getElementById('addModal').classList.add('show');}
+function closeAdd(){document.getElementById('addModal').classList.remove('show');}
+function saveAdd(){
+  const num=document.getElementById('add_num').value.trim();
+  if(!num){alert('Invoice # required');return;}
+  const now=new Date();
+  INVOICES.unshift({id:nextId++,num,store:document.getElementById('add_store').value.trim(),type:document.getElementById('add_type').value,category:document.getElementById('add_cat').value,order:document.getElementById('add_order').value.trim(),status:document.getElementById('add_status').value,total:parseFloat(document.getElementById('add_total').value)||0,issuedAt:now.toLocaleString('sv').replace('T',' ').substring(0,16)});
+  closeAdd();applyFilter();
+}
+
+function openEdit(id){
+  const o=INVOICES.find(x=>x.id===id);if(!o)return;
+  document.getElementById('edit_id').value=id;
+  document.getElementById('edit_num').value=o.num;
+  document.getElementById('edit_store').value=o.store;
+  document.getElementById('edit_type').value=o.type;
+  document.getElementById('edit_cat').value=o.category;
+  document.getElementById('edit_order').value=o.order;
+  document.getElementById('edit_status').value=o.status;
+  document.getElementById('edit_total').value=o.total;
+  document.getElementById('editModal').classList.add('show');
+}
+function closeEdit(){document.getElementById('editModal').classList.remove('show');}
+function saveEdit(){
+  const id=parseInt(document.getElementById('edit_id').value);
+  const o=INVOICES.find(x=>x.id===id);if(!o)return;
+  o.num=document.getElementById('edit_num').value.trim();
+  o.store=document.getElementById('edit_store').value.trim();
+  o.type=document.getElementById('edit_type').value;
+  o.category=document.getElementById('edit_cat').value;
+  o.order=document.getElementById('edit_order').value.trim();
+  o.status=document.getElementById('edit_status').value;
+  o.total=parseFloat(document.getElementById('edit_total').value)||0;
+  closeEdit();applyFilter();
+}
+
+function delInvoice(id){
+  if(!confirm('Delete this invoice?'))return;
+  const i=INVOICES.findIndex(x=>x.id===id);
+  if(i>-1)INVOICES.splice(i,1);
+  applyFilter();
+}
+
+const tk=localStorage.getItem('token');
+if(!tk)window.location.href='login.html';
+applyFilter();
+</script>
 </body>
 </html>
