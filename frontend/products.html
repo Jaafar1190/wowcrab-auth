@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WOWCRAB - Products</title>
+  <title>WOWCRAB – Product Availability</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
-    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100}
     .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
     .sidebar-logo-left{display:flex;align-items:center;gap:10px}
     .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
@@ -17,23 +17,46 @@
     .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
     .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
     .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
-    .nav-item:hover{background:#f3f4f6;color:#111827;border-radius:6px}
+    .nav-item:hover{background:#f3f4f6;border-radius:6px}
     .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
     .nav-item.disabled{opacity:0.45;pointer-events:none}
     .nav-item svg{width:16px;height:16px;flex-shrink:0}
-    .sidebar-footer-email{font-size:12px;color:#9ca3af;padding:12px 16px}
+    .sidebar-footer{padding:12px 16px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
     .main{margin-left:236px;flex:1;padding:24px}
-    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-    .page-title{font-size:24px;font-weight:700;color:#111827}
-    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:300px;outline:none}
-    table{width:100%;background:#fff;border-radius:12px;border-collapse:collapse;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-    th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .page-title{font-size:22px;font-weight:700;color:#111827}
+    .header-right{display:flex;align-items:center;gap:12px}
+    .search-input{padding:8px 14px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;color:#374151;outline:none;width:240px}
+    .search-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,0.1)}
+    .btn-new{display:flex;align-items:center;gap:6px;padding:9px 16px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+    .btn-new:hover{background:#15803d}
+    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.07)}
+    thead{background:#f9fafb}
+    th{padding:12px 16px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.6px;border-bottom:1px solid #f3f4f6}
     td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
     tr:last-child td{border-bottom:none}
     tr:hover td{background:#f9fafb}
-    .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
     .badge-green{background:#dcfce7;color:#16a34a}
     .badge-red{background:#fee2e2;color:#dc2626}
+    .item-id{font-family:monospace;font-size:12px;color:#9ca3af}
+    .actions{display:flex;gap:6px}
+    .btn-edit{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
+    .btn-edit:hover{background:#f3f4f6}
+    .btn-delete{padding:5px 10px;border:1px solid #fee2e2;border-radius:6px;background:#fff;color:#dc2626;font-size:12px;cursor:pointer}
+    .btn-delete:hover{background:#fef2f2}
+    .count-label{font-size:13px;color:#9ca3af}
+    /* Modal styles */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
+    .modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:480px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1}
+    .modal-title{font-size:18px;font-weight:700;color:#111827;margin-bottom:4px}
+    .modal-sub{font-size:13px;color:#9ca3af;margin-bottom:20px}
+    .form-group{margin-bottom:16px}
+    .form-label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+    .form-input{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none}
+    .form-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,0.1)}
+    .form-select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none;background:#fff}
   </style>
 </head>
 <body>
@@ -53,10 +76,10 @@
       <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
       <div class="nav-section">Catalog</div>
       <a class="nav-item active" href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Product Availability</a>
-      <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="14" y2="10"/><line x1="4" y1="14" x2="20" y2="14"/><line x1="4" y1="18" x2="14" y2="18"/></svg>Modifier Availability</a>
+      <a class="nav-item disabled" href="#">Modifier Availability</a>
       <div class="nav-section">Sales</div>
-      <a class="nav-item" href="tables.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>Tables</a>
-      <a class="nav-item" href="orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Orders</a>
+      <a class="nav-item" href="tables.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Tables</a>
+      <a class="nav-item" href="orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Orders</a>
       <a class="nav-item" href="invoices.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Invoices</a>
       <a class="nav-item disabled" href="#">Product Sales</a>
       <a class="nav-item disabled" href="#">Order Items</a>
@@ -65,174 +88,2519 @@
       <a class="nav-item" href="members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
       <a class="nav-item disabled" href="#">Coupons</a>
       <div class="nav-section">Payments &amp; Tax</div>
-      <a class="nav-item" href="payment-methods.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Payment Methods</a>
+      <a class="nav-item" href="payment-methods.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Payment Methods</a>
       <a class="nav-item disabled" href="#">Payment Availability</a>
       <a class="nav-item disabled" href="#">Payment Stats</a>
+      <a class="nav-item disabled" href="#">Transactions</a>
     </nav>
-    <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
+    <div class="sidebar-footer">franchise@wowcrab.nl</div>
   </aside>
   <main class="main">
     <div class="page-header">
-      <div class="page-title">Product Availability</div>
-      <input class="search-bar" placeholder="Search products..."/>
+      <div>
+        <div class="page-title">Product Availability</div>
+        <div class="count-label" id="countLabel">211 products</div>
+      </div>
+      <div class="header-right">
+        <input class="search-input" type="text" placeholder="Search products..." oninput="filterProducts(this.value)">
+        <button class="btn-new" onclick="openCreateModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Product
+        </button>
+      </div>
     </div>
-    <table>
+    <table id="productsTable">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Product</th>
-          <th>Category</th>
-          <th>Price</th>
-          <th>Status</th>
+          <th>PRODUCT</th>
+          <th>ACTIVE</th>
+          <th>MENU ITEM ID</th>
+          <th>ACTIONS</th>
         </tr>
       </thead>
-      <tbody>
-        
-      <tr>
-        <td>1</td>
-        <td>Hamburguer de Camarão</td>
-        <td>Hamburguers</td>
-        <td>€11.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Hamburguer de Salmão</td>
-        <td>Hamburguers</td>
-        <td>€11.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Hamburguer de Caranguejo</td>
-        <td>Hamburguers</td>
-        <td>€12.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>Hamburguer de Bacalhau</td>
-        <td>Hamburguers</td>
-        <td>€11.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>Hamburguer Vegetariano</td>
-        <td>Hamburguers</td>
-        <td>€10.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>Batatas Fritas</td>
-        <td>Acompanhamentos</td>
-        <td>€4.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>Batatas Fritas com Molho</td>
-        <td>Acompanhamentos</td>
-        <td>€5.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>Salada</td>
-        <td>Acompanhamentos</td>
-        <td>€3.50</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>Água</td>
-        <td>Bebidas</td>
-        <td>€1.50</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>Refrigerante</td>
-        <td>Bebidas</td>
-        <td>€2.50</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>11</td>
-        <td>Cerveja</td>
-        <td>Bebidas</td>
-        <td>€3.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>12</td>
-        <td>Vinho (copo)</td>
-        <td>Bebidas</td>
-        <td>€3.50</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>13</td>
-        <td>Sumo Natural</td>
-        <td>Bebidas</td>
-        <td>€3.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>14</td>
-        <td>Café</td>
-        <td>Bebidas</td>
-        <td>€1.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>15</td>
-        <td>Sobremesa do Dia</td>
-        <td>Sobremesas</td>
-        <td>€4.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>16</td>
-        <td>Cheesecake</td>
-        <td>Sobremesas</td>
-        <td>€4.50</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>17</td>
-        <td>Mousse de Chocolate</td>
-        <td>Sobremesas</td>
-        <td>€4.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>18</td>
-        <td>Combo Família</td>
-        <td>Combos</td>
-        <td>€35.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>19</td>
-        <td>Combo Casal</td>
-        <td>Combos</td>
-        <td>€20.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
-      <tr>
-        <td>20</td>
-        <td>Combo Individual</td>
-        <td>Combos</td>
-        <td>€13.00</td>
-        <td><span class="badge badge-green">Available</span></td>
-      </tr>
+      <tbody id="productsTbody">
+        <tr>
+          <td>Camarones (sin cabeza) ±450g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e3558ea5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mantequilla de ajo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0a5379a5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Black Label CocaCola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">95ba5eb2</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Té de Tila</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0e03e4cf</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Royal Bliss Berry Sensation</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f01affec</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Poleo menta</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1e30f7e8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Fuze tea</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fc390b32</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Café cortado</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">716f4bf3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cappuccino</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b6461edb</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tinto Campo Burgos Rioja COP</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9806298a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vino Blanco Dulce María BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">970a89bd</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Blanco Dulce María COP</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8e8dd33d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Black Label Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0bc7f3b5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tanqueray Tonic Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0b3a226e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Brugal Colacola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c58a591c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red Label Coca Cola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fbc85c78</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Gin Tonic Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8045e32d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Combo Anti Inflación</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">11d17c21</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Beefeater Tonic Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7fe5411c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Black Label Chupito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">cc225855</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Barceló Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">29336f0b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red Label Chupito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a30662cb</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tequila Chupito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f930d910</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Espumoso Dulce Moscatel Carmela BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">6b293993</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cava Brut – Lar de Plata BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8b46ee4e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Jack Daniel Chupito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b09e6b30</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Bacardi Cola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">564d12e8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tinto Verano 500ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0682210c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vodka RedBull Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b8b6a65c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Barceló CocaCola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f7181b03</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Jack Daniel Cocacola Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7fea8d5e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Royal bliss Crisp Soda</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">63229f72</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Aquarius Naranja</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">ff2bcba8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Minute Maid Melocoton</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b99bcb38</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Verdejo Blanco Vicaral BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4911ca46</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>VINO Albarino NAI Senora BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b3a567e1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>SANGRIA 1L</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">25d6d9f5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ketchup</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c2f16265</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cangrejo de rio ±420g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b859eaef</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cigalas ±450g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d275c167</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Fanta Naranja</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2607a19c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Agua 1L Cabreiroa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4f555cd0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Royal Bliss GingerAle</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a82a8234</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Sprite</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">00ef941d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Café con leche</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">04ff0cf1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Verdejo Blanco Vicaral COP</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e03a5eb3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Fanta Limon</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1a243dd0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Aquarius Limon</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">604b66fb</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Café Solo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e2558e3d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Espresso</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f19e82c3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Royal Bliss Tonic</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">99e0c7d4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Agua con Gas Cabreiroa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f4c094fd</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Double Espresso</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">19c57c7b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vino tinto Campo Burgos Rioja BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">701f4391</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Albarino NAI Senora COP</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2bde6948</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Blanco Frizzante – L'Aura COP</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f0f5cae5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vino Blanco Frizzante L'Aura BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fac9a69f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red Label Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">cc6727ed</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Brugal Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a428b328</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Jack Daniel Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">cd642490</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>CocaCola Original</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5b83baa0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cola Zero</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">50ba9316</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Licor Crema Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9d777d67</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mejillones ±400g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2af7618c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Salsa Cajun</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e2847eec</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Bolsa Kraft</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">db76ba45</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ice tea-Té de frutas casera</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5f637946</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patatas (6pcs)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4b275a6f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red Velvet</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7c272261</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Bogavante ±600g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">737e840b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vieiras ±450g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">3340b116</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Salsa Agridulce</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">3b2f0d7a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pimienta limón</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9eaf5178</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Camarones ±450g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8ac21580</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Salchichas Halal de Pollo (12pcs)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">19adeb87</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Agua 500ML Cabreiroa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4b6db615</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella Galicia Jarra 400ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d04047cd</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella galicia (Tercio 33cl)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">29b6b4fc</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>SANGRIA 500ML</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">bfbe240e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tinto Verano 1L</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">12f5cbed</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella galicia Grifo 300ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e019a178</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella Galicia Tostada 0.0% 330ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">063682da</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Erdinger Weibier 500ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fbdadae3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Radler Lemon</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b52e5323</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella Galicia 0.0% 330ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7bbbcdae</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Almejas ±480g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c7ab6ae3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#1 (2pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">450b8ee4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>1906</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">ddfdd43f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#3(2-3pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">cf4e55b1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#4(3-4pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a452ab8b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#2(2pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d94f12f0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella Galicia SinGluten 330ml</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2737db48</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Café descafeinado</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9923d962</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Té Rojo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fea44dc0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Té de Manzanilla</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">bb0230b4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Minute Maid Naranja</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">23bdfa3f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Minute Maid Piña</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a172c5ae</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Buey de Mar ±800g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c58b1cfb</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Coca Cola ZERO-ZERO Botellin</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">ac948a3f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Langostinos tigre gigantes ±420g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">056b841d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Snow onion</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4db7f380</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cider Strawberry</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">04dd1941</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Heineken Mojito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d9d140fa</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Whisky sour</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a21e72b7</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrella 0% Strawberry</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5fbcd668</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Couland de chocolate</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7219f716</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mayonesa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">79a8af0a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Flor de calamar ±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">84909f6d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Maiz con condimentos (3pcs)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e9191b4e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Salsa de Cocktail</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9750e3d7</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Espresso Martini</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a9f1f0c5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Bogavante±600g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">49c47104</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Camarones±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">59b50398</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Medio</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f0041e7f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pasta con mariscos</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">af8b43e4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Piña Colada Caramel</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">82baa81e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Wow Style - Todos los sabores anteriores</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8e603c54</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Espresso Martini</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">cab285da</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Alitas WOW con patatas</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8f2663f8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Virgin Strawberry Daiquiri 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fa259dab</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pimientos de padrón</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4aabd5b3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Almejas±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5b2d1d7d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mejillones±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">51a249dc</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Picante</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7364fb9c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Salchipapas</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">605323dc</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW Sichuan (Con toque de pimienta Sichuan)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5124c2df</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Flor de calamar±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e396a4a4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cangrejo de río ±400g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b36c14b5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mejillones Jumbo de concha verde±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1f20125c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Camarones Sin cabeza 340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9de761c1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Huevos cocidos 7 pcs</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">29d9a9e2</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cigalas±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fc25e7c7</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Sopa de Bogavante</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">00c6ca34</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Suave</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7ecc736c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Buey del Mar ±800g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d002d5a5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Aro de cebolla</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">90da9ed0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Strawberry Daiquiri</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">4a130cd8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ice Café Coconut</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d45bdbf1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Maíz Frito a la Cajun</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e832b51f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cajun</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">be5136ed</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mi Amor Adalya</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">37d9d409</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Noodles con queso y maiz</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9f98ef6e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tacos con Camarones Fritos</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2ec4c3d8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Love 66</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b7ad2699</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ensalada de algas</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">15bfb10f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Miel Mostaza</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">bf1904c5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pornstar</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">652bfd85</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Hawaii Adalya</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b71a9a62</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Envase Take away</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">279393db</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Licor Hierbas Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b7a6227b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Hamburguesa de cangrejo blando</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">dfeedbe8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW Style</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">71c13cc8</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Love66 Adalya</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">670cfdba</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Yang Yeam</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f0e65165</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Camaron frito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a2f2f8e1</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC New Garlic</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">61a2bf48</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tacos con cangrejo de caparazon blando frito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">768248d4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Alitas WOW</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8e7430dc</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Roll de bogavante</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b95a3adb</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Apple mint 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a1f3f08a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Love 66 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2352737a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW PLATTER FIESTA 5-6pers</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">fc168d4b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mejillones Jumbo de concha verde ±420g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5a25d23c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patas de cangrejos de nieve ±450g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">e18b2e8c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Alioli</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">bf42d228</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tarta de Queso con Oreo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">2807541f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Lambrusco Rosado Esp.- Casale BOT</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">595e1fbe</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mantequilla de ajo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1afed1ca</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Anguila a la plancha con Arroz</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">44c46e91</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ice Café Coconut</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5f62ff05</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Langostinos tigre gigantes±420g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">ed4fabc2</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Arroz al vapor</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">7d68087e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Cajun</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1b17635a</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mojito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">06f074b4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Sex on the Beach</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d045723b</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pornstar 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">f26cc216</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Apple mint</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">33506177</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pimienta limón</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">56bc4fd3</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Extra picante</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c920dc8e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Huevos cocidos en salsa 7 pcs</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">06a7b2e4</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vieiras ±340g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8a6535ea</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tofu de pescado en salsa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">a35a4b91</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Menta BigGreen Alfakher</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">846eb4c7</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Vermut Martini Copa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">0dc6df69</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patatas fritas especial</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">92d8fe5f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patatas fritas Cajun</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">3b6e3558</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Fideos al ajo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d8a4638f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Guisantes Edamame</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5ab17a73</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Piña Colada Caramel 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">1cdc4aef</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Coco Mango Story</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">99f367fa</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Pineapple Peach Storm</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">64ec117f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Virgin Mojito 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5745ef7e</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mi Amor 0%</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">d9302701</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mi Amor</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">dfb10c6f</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Tacos de bogavante</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">6a49f06d</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patas de cangrejo de las nieves±400g</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">68743c43</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW Sichuan</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">773288a6</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW PLATTER por 2pers</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">b24d96f0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>WOW PLATTER por 4pers</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">bcb193ce</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patatas fritas con mayonesa</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">3ee6cecd</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Palomitas de pollo</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5e31bfb2</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Patatas fritas dulces</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">9399e5b9</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Honey butter</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">c577c4a7</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Soy Garlic</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">42fe4868</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Camarones fritos con patatas</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">11d59133</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Calamar frito</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">29fa2673</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>KFC Sweet yogur</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8fc584a0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#4(3-4pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">8b23ce13</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#2(2pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">5b3b510c</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#1 (2pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">3e6da7b2</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>COMBO#3(2-3pers)</td>
+          <td><span class="badge badge-green">On</span></td>
+          <td class="item-id">80a3e6df</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </main>
+
+  <!-- Create Product Modal -->
+  <div class="modal-overlay" id="createModal" onclick="if(event.target===this)closeCreate()">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+      <div class="modal-title">New Product</div>
+      <div class="modal-sub">Add a new product to your menu</div>
+      <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input class="form-input" id="newProductName" placeholder="e.g. Camarones al ajillo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="newProductStatus">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Menu Item ID</label>
+        <input class="form-input" id="newProductId" placeholder="e.g. abc12345">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button onclick="closeCreate()" style="flex:1;padding:10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer;font-size:14px">Cancel</button>
+        <button onclick="createProduct()" style="flex:1;padding:10px;border:none;border-radius:8px;background:#16a34a;color:#fff;cursor:pointer;font-size:14px;font-weight:500">Add Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div class="modal-overlay" id="editModal" onclick="if(event.target===this)closeEdit()">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+      <div class="modal-title">Edit Product</div>
+      <div class="modal-sub">Update the product information</div>
+      <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input class="form-input" id="editProductName" placeholder="Product name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="editProductStatus">
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Menu Item ID</label>
+        <input class="form-input" id="editProductId" placeholder="Menu item ID">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button onclick="closeEdit()" style="flex:1;padding:10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer;font-size:14px">Cancel</button>
+        <button onclick="saveEdit()" style="flex:1;padding:10px;border:none;border-radius:8px;background:#16a34a;color:#fff;cursor:pointer;font-size:14px;font-weight:500">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    if(!localStorage.getItem('token')){window.location.href='/login.html';}
+    // Auth check
+    if (!localStorage.getItem('wc_token')) window.location.href = '/login.html';
+
+    function updateCount() {
+      const visible = document.querySelectorAll('#productsTbody tr:not([style*="none"])').length;
+      document.getElementById('countLabel').textContent = visible + ' products';
+    }
+
+    function filterProducts(q) {
+      const rows = document.querySelectorAll('#productsTbody tr');
+      const lq = q.toLowerCase();
+      rows.forEach(r => {
+        const name = r.cells[0] ? r.cells[0].textContent.toLowerCase() : '';
+        r.style.display = name.includes(lq) ? '' : 'none';
+      });
+      updateCount();
+    }
+
+    // Create
+    function openCreateModal() {
+      document.getElementById('newProductName').value = '';
+      document.getElementById('newProductStatus').value = 'On';
+      document.getElementById('newProductId').value = '';
+      document.getElementById('createModal').style.display = 'flex';
+    }
+
+    function closeCreate() {
+      document.getElementById('createModal').style.display = 'none';
+    }
+
+    function createProduct() {
+      const name = document.getElementById('newProductName').value.trim();
+      const status = document.getElementById('newProductStatus').value;
+      const itemId = document.getElementById('newProductId').value.trim();
+      if (!name) { alert('Please enter a product name'); return; }
+      const tbody = document.getElementById('productsTbody');
+      const tr = document.createElement('tr');
+      const badgeClass = status === 'On' ? 'badge-green' : 'badge-red';
+      tr.innerHTML = `
+        <td>${name}</td>
+        <td><span class="badge ${badgeClass}">${status}</span></td>
+        <td class="item-id">${itemId}</td>
+        <td>
+          <div class="actions">
+            <button class="btn-edit" onclick="editProduct(this)" title="Edit product">Edit</button>
+            <button class="btn-delete" onclick="deleteRow(this)" title="Delete product">Delete</button>
+          </div>
+        </td>`;
+      tbody.prepend(tr);
+      closeCreate();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      tr.style.background = '#f0fdf4';
+      tr.style.transition = 'background 1.5s';
+      setTimeout(() => { tr.style.background = ''; }, 2000);
+      updateCount();
+    }
+
+    // Edit
+    let _editRow = null;
+    function editProduct(btn) {
+      _editRow = btn.closest('tr');
+      const cells = _editRow.querySelectorAll('td');
+      const name = cells[0].textContent.trim();
+      const badge = cells[1].querySelector('.badge');
+      const status = badge ? badge.textContent.trim() : 'On';
+      const itemId = cells[2].textContent.trim();
+      document.getElementById('editProductName').value = name;
+      document.getElementById('editProductStatus').value = status;
+      document.getElementById('editProductId').value = itemId;
+      document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function saveEdit() {
+      if (!_editRow) return;
+      const name = document.getElementById('editProductName').value.trim();
+      const status = document.getElementById('editProductStatus').value;
+      const itemId = document.getElementById('editProductId').value.trim();
+      if (!name) { alert('Please enter a product name'); return; }
+      const cells = _editRow.querySelectorAll('td');
+      cells[0].textContent = name;
+      const badgeClass = status === 'On' ? 'badge-green' : 'badge-red';
+      cells[1].innerHTML = `<span class="badge ${badgeClass}">${status}</span>`;
+      cells[2].textContent = itemId;
+      closeEdit();
+      _editRow.style.background = '#eff6ff';
+      _editRow.style.transition = 'background 1.5s';
+      setTimeout(() => { if (_editRow) _editRow.style.background = ''; }, 2000);
+    }
+
+    function closeEdit() {
+      document.getElementById('editModal').style.display = 'none';
+      _editRow = null;
+    }
+
+    function deleteRow(btn) {
+      if (confirm('Delete this product?')) {
+        btn.closest('tr').remove();
+        updateCount();
+      }
+    }
   </script>
 </body>
 </html>
