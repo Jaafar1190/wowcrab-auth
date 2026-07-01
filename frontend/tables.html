@@ -25,16 +25,46 @@
     .main{margin-left:236px;flex:1;padding:24px}
     .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
     .page-title{font-size:24px;font-weight:700;color:#111827}
-    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:300px;outline:none}
+    .header-right{display:flex;align-items:center;gap:12px}
+    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px;outline:none}
+    .btn-create{display:flex;align-items:center;gap:8px;padding:9px 16px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap}
+    .btn-create:hover{background:#15803d}
+    .btn-create svg{width:16px;height:16px}
     table{width:100%;background:#fff;border-radius:12px;border-collapse:collapse;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
     th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6}
-    td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
+    td{padding:10px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb;vertical-align:middle}
     tr:last-child td{border-bottom:none}
     tr:hover td{background:#f9fafb}
     .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
     .badge-green{background:#dcfce7;color:#16a34a}
     .badge-red{background:#fee2e2;color:#dc2626}
     .badge-yellow{background:#fef9c3;color:#ca8a04}
+    .actions{display:flex;align-items:center;gap:8px}
+    .btn-qr{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid #16a34a;border-radius:6px;background:#f0fdf4;color:#16a34a;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+    .btn-qr:hover{background:#dcfce7}
+    .btn-edit{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
+    .btn-edit:hover{background:#f3f4f6}
+    .btn-delete{padding:5px 10px;border:1px solid #fee2e2;border-radius:6px;background:#fff;color:#dc2626;font-size:12px;cursor:pointer}
+    .btn-delete:hover{background:#fee2e2}
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal{background:#fff;border-radius:16px;padding:32px;max-width:400px;width:90%;text-align:center;position:relative}
+    .modal-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer;color:#9ca3af;background:none;border:none}
+    .modal-title{font-size:18px;font-weight:700;color:#111827;margin-bottom:8px}
+    .modal-sub{font-size:13px;color:#6b7280;margin-bottom:24px}
+    .qr-box{width:200px;height:200px;margin:0 auto 20px;border:2px solid #e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f9fafb;font-size:11px;color:#9ca3af}
+    .btn-download{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px}
+    .btn-download:hover{background:#15803d}
+    /* Create Table Modal */
+    .form-group{margin-bottom:16px;text-align:left}
+    .form-label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
+    .form-input,.form-select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none;color:#111827}
+    .form-input:focus,.form-select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,0.1)}
+    .modal-actions{display:flex;gap:12px;margin-top:20px}
+    .btn-cancel{flex:1;padding:10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#374151;font-size:14px;cursor:pointer}
+    .btn-save{flex:1;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer}
+    .btn-save:hover{background:#15803d}
   </style>
 </head>
 <body>
@@ -72,27 +102,1767 @@
     </nav>
     <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
   </aside>
+
   <main class="main">
     <div class="page-header">
       <div class="page-title">Tables</div>
-      <input class="search-bar" placeholder="Search tables..."/>
+      <div class="header-right">
+        <input class="search-bar" placeholder="Search tables..." oninput="filterTables(this.value)"/>
+        <button class="btn-create" onclick="openCreateModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Table
+        </button>
+      </div>
     </div>
-    <table>
+    <table id="tablesTable">
       <thead>
         <tr>
           <th>Table</th>
           <th>Zone</th>
           <th>Status</th>
           <th>Covers</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td>Mesa 1</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 2</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 3</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 4</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 5</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 6</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 7</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 8</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 9</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 10</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 11</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 12</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 13</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 14</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 15</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 16</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 17</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 18</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 19</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 20</td><td>Terraço</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 21</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 22</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 23</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 24</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 25</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 26</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 27</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 28</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 29</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 30</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 31</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 32</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 33</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 34</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 35</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 36</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 37</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 38</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 39</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 40</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 41</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 42</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 43</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 44</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 45</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 46</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 47</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 48</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 49</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 50</td><td>Térreo</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 51</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 52</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 53</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 54</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 55</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 56</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 57</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 58</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 59</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 60</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 61</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 62</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 63</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 64</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 65</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 66</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 67</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 68</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 69</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 70</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 71</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 72</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 73</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 74</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 75</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 76</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 77</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 78</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 79</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 80</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 81</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 82</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 83</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 84</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 85</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 86</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 87</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 88</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 89</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 90</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 91</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 92</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 93</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 94</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 95</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 96</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 97</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 98</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 99</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr><tr><td>Mesa 100</td><td>Primeiro Andar</td><td><span class="badge badge-green">Available</span></td><td>0</td></tr>
+      <tbody id="tablesBody">
+        
+        <tr>
+          <td>Mesa 1</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 1')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 2</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 2')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 3</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 3')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 4</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 4')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 5</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 5')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 6</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 6')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 7</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 7')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 8</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 8')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 9</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 9')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 10</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 10')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 11</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 11')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 12</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 12')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 13</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 13')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 14</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 14')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 15</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 15')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 16</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 16')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 17</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 17')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 18</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 18')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 19</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 19')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 20</td>
+          <td>Terraço</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 20')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 21</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 21')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 22</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 22')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 23</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 23')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 24</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 24')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 25</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 25')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 26</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 26')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 27</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 27')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 28</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 28')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 29</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 29')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 30</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 30')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 31</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 31')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 32</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 32')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 33</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 33')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 34</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 34')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 35</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 35')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 36</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 36')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 37</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 37')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 38</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 38')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 39</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 39')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 40</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 40')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 41</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 41')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 42</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 42')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 43</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 43')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 44</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 44')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 45</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 45')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 46</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 46')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 47</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 47')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 48</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 48')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 49</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 49')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 50</td>
+          <td>Térreo</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 50')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 51</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 51')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 52</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 52')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 53</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 53')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 54</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 54')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 55</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 55')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 56</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 56')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 57</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 57')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 58</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 58')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 59</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 59')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 60</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 60')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 61</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 61')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 62</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 62')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 63</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 63')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 64</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 64')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 65</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 65')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 66</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 66')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 67</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 67')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 68</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 68')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 69</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 69')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 70</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 70')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 71</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 71')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 72</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 72')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 73</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 73')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 74</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 74')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 75</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 75')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 76</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 76')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 77</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 77')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 78</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 78')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 79</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 79')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 80</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 80')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 81</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 81')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 82</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 82')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 83</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 83')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 84</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 84')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 85</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 85')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 86</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 86')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 87</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 87')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 88</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 88')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 89</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 89')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 90</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 90')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 91</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 91')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 92</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 92')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 93</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 93')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 94</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 94')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 95</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 95')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 96</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 96')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 97</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 97')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 98</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 98')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 99</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 99')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa 100</td>
+          <td>Primeiro Andar</td>
+          <td><span class="badge badge-green">Available</span></td>
+          <td>0</td>
+          <td>
+            <div class="actions">
+              <button class="btn-qr" onclick="showQR('Mesa 100')" title="Generate QR Code">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01M17 20h.01M14 20h.01"/></svg>
+                QR Code
+              </button>
+              <button class="btn-edit" title="Edit table">Edit</button>
+              <button class="btn-delete" title="Delete table">Delete</button>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </main>
+
+  <!-- QR Code Modal -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeQR()">✕</button>
+      <div class="modal-title" id="qrTitle">QR Code</div>
+      <div class="modal-sub">Scan this code to access the table ordering page</div>
+      <div class="qr-box" id="qrBox">
+        <img id="qrImg" src="" alt="QR Code" style="width:180px;height:180px;display:none;border-radius:4px"/>
+        <span id="qrLoading">Generating QR...</span>
+      </div>
+      <button class="btn-download" onclick="downloadQR()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download QR Code
+      </button>
+    </div>
+  </div>
+
+  <!-- Create Table Modal -->
+  <div class="modal-overlay" id="createModal">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+      <div class="modal-title">New Table</div>
+      <div class="modal-sub">Add a new table to your restaurant</div>
+      <div class="form-group">
+        <label class="form-label">Table Name</label>
+        <input class="form-input" id="newTableName" placeholder="e.g. Mesa 101"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zone</label>
+        <select class="form-select" id="newTableZone">
+          <option value="Terraço">Terraço</option>
+          <option value="Térreo">Térreo</option>
+          <option value="Primeiro Andar">Primeiro Andar</option>
+          <option value="Bar">Bar</option>
+          <option value="Exterior">Exterior</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Covers (seats)</label>
+        <input class="form-input" id="newTableCovers" type="number" min="1" max="20" placeholder="e.g. 4" value="4"/>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeCreate()">Cancel</button>
+        <button class="btn-save" onclick="createTable()">Create Table</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     if(!localStorage.getItem('token')){window.location.href='/login.html';}
+
+    function showQR(tableName) {
+      document.getElementById('qrTitle').textContent = 'QR Code - ' + tableName;
+      document.getElementById('qrModal').classList.add('open');
+      const qrImg = document.getElementById('qrImg');
+      const qrLoading = document.getElementById('qrLoading');
+      qrImg.style.display = 'none';
+      qrLoading.style.display = 'inline';
+      // Generate QR using free API
+      const url = encodeURIComponent(window.location.origin + '/order?table=' + encodeURIComponent(tableName));
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + url;
+      qrImg.onload = function() {
+        qrLoading.style.display = 'none';
+        qrImg.style.display = 'block';
+      };
+    }
+
+    function closeQR() {
+      document.getElementById('qrModal').classList.remove('open');
+    }
+
+    function downloadQR() {
+      const img = document.getElementById('qrImg');
+      const title = document.getElementById('qrTitle').textContent.replace('QR Code - ', '');
+      const a = document.createElement('a');
+      a.href = img.src;
+      a.download = 'QR-' + title.replace(/\s+/g, '-') + '.png';
+      a.target = '_blank';
+      a.click();
+    }
+
+    function openCreateModal() {
+      document.getElementById('createModal').classList.add('open');
+      document.getElementById('newTableName').focus();
+    }
+
+    function closeCreate() {
+      document.getElementById('createModal').classList.remove('open');
+    }
+
+    function createTable() {
+      const name = document.getElementById('newTableName').value.trim();
+      const zone = document.getElementById('newTableZone').value;
+      const covers = document.getElementById('newTableCovers').value || '0';
+      if (!name) { alert('Please enter a table name'); return; }
+      const tbody = document.getElementById('tablesBody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${name}</td>
+        <td>${zone}</td>
+        <td><span class="badge badge-green">Available</span></td>
+        <td>${covers}</td>
+        <td>
+          <div class="actions">
+            <button class="btn-qr" onclick="showQR('${name}')" title="Generate QR Code">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              QR Code
+            </button>
+            <button class="btn-edit" title="Edit">Edit</button>
+            <button class="btn-delete" onclick="this.closest('tr').remove()" title="Delete">Delete</button>
+          </div>
+        </td>`;
+      tbody.prepend(tr);
+      closeCreate();
+      document.getElementById('newTableName').value = '';
+    }
+
+    function filterTables(query) {
+      const rows = document.querySelectorAll('#tablesBody tr');
+      const q = query.toLowerCase();
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    // Close modals on overlay click
+    document.getElementById('qrModal').addEventListener('click', function(e) {
+      if (e.target === this) closeQR();
+    });
+    document.getElementById('createModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCreate();
+    });
   </script>
 </body>
 </html>
