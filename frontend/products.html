@@ -2502,7 +2502,7 @@
 
   <script>
     // Auth check
-    if (!localStorage.getItem('wc_token')) window.location.href = '/login.html';
+    if (!localStorage.getItem('token')) window.location.href = '/login.html';
 
     function updateCount() {
       const visible = document.querySelectorAll('#productsTbody tr:not([style*="none"])').length;
