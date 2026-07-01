@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOWCRAB – Combos</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
+    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
+    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
+    .sidebar-chevron{color:#9ca3af;font-size:12px}
+    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
+    .nav-item:hover{background:#f0fdf4;color:#16a34a;border-radius:6px}
+    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
+    .nav-item.disabled{opacity:0.45;pointer-events:none}
+    .main{margin-left:236px;flex:1;padding:24px}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .page-title{font-size:20px;font-weight:700;color:#111827}
+    .page-sub{font-size:13px;color:#9ca3af;margin-top:2px}
+    .btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+    .btn-add:hover{background:#15803d}
+    .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+    .search-input{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;width:280px;outline:none}
+    .search-input:focus{border-color:#16a34a}
+    .table-card{background:#fff;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.6px;background:#f9fafb;border-bottom:1px solid #e5e7eb}
+    td{padding:12px 14px;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#f9fafb}
+    .combo-img{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px}
+    .badge{padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+    .badge-purple{background:#ede9fe;color:#7c3aed}
+    .actions{display:flex;gap:6px}
+    .btn-edit{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
+    .btn-edit:hover{background:#f3f4f6}
+    .btn-delete{padding:5px 10px;border:1px solid #fee2e2;border-radius:6px;background:#fff;color:#dc2626;font-size:12px;cursor:pointer}
+    .btn-delete:hover{background:#fef2f2}
+    .count-label{font-size:13px;color:#9ca3af;padding:12px 14px;border-top:1px solid #f3f4f6}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal{background:#fff;border-radius:12px;padding:24px;width:420px;max-width:95vw}
+    .modal-title{font-size:16px;font-weight:700;margin-bottom:16px;color:#111827}
+    .form-group{margin-bottom:14px}
+    .form-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:5px;display:block}
+    .form-input{width:100%;padding:8px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:13px;outline:none}
+    .form-input:focus{border-color:#16a34a}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+    .btn-cancel{padding:8px 16px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;font-size:13px;cursor:pointer}
+    .btn-save{padding:8px 16px;border:none;border-radius:7px;background:#16a34a;color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+    .footer-bar{padding:16px 12px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-left">
+        <div class="sidebar-logo-img">🦀</div>
+        <div><div class="sidebar-logo-text">WOWCRAB</div><div class="sidebar-logo-sub">Wowcrab EU</div></div>
+      </div>
+      <span class="sidebar-chevron">&#8964;</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <a class="nav-item" href="dashboard.html"><span>&#9783;</span> Dashboard</a>
+      <div class="nav-section">Catalog</div>
+      <a class="nav-item" href="categories.html"><span>&#9783;</span> Categories</a>
+      <a class="nav-item" href="catalog-products.html"><span>&#9783;</span> Products</a>
+      <a class="nav-item" href="product-order.html"><span>&#8645;</span> Product Order</a>
+      <a class="nav-item active" href="combos.html"><span>&#9783;</span> Combos</a>
+      <a class="nav-item" href="modifiers.html"><span>&#9783;</span> Modifiers</a>
+      <a class="nav-item" href="allergens.html"><span>&#9650;</span> Allergens</a>
+      <a class="nav-item" href="menus.html"><span>&#9783;</span> Menus</a>
+      <a class="nav-item" href="products.html"><span>&#9783;</span> Product Availability</a>
+      <a class="nav-item" href="modifier-availability.html"><span>&#9783;</span> Modifier Availability</a>
+      <div class="nav-section">Sales</div>
+      <a class="nav-item" href="tables.html"><span>&#9783;</span> Tables</a>
+      <a class="nav-item" href="orders.html"><span>&#9783;</span> Orders</a>
+      <a class="nav-item" href="invoices.html"><span>&#9783;</span> Invoices</a>
+      <div class="nav-section">People</div>
+      <a class="nav-item" href="members.html"><span>&#9783;</span> Members</a>
+      <div class="nav-section">Payments &amp; Tax</div>
+      <a class="nav-item" href="payment-methods.html"><span>&#9783;</span> Payment Methods</a>
+    </nav>
+    <div class="footer-bar" id="footer-user">franchise@wowcrab.nl</div>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div><div class="page-title">Combos</div><div class="page-sub" id="combo-count">4 combos</div></div>
+      <button class="btn-add" onclick="openAdd()">+ Create</button>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" id="searchInput" placeholder="Search combos..." oninput="filterCombos()"/>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead><tr>
+          <th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>SKU</th><th>Variants</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="combosTbody">
+          <tr>
+            <td><div class="combo-img">🦀</div></td>
+            <td style="font-weight:600">COMBO#3(2-3pers)</td>
+            <td><span class="badge badge-purple">COMBOS</span></td>
+            <td>€86.80</td><td>-</td><td>1</td>
+            <td><div class="actions"><button class="btn-edit" onclick="editRow(this)">Edit</button><button class="btn-delete" onclick="deleteRow(this)">Delete</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="combo-img">🦀</div></td>
+            <td style="font-weight:600">COMBO#1 (2pers)</td>
+            <td><span class="badge badge-purple">COMBOS</span></td>
+            <td>€52.80</td><td>-</td><td>1</td>
+            <td><div class="actions"><button class="btn-edit" onclick="editRow(this)">Edit</button><button class="btn-delete" onclick="deleteRow(this)">Delete</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="combo-img">🦀</div></td>
+            <td style="font-weight:600">COMBO#2(2pers)</td>
+            <td><span class="badge badge-purple">COMBOS</span></td>
+            <td>€72.80</td><td>-</td><td>1</td>
+            <td><div class="actions"><button class="btn-edit" onclick="editRow(this)">Edit</button><button class="btn-delete" onclick="deleteRow(this)">Delete</button></div></td>
+          </tr>
+          <tr>
+            <td><div class="combo-img">🦀</div></td>
+            <td style="font-weight:600">COMBO#4(3-4pers)</td>
+            <td><span class="badge badge-purple">COMBOS</span></td>
+            <td>€99.80</td><td>-</td><td>1</td>
+            <td><div class="actions"><button class="btn-edit" onclick="editRow(this)">Edit</button><button class="btn-delete" onclick="deleteRow(this)">Delete</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="count-label" id="count-label">4 combos</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal-title" id="modal-title">Create Combo</div>
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="f-name" placeholder="Combo name"/></div>
+      <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="f-cat" value="COMBOS"/></div>
+      <div class="form-group"><label class="form-label">Price (€)</label><input class="form-input" id="f-price" type="number" step="0.01" placeholder="0.00"/></div>
+      <div class="form-group"><label class="form-label">SKU</label><input class="form-input" id="f-sku" placeholder="-"/></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tok = localStorage.getItem('token');
+    if (!tok) window.location.href = '/login.html';
+    let _editRow = null;
+    function filterCombos() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#combosTbody tr');
+      let vis = 0;
+      rows.forEach(r => { const t = r.innerText.toLowerCase(); const show = t.includes(q); r.style.display = show ? '' : 'none'; if(show) vis++; });
+      document.getElementById('count-label').textContent = vis + ' combo' + (vis!==1?'s':'');
+    }
+    function openAdd() { _editRow=null; document.getElementById('modal-title').textContent='Create Combo'; document.getElementById('f-name').value=''; document.getElementById('f-cat').value='COMBOS'; document.getElementById('f-price').value=''; document.getElementById('f-sku').value=''; document.getElementById('modal').classList.add('open'); }
+    function editRow(btn) { _editRow=btn.closest('tr'); const cells=_editRow.cells; document.getElementById('modal-title').textContent='Edit Combo'; document.getElementById('f-name').value=cells[1].textContent; document.getElementById('f-cat').value='COMBOS'; document.getElementById('f-price').value=cells[3].textContent.replace('€',''); document.getElementById('f-sku').value=cells[4].textContent; document.getElementById('modal').classList.add('open'); }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    function saveModal() {
+      const n=document.getElementById('f-name').value.trim();
+      const c=document.getElementById('f-cat').value.trim()||'COMBOS';
+      const p=parseFloat(document.getElementById('f-price').value)||0;
+      const s=document.getElementById('f-sku').value.trim()||'-';
+      if(!n){alert('Name required');return;}
+      if(_editRow){
+        _editRow.cells[1].textContent=n;
+        _editRow.cells[2].innerHTML='<span class="badge badge-purple">'+c+'</span>';
+        _editRow.cells[3].textContent='€'+p.toFixed(2);
+        _editRow.cells[4].textContent=s;
+      } else {
+        const tbody=document.getElementById('combosTbody');
+        const tr=document.createElement('tr');
+        tr.innerHTML='<td><div class="combo-img">🦀</div></td><td style="font-weight:600">'+n+'</td><td><span class="badge badge-purple">'+c+'</span></td><td>€'+p.toFixed(2)+'</td><td>'+s+'</td><td>1</td><td><div class="actions"><button class="btn-edit" onclick="editRow(this)">Edit</button><button class="btn-delete" onclick="deleteRow(this)">Delete</button></div></td>';
+        tbody.appendChild(tr);
+        updateCount();
+      }
+      closeModal();
+    }
+    function deleteRow(btn) { if(confirm('Delete this combo?')){ btn.closest('tr').remove(); updateCount(); } }
+    function updateCount() { const n=document.querySelectorAll('#combosTbody tr:not([style*="none"])').length; document.getElementById('combo-count').textContent=n+' combos'; document.getElementById('count-label').textContent=n+' combos'; }
+  </script>
+</body>
+</html>
