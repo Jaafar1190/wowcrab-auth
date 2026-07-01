@@ -272,21 +272,40 @@
     window.location.href = '/login.html';
   }
 
-  // Per-date stats data (based on real orders)
-  const statsData = {
-    '2026-06-26': { revenue: 480.00, orders: 5, avg: 96.00, cancelled: 1 },
-    '2026-06-27': { revenue: 200.00, orders: 2, avg: 100.00, cancelled: 0 },
-    '2026-06-28': { revenue: 150.00, orders: 2, avg: 75.00, cancelled: 0 },
-    '2026-06-29': { revenue: 100.00, orders: 1, avg: 100.00, cancelled: 1 },
-    '2026-06-30': { revenue: 180.00, orders: 2, avg: 90.00, cancelled: 0 },
-    '2026-07-01': { revenue: 600.00, orders: 3, avg: 200.00, cancelled: 0 },
-    '2026-07-02': { revenue: 750.00, orders: 4, avg: 187.50, cancelled: 0 }
-  };
+  // Orders data — source of truth for dashboard stats
+  const ORDERS = [
+    {id:1,created:"2026/6/29 16:48:52",store:"WOWCRAB Lisboa",seq:"004",payment:"paid",fulfillment:"in progress",table:"-",payMethod:"Cash",source:"POS",total:345.75},
+    {id:2,created:"2026/6/29 16:28:30",store:"WOWCRAB Lisboa",seq:"003",payment:"paid",fulfillment:"ready",table:"Mesa 2",payMethod:"Cash",source:"App",total:290.80},
+    {id:3,created:"2026/6/29 10:21:13",store:"WOWCRAB Lisboa",seq:"002",payment:"paid",fulfillment:"completed",table:"Mesa 93",payMethod:"Cash",source:"App",total:18.70},
+    {id:4,created:"2026/6/29 08:52:57",store:"WOWCRAB Lisboa",seq:"001",payment:"paid",fulfillment:"ready",table:"Mesa 1",payMethod:"Cash",source:"App",total:105.20},
+    {id:5,created:"2026/6/28 14:08:04",store:"WOWCRAB Lisboa",seq:"002",payment:"paid",fulfillment:"in progress",table:"Mesa 1",payMethod:"Cash",source:"App",total:127.20},
+    {id:6,created:"2026/6/28 14:05:39",store:"WOWCRAB Lisboa",seq:"001",payment:"paid",fulfillment:"in progress",table:"Mesa 4",payMethod:"Cash",source:"App",total:9.80},
+    {id:7,created:"2026/6/27 00:16:49",store:"WOWCRAB Lisboa",seq:"001",payment:"paid",fulfillment:"ready",table:"Mesa 20",payMethod:"Cash",source:"App",total:112.40},
+    {id:8,created:"2026/6/26 17:18:01",store:"WOWCRAB Lisboa",seq:"006",payment:"paid",fulfillment:"ready",table:"Mesa 4",payMethod:"Cash",source:"App",total:19.60},
+    {id:9,created:"2026/6/26 15:11:49",store:"WOWCRAB Lisboa",seq:"005",payment:"paid",fulfillment:"ready",table:"A1",payMethod:"Cash",source:"App",total:9.80},
+    {id:10,created:"2026/6/26 14:46:08",store:"WOWCRAB Lisboa",seq:"004",payment:"paid",fulfillment:"cancelled",table:"A2",payMethod:"Cash",source:"App",total:18.70},
+    {id:11,created:"2026/6/26 14:43:22",store:"WOWCRAB Lisboa",seq:"003",payment:"paid",fulfillment:"completed",table:"Mesa 3",payMethod:"Cash",source:"App",total:308.13},
+    {id:12,created:"2026/6/26 14:14:30",store:"WOWCRAB Lisboa",seq:"002",payment:"paid",fulfillment:"completed",table:"Mesa 2",payMethod:"Cash",source:"App",total:28.50},
+    {id:13,created:"2026/6/26 13:55:15",store:"WOWCRAB Lisboa",seq:"001",payment:"paid",fulfillment:"completed",table:"Mesa 1",payMethod:"Cash",source:"App",total:95.40}
+  ];
+  function orderDateStr(o) {
+    // created format: "2026/6/29 16:48:52" -> "2026-06-29"
+    const parts = o.created.split(' ')[0].split('/');
+    return parts[0] + '-' + String(parts[1]).padStart(2,'0') + '-' + String(parts[2]).padStart(2,'0');
+  }
+  function getStatsForDate(dateStr) {
+    const dayOrders = ORDERS.filter(o => orderDateStr(o) === dateStr);
+    const revenue = dayOrders.reduce((s, o) => s + o.total, 0);
+    const count = dayOrders.length;
+    const avg = count > 0 ? revenue / count : 0;
+    const cancelled = dayOrders.filter(o => o.fulfillment === 'cancelled').length;
+    return { revenue, orders: count, avg, cancelled };
+  }
   function toDateStr(d) {
     return d.toISOString().slice(0,10);
   }
   function updateStats(dateStr) {
-    const d = statsData[dateStr] || { revenue: 0, orders: 0, avg: 0, cancelled: 0 };
+    const d = getStatsForDate(dateStr);
     const rv = document.getElementById('stat-revenue');
     const ro = document.getElementById('stat-orders');
     const ra = document.getElementById('stat-avg');
@@ -332,12 +351,77 @@
     updateChart(period);
   }
 
-  const chartData = {
-    '1d': { labels: ['00h','04h','08h','12h','16h','20h','24h'], data: [0,0,0,0,0,0,0], cancelled: [0,0,0,0,0,0,0] },
-    '7d': { labels: ['06-26','06-27','06-28','06-29','06-30','07-01','07-02'], data: [480,200,150,100,180,600,750], cancelled: [1,0,0,0,0,0,0] },
-    '14d': { labels: ['06-19','06-21','06-23','06-25','06-27','06-29','07-01'], data: [300,450,200,350,500,280,600], cancelled: [0,0,0,1,0,0,0] },
-    '30d': { labels: ['06-01','06-08','06-15','06-22','06-29'], data: [1200,800,1500,1100,900] }
-  };
+  function buildChartData() {
+    function getDateLabels(n, stepDays) {
+      // Generate last n dates going back stepDays apart from today
+      const labels = [];
+      const today = new Date();
+      for (let i = n-1; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i * stepDays);
+        labels.push((d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0'));
+      }
+      return labels;
+    }
+    function getFullDateForLabel(label, stepDays, idx, total) {
+      // Reconstruct full date string from MM-DD label
+      const today = new Date();
+      const d = new Date(today);
+      d.setDate(d.getDate() - (total - 1 - idx) * stepDays);
+      return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+    function dayStats(dateStr) {
+      const dayOrds = ORDERS.filter(o => orderDateStr(o) === dateStr);
+      return {
+        rev: Math.round(dayOrds.reduce((s,o) => s + o.total, 0) * 100) / 100,
+        can: dayOrds.filter(o => o.fulfillment === 'cancelled').length
+      };
+    }
+    // 7d: last 7 days, 1 per day
+    const labels7 = []; const data7 = []; const can7 = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const lbl = String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const s = dayStats(ds);
+      labels7.push(lbl); data7.push(s.rev); can7.push(s.can);
+    }
+    // 14d: last 14 days, step 2
+    const labels14 = []; const data14 = []; const can14 = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i * 2);
+      const ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const lbl = String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const s = dayStats(ds);
+      labels14.push(lbl); data14.push(s.rev); can14.push(s.can);
+    }
+    // 30d: last 30 days in 5 weekly buckets
+    const labels30 = []; const data30 = []; const can30 = [];
+    for (let i = 4; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i * 7);
+      const ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const lbl = String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      const s = dayStats(ds);
+      labels30.push(lbl); data30.push(s.rev); can30.push(s.can);
+    }
+    // 1d: today by 4h slots
+    const todayStr = new Date().toISOString().slice(0,10);
+    const todayOrds = ORDERS.filter(o => orderDateStr(o) === todayStr);
+    const slots = [0,0,0,0,0,0,0]; const canSlots = [0,0,0,0,0,0,0];
+    todayOrds.forEach(o => {
+      const h = parseInt(o.created.split(' ')[1].split(':')[0]);
+      const si = Math.min(Math.floor(h/4), 6);
+      slots[si] += o.total;
+      if (o.fulfillment === 'cancelled') canSlots[si]++;
+    });
+    return {
+      '1d': { labels: ['00h','04h','08h','12h','16h','20h','24h'], data: slots.map(v => Math.round(v*100)/100), cancelled: canSlots },
+      '7d': { labels: labels7, data: data7, cancelled: can7 },
+      '14d': { labels: labels14, data: data14, cancelled: can14 },
+      '30d': { labels: labels30, data: data30, cancelled: can30 }
+    };
+  }
+  const chartData = buildChartData()
 
   const ctx = document.getElementById('revenueChart').getContext('2d');
   const chart = new Chart(ctx, {
