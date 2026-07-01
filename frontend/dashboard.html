@@ -174,14 +174,14 @@
   <div class="page-header">
     <div class="page-header-left">
       <div class="page-title">Dashboard</div>
-      <div class="page-subtitle" id="page-subtitle">Today's overview - WOWCRAB</div>
+      <div class="page-subtitle" id="page-subtitle" id="dash-subtitle">Today's overview - WOWCRAB</div>
     </div>
     <div class="page-header-right">
       <button class="btn-period active" onclick="setFilter('today',this)">Today</button>
       <button class="btn-period" onclick="setFilter('yesterday',this)">Yesterday</button>
-      <button class="btn-nav-arrow">&#8249;</button>
-      <input type="date" class="date-input-field" id="datePicker"/>
-      <button class="btn-nav-arrow">&#8250;</button>
+      <button class="btn-nav-arrow" onclick="shiftDate(-1)">&#8249;</button>
+      <input type="date" class="date-input-field" id="datePicker" onchange="selectDate(this.value)"/>
+      <button class="btn-nav-arrow" onclick="shiftDate(1)">&#8250;</button>
       <div class="user-section">
         <span class="user-name" id="username-display">admin</span>
         <button class="btn-logout" onclick="logout()">Se deconnecter</button>
@@ -193,19 +193,19 @@
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Revenue</div>
-      <div><span class="stat-value">EUR 0.00</span><span class="stat-dash">-</span></div>
+      <div><span class="stat-value" id="stat-revenue">EUR 0.00</span><span class="stat-dash">-</span></div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Orders</div>
-      <div><span class="stat-value">0</span><span class="stat-dash">-</span></div>
+      <div><span class="stat-value" id="stat-orders">0</span><span class="stat-dash">-</span></div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Avg Order</div>
-      <div><span class="stat-value">EUR 0.00</span><span class="stat-dash">-</span></div>
+      <div><span class="stat-value" id="stat-avg">EUR 0.00</span><span class="stat-dash" id="stat-avg-sub">-</span></div>
     </div>
     <div class="stat-card" style="border-top:3px solid #ef4444">
       <div class="stat-label" style="color:#dc2626;font-weight:600">Commandes annulées</div>
-      <div><span class="stat-value" style="color:#dc2626">1</span></div>
+      <div><span class="stat-value" style="color:#dc2626" id="stat-cancelled">1</span></div>
       <div class="stat-sub">total annulées</div>
     </div>
     <div class="stat-card">
@@ -272,9 +272,58 @@
     window.location.href = '/login.html';
   }
 
+  // Per-date stats data (based on real orders)
+  const statsData = {
+    '2026-06-26': { revenue: 480.00, orders: 5, avg: 96.00, cancelled: 1 },
+    '2026-06-27': { revenue: 200.00, orders: 2, avg: 100.00, cancelled: 0 },
+    '2026-06-28': { revenue: 150.00, orders: 2, avg: 75.00, cancelled: 0 },
+    '2026-06-29': { revenue: 100.00, orders: 1, avg: 100.00, cancelled: 1 },
+    '2026-06-30': { revenue: 180.00, orders: 2, avg: 90.00, cancelled: 0 },
+    '2026-07-01': { revenue: 600.00, orders: 3, avg: 200.00, cancelled: 0 },
+    '2026-07-02': { revenue: 750.00, orders: 4, avg: 187.50, cancelled: 0 }
+  };
+  function toDateStr(d) {
+    return d.toISOString().slice(0,10);
+  }
+  function updateStats(dateStr) {
+    const d = statsData[dateStr] || { revenue: 0, orders: 0, avg: 0, cancelled: 0 };
+    const rv = document.getElementById('stat-revenue');
+    const ro = document.getElementById('stat-orders');
+    const ra = document.getElementById('stat-avg');
+    const rc = document.getElementById('stat-cancelled');
+    if (rv) rv.textContent = 'EUR ' + d.revenue.toFixed(2);
+    if (ro) ro.textContent = d.orders;
+    if (ra) ra.textContent = 'EUR ' + d.avg.toFixed(2);
+    if (rc) rc.textContent = d.cancelled;
+    const dp = document.getElementById('datePicker');
+    if (dp) dp.value = dateStr;
+    const sub = document.getElementById('dash-subtitle');
+    const today = toDateStr(new Date());
+    const yesterday = toDateStr(new Date(Date.now()-86400000));
+    if (sub) {
+      if (dateStr === today) sub.textContent = "Today's overview - WOWCRAB";
+      else if (dateStr === yesterday) sub.textContent = "Yesterday's overview - WOWCRAB";
+      else sub.textContent = dateStr + ' overview - WOWCRAB';
+    }
+  }
+  function selectDate(dateStr) {
+    document.querySelectorAll('.btn-period').forEach(b => b.classList.remove('active'));
+    updateStats(dateStr);
+  }
+  function shiftDate(delta) {
+    const dp = document.getElementById('datePicker');
+    const cur = dp && dp.value ? new Date(dp.value + 'T12:00:00') : new Date();
+    cur.setDate(cur.getDate() + delta);
+    const newDate = toDateStr(cur);
+    selectDate(newDate);
+  }
   function setFilter(period, btn) {
     document.querySelectorAll('.btn-period').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    if (btn) btn.classList.add('active');
+    const today = toDateStr(new Date());
+    const yesterday = toDateStr(new Date(Date.now()-86400000));
+    const dateStr = period === 'yesterday' ? yesterday : today;
+    updateStats(dateStr);
   }
 
   function setChart(period, btn) {
