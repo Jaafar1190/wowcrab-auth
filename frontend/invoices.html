@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOWCRAB - Invoices</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0}
+    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
+    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
+    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
+    .sidebar-chevron{color:#9ca3af;font-size:12px}
+    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
+    .nav-item:hover{background:#f3f4f6;color:#111827;border-radius:6px}
+    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
+    .nav-item.disabled{opacity:0.45;pointer-events:none}
+    .sidebar-footer-email{font-size:12px;color:#9ca3af;padding:12px 16px}
+    .main{margin-left:236px;flex:1;padding:24px}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .page-title{font-size:24px;font-weight:700;color:#111827}
+    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:300px;outline:none}
+    table{width:100%;background:#fff;border-radius:12px;border-collapse:collapse;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6}
+    td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#f9fafb}
+    .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+    .badge-green{background:#dcfce7;color:#16a34a}
+    .btn-view{padding:4px 12px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
+    .btn-view:hover{background:#f3f4f6}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-left"><div class="sidebar-logo-img">🦀</div><div><div class="sidebar-logo-text">WOWCRAB</div><div class="sidebar-logo-sub">Wowcrab EU</div></div></div><svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <a class="nav-item" href="dashboard.html">Dashboard</a>
+      <div class="nav-section">Catalog</div>
+      <a class="nav-item" href="products.html">Product Availability</a>
+      <a class="nav-item disabled" href="#">Modifier Availability</a>
+      <div class="nav-section">Sales</div>
+      <a class="nav-item" href="tables.html">Tables</a>
+      <a class="nav-item" href="orders.html">Orders</a>
+      <a class="nav-item active" href="invoices.html">Invoices</a>
+      <a class="nav-item disabled" href="#">Product Sales</a>
+      <a class="nav-item disabled" href="#">Order Items</a>
+      <a class="nav-item disabled" href="#">Deleted Items</a>
+      <div class="nav-section">Marketing</div>
+      <a class="nav-item" href="members.html">Members</a>
+      <a class="nav-item disabled" href="#">Coupons</a>
+      <div class="nav-section">Payments &amp; Tax</div>
+      <a class="nav-item" href="payment-methods.html">Payment Methods</a>
+      <a class="nav-item disabled" href="#">Payment Availability</a>
+      <a class="nav-item disabled" href="#">Payment Stats</a>
+    </nav>
+    <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
+  </aside>
+  <main class="main">
+    <div class="page-header">
+      <div class="page-title">Invoices</div>
+      <input class="search-bar" placeholder="Search invoices..."/>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Invoice ID</th><th>Date</th><th>Payment</th><th>Total</th><th>Actions</th></tr>
+      </thead>
+      <tbody><tr><td>FS-E43B-2026-000002</td><td>2026/6/26 17:18:01</td><td><span class="badge badge-green">paid</span></td><td>€19.60</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000003</td><td>2026/6/26 22:09:31</td><td><span class="badge badge-green">paid</span></td><td>€35.30</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000004</td><td>2026/6/27 00:16:49</td><td><span class="badge badge-green">paid</span></td><td>€112.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000005</td><td>2026/6/27 09:03:41</td><td><span class="badge badge-green">paid</span></td><td>€15.60</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000006</td><td>2026/6/27 09:14:01</td><td><span class="badge badge-green">paid</span></td><td>€22.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000007</td><td>2026/6/27 13:31:56</td><td><span class="badge badge-green">paid</span></td><td>€9.40</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000008</td><td>2026/6/28 14:05:39</td><td><span class="badge badge-green">paid</span></td><td>€9.80</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000009</td><td>2026/6/28 14:08:04</td><td><span class="badge badge-green">paid</span></td><td>€127.20</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000010</td><td>2026/6/29 08:52:57</td><td><span class="badge badge-green">paid</span></td><td>€105.20</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000011</td><td>2026/6/29 10:21:13</td><td><span class="badge badge-green">paid</span></td><td>€18.70</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000012</td><td>2026/6/29 16:28:30</td><td><span class="badge badge-green">paid</span></td><td>€290.80</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000013</td><td>2026/6/29 16:48:52</td><td><span class="badge badge-green">paid</span></td><td>€345.75</td><td><button class="btn-view">View</button></td></tr><tr><td>FS-E43B-2026-000014</td><td>2026/6/29 18:14:22</td><td><span class="badge badge-green">paid</span></td><td>€67.40</td><td><button class="btn-view">View</button></td></tr></tbody>
+    </table>
+  </main>
+  <script>if(!localStorage.getItem('token')){window.location.href='/login.html';}</script>
+</body>
+</html>
