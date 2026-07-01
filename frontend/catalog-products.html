@@ -1,235 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>WOWCRAB – Products</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9fafb;display:flex;min-height:100vh}
-.sidebar{width:220px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto}
-.sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;font-weight:700;font-size:16px;color:#111;flex-shrink:0}
-.sidebar-content{flex:1;padding:8px 0}
-.nav-section{padding:8px 16px 4px;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
-.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:#374151;text-decoration:none;border-radius:6px;margin:1px 8px;transition:background .15s}
-.nav-item:hover{background:#f3f4f6}
-.nav-item.active{background:#f0fdf4;color:#16a34a;font-weight:600}
-.nav-item svg{width:16px;height:16px;flex-shrink:0}
-.nav-item.disabled{opacity:.5;pointer-events:none}
-.sidebar-footer{padding:12px 16px;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;flex-shrink:0}
-.main{margin-left:220px;flex:1;padding:24px}
-.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.page-title{font-size:24px;font-weight:700;color:#111}
-.btn-primary{background:#16a34a;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f3f4f6;display:flex;min-height:100vh}
+.sidebar{width:240px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid #e5e7eb;font-size:20px;font-weight:700;color:#16a34a;display:flex;align-items:center;gap:8px}
+.sidebar-section{padding:8px 0}
+.sidebar-section-title{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;padding:8px 16px 4px}
+.sidebar-link{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;color:#374151;text-decoration:none;border-radius:6px;margin:1px 8px;transition:background .15s}
+.sidebar-link:hover{background:#f3f4f6}
+.sidebar-link.active{background:#dcfce7;color:#16a34a;font-weight:600}
+.sidebar-link.disabled{color:#9ca3af;pointer-events:none}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:22px;font-weight:700;color:#111827}
+.content{padding:24px;flex:1}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar input{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;width:240px}
+.toolbar select{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:background .15s}
+.btn-primary{background:#16a34a;color:#fff}
 .btn-primary:hover{background:#15803d}
-.toolbar{display:flex;gap:12px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
-.search-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:6px 12px;flex:1;max-width:320px}
-.search-box input{border:none;outline:none;font-size:13px;width:100%;background:transparent;color:#111}
-.cat-filter{border:1px solid #e5e7eb;border-radius:8px;padding:6px 12px;font-size:13px;color:#374151;background:#fff;cursor:pointer;outline:none}
-.info-bar{font-size:13px;color:#6b7280;margin-bottom:10px}
-.table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden}
-table{width:100%;border-collapse:collapse}
-thead{background:#f9fafb}
-th{padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #e5e7eb}
-td{padding:8px 12px;font-size:13px;color:#111;border-bottom:1px solid #f3f4f6;vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:#f9fafb}
-.img-cell{position:relative;width:44px;height:44px;cursor:pointer}
-.img-cell:hover .img-overlay{opacity:1}
-.img-cell img,.img-cell .no-img{width:44px;height:44px;object-fit:cover;border-radius:6px;display:block}
-.no-img{background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:18px;color:#9ca3af;border-radius:6px}
-.img-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);border-radius:6px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none}
-.img-overlay svg{width:18px;height:18px;color:#fff;stroke:#fff}
-.file-inp{display:none}
-.cat-badge{display:inline-block;background:#f0fdf4;color:#16a34a;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:500;white-space:nowrap}
-.btn-edit{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;margin-right:4px}
-.btn-edit:hover{background:#dcfce7}
-.btn-delete{background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer}
-.btn-delete:hover{background:#ffe4e6}
-.pagination{display:flex;align-items:center;gap:6px;padding:12px 16px;border-top:1px solid #e5e7eb;justify-content:flex-end;flex-wrap:wrap}
-.page-btn{border:1px solid #e5e7eb;background:#fff;color:#374151;padding:5px 10px;border-radius:6px;font-size:12px;cursor:pointer;min-width:32px;text-align:center}
+.btn-danger{background:#ef4444;color:#fff}
+.btn-danger:hover{background:#dc2626}
+.btn-outline{background:#fff;color:#374151;border:1px solid #d1d5db}
+.btn-outline:hover{background:#f9fafb}
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;color:#6b7280;font-size:12px;text-transform:uppercase;border-bottom:1px solid #e5e7eb}
+tbody tr{border-bottom:1px solid #f3f4f6;transition:background .1s}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:10px 12px;color:#111827;vertical-align:middle}
+.img-cell{width:52px;height:52px;border-radius:8px;background:#f3f4f6;overflow:hidden;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center}
+.img-cell img{width:100%;height:100%;object-fit:cover;display:block}
+.img-cell .overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:20px;color:#fff}
+.img-cell:hover .overlay{opacity:1}
+.badge{display:inline-block;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:600;background:#f3f4f6;color:#374151}
+.actions{display:flex;gap:6px}
+.actions button{padding:5px 10px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500}
+.btn-edit{background:#dbeafe;color:#1d4ed8}
+.btn-edit:hover{background:#bfdbfe}
+.btn-del{background:#fee2e2;color:#dc2626}
+.btn-del:hover{background:#fecaca}
+.pagination{display:flex;align-items:center;gap:4px;padding:16px;justify-content:flex-end}
+.pagination span{font-size:13px;color:#6b7280;margin-right:8px}
+.page-btn{padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;transition:background .15s}
 .page-btn:hover{background:#f3f4f6}
 .page-btn.active{background:#16a34a;color:#fff;border-color:#16a34a}
-.page-btn:disabled{opacity:.4;cursor:not-allowed}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:12px;padding:24px;width:480px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-.modal-title{font-size:18px;font-weight:700;color:#111;margin-bottom:20px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
-.form-group input,.form-group select{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;outline:none;color:#111}
-.form-group input:focus,.form-group select:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.1)}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:24px}
-.btn-secondary{background:#fff;color:#374151;border:1px solid #d1d5db;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer}
-.btn-secondary:hover{background:#f9fafb}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:16px;color:#111827}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.no-results{text-align:center;padding:40px;color:#9ca3af;font-size:14px}
 </style>
 </head>
 <body>
 <aside class="sidebar">
   <div class="sidebar-logo">&#x1F980; WOWCRAB</div>
-  <div class="sidebar-content">
-    <div class="nav-section">MAIN</div>
-    <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
-    <div class="nav-section">CATALOG</div>
-    <a class="nav-item" href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h10M4 18h6"/></svg>Categories</a>
-    <a class="nav-item active" href="catalog-products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>Products</a>
-    <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Product Order</a>
-    <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Combos</a>
-    <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Modifiers</a>
-    <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>Allergens</a>
-    <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>Menus</a>
-    <div class="nav-section">AVAILABILITY</div>
-    <a class="nav-item" href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18"/></svg>Product Availability</a>
-    <div class="nav-section">SALES</div>
-    <a class="nav-item" href="tables.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Tables</a>
-    <a class="nav-item" href="orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Orders</a>
-    <a class="nav-item" href="invoices.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Invoices</a>
-    <div class="nav-section">MARKETING</div>
-    <a class="nav-item" href="members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
-    <a class="nav-item" href="payment-methods.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Payment Methods</a>
-  </div>
-  <div class="sidebar-footer" id="userEmail">Loading...</div>
+  <nav>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Main</div>
+      <a href="dashboard.html" class="sidebar-link">&#x1F4CA; Dashboard</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Catalog</div>
+      <a href="categories.html" class="sidebar-link">&#x1F4CB; Categories</a>
+      <a href="catalog-products.html" class="sidebar-link active">&#x1F6CD; Products</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4E6; Product Order</a>
+      <a href="#" class="sidebar-link disabled">&#x1F371; Combos</a>
+      <a href="#" class="sidebar-link disabled">&#x2699;&#xFE0F; Modifiers</a>
+      <a href="#" class="sidebar-link disabled">&#x26A0;&#xFE0F; Allergens</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4DD; Menus</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Availability</div>
+      <a href="products.html" class="sidebar-link">&#x2714;&#xFE0F; Product Availability</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Sales</div>
+      <a href="tables.html" class="sidebar-link">&#x1F374; Tables</a>
+      <a href="orders.html" class="sidebar-link">&#x1F4CB; Orders</a>
+      <a href="invoices.html" class="sidebar-link">&#x1F4C4; Invoices</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">People</div>
+      <a href="members.html" class="sidebar-link">&#x1F465; Members</a>
+      <a href="payment-methods.html" class="sidebar-link">&#x1F4B3; Payment Methods</a>
+    </div>
+  </nav>
 </aside>
-<main class="main">
-  <div class="page-header">
-    <h1 class="page-title">Products</h1>
-    <button class="btn-primary" onclick="openAddModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>+ Create</button>
+<div class="main">
+  <div class="topbar">
+    <h1>Products <span id="count-badge" style="font-size:14px;font-weight:400;color:#6b7280;margin-left:8px"></span></h1>
+    <button class="btn btn-primary" onclick="openAdd()">+ Add Product</button>
   </div>
-  <div class="toolbar">
-    <div class="search-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="searchInput" placeholder="Search products..." oninput="applyFilter()"></div>
-    <select class="cat-filter" id="catFilter" onchange="applyFilter()"><option value="">All Categories</option><option>Cocktails</option><option>Mocktails</option><option>COMBOS</option><option>Entrantes</option><option>Guarniciones</option><option>Sopa</option><option>Mariscos</option><option>Salsas de Marisco</option><option>Salsas</option><option>Postres</option><option>Extras</option><option>Bebidas</option><option>Cervezas&amp;Sangrias</option><option>Vinos&amp;Espumosos</option><option>Té y café</option><option>Licores&amp;Mix</option><option>TAKE AWAY</option><option>Shisha eléctrica</option><option>Combo (No Pedir)</option><option>NIVEL DE PICANTE (No Pedir)</option><option>Salsa (No Pedir)</option><option>Test</option></select>
-  </div>
-  <div class="info-bar" id="infoBar"></div>
-  <div class="table-wrap">
-    <table><thead><tr><th>IMAGE</th><th>NAME</th><th>CATEGORY</th><th>PRICE</th><th>SKU</th><th>VARIANTS</th><th>ACTIONS</th></tr></thead>
-    <tbody id="productBody"></tbody></table>
-    <div class="pagination" id="paginationBar"></div>
-  </div>
-</main>
-<div class="modal-overlay" id="productModal">
-  <div class="modal">
-    <div class="modal-title" id="modalTitle">New Product</div>
-    <div class="form-group"><label>Name</label><input type="text" id="fName" placeholder="Product name"></div>
-    <div class="form-group"><label>Category</label><select id="fCategory"><option value="">Select...</option><option>Cocktails</option><option>Mocktails</option><option>COMBOS</option><option>Entrantes</option><option>Guarniciones</option><option>Sopa</option><option>Mariscos</option><option>Salsas de Marisco</option><option>Salsas</option><option>Postres</option><option>Extras</option><option>Bebidas</option><option>Cervezas&amp;Sangrias</option><option>Vinos&amp;Espumosos</option><option>Té y café</option><option>Licores&amp;Mix</option><option>TAKE AWAY</option><option>Shisha eléctrica</option><option>Combo (No Pedir)</option><option>NIVEL DE PICANTE (No Pedir)</option><option>Salsa (No Pedir)</option><option>Test</option></select></div>
-    <div class="form-group"><label>Price</label><input type="text" id="fPrice" placeholder="€12.99"></div>
-    <div class="form-group"><label>SKU</label><input type="text" id="fSku" placeholder="SKU (optional)"></div>
-    <div class="modal-actions"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" onclick="saveProduct()">Save</button></div>
+  <div class="content">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="applyFilter()"/>
+      <select id="catFilter" onchange="applyFilter()">
+        <option value="">All Categories</option>
+      </select>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr>
+          <th>IMAGE</th><th>NAME</th><th>CATEGORY</th><th>PRICE</th><th>SKU</th><th>VARIANTS</th><th>ACTIONS</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="pagination" id="paginationBar"></div>
+    </div>
   </div>
 </div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h3>Add Product</h3>
+    <div class="form-group"><label>Name</label><input id="add_name" placeholder="Product name"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Category</label><input id="add_cat" placeholder="Category"/></div>
+      <div class="form-group"><label>Price (EUR)</label><input id="add_price" type="number" step="0.01" placeholder="0.00"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>SKU</label><input id="add_sku" placeholder="-"/></div>
+      <div class="form-group"><label>Variants</label><input id="add_variants" type="number" value="1"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAdd()">Add Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>Edit Product</h3>
+    <input type="hidden" id="edit_id"/>
+    <div class="form-group"><label>Name</label><input id="edit_name" placeholder="Product name"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Category</label><input id="edit_cat" placeholder="Category"/></div>
+      <div class="form-group"><label>Price (EUR)</label><input id="edit_price" type="number" step="0.01" placeholder="0.00"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>SKU</label><input id="edit_sku" placeholder="-"/></div>
+      <div class="form-group"><label>Variants</label><input id="edit_variants" type="number" value="1"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEdit()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <script>
-(function(){const tk=localStorage.getItem('token');if(!tk){location.href='login.html';return;}try{const pl=JSON.parse(atob(tk.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));document.getElementById('userEmail').textContent=pl.email||pl.username||'Admin';}catch(e){document.getElementById('userEmail').textContent='Admin';}})();
+const PAGE_SIZE = 50;
+let currentPage = 1;
+let filtered = [];
 
-const PAGE_SIZE=50;let currentPage=1;let filteredRows=[];let editRow=null;
-const BI='https://lite-dev.palmnet.co/img/';
+const PRODUCTS = [
+  {id:1,name:"Patatas fritas dulces",category:"Guarniciones",price:5.75,sku:"-",variants:1,img:""},
+  {id:2,name:"Palomitas de pollo",category:"Entrantes",price:6.50,sku:"-",variants:1,img:""},
+  {id:3,name:"KFC Soy Garlic",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:4,name:"Calamar frito",category:"Entrantes",price:6.99,sku:"-",variants:1,img:""},
+  {id:5,name:"Camarones fritos con patatas",category:"Entrantes",price:12.00,sku:"-",variants:1,img:""},
+  {id:6,name:"KFC Honey butter",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:7,name:"KFC Sweet yogur",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:8,name:"Bogavante±600g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:9,name:"Camarones±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:10,name:"Medio",category:"NIVEL DE PICANTE (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:11,name:"Pasta con mariscos",category:"Entrantes",price:15.99,sku:"-",variants:1,img:""},
+  {id:12,name:"Piña Colada Caramel",category:"Cocktails",price:8.90,sku:"-",variants:1,img:""},
+  {id:13,name:"Wow Style - Todos los sabores anteriores",category:"Salsa (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:14,name:"Espresso Martini",category:"Cocktails",price:8.90,sku:"-",variants:1,img:""},
+  {id:15,name:"Alitas WOW con patatas",category:"Entrantes",price:10.00,sku:"-",variants:1,img:""},
+  {id:16,name:"Virgin Strawberry Daiquiri 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:17,name:"Pimientos de padrón",category:"Entrantes",price:6.50,sku:"-",variants:1,img:""},
+  {id:18,name:"Almejas±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:19,name:"Picante",category:"NIVEL DE PICANTE (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:20,name:"Salchipapas",category:"Guarniciones",price:5.95,sku:"-",variants:1,img:""},
+  {id:21,name:"WOW Sichuan (Con toque de pimienta Sichuan)",category:"Salsa (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:22,name:"Flor de calamar±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:23,name:"Cangrejo de río ±400g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:24,name:"Mejillones Jumbo de concha verde±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:25,name:"Camarones Sin cabeza 340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:26,name:"Huevos cocidos 7 pcs",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:27,name:"Cigalas±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:28,name:"Sopa de Bogavante",category:"Sopa",price:13.80,sku:"-",variants:1,img:""},
+  {id:29,name:"Suave",category:"NIVEL DE PICANTE (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:30,name:"Buey del Mar ±800g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:31,name:"Aro de cebolla",category:"Entrantes",price:6.50,sku:"-",variants:1,img:""},
+  {id:32,name:"Strawberry Daiquiri",category:"Cocktails",price:9.80,sku:"-",variants:1,img:""},
+  {id:33,name:"Ice Café Coconut",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:34,name:"Maíz Frito a la Cajun",category:"Entrantes",price:6.80,sku:"-",variants:1,img:""},
+  {id:35,name:"Mejillones±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:36,name:"Cider Strawberry",category:"Cocktails",price:11.90,sku:"-",variants:1,img:""},
+  {id:37,name:"Heineken Mojito",category:"Cocktails",price:11.90,sku:"-",variants:1,img:""},
+  {id:38,name:"Whisky sour",category:"Cocktails",price:9.90,sku:"-",variants:1,img:""},
+  {id:39,name:"Estrella 0% Strawberry",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:40,name:"Couland de chocolate",category:"Postres",price:7.00,sku:"-",variants:1,img:""},
+  {id:41,name:"Mayonesa",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:42,name:"Flor de calamar ±340g",category:"Mariscos",price:15.65,sku:"-",variants:1,img:""},
+  {id:43,name:"Maiz con condimentos (3pcs)",category:"Extras",price:4.25,sku:"-",variants:1,img:""},
+  {id:44,name:"Salsa de Cocktail",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:45,name:"Espresso Martini Postre",category:"Postres",price:8.90,sku:"-",variants:1,img:""},
+  {id:46,name:"Cajun",category:"Salsas de Marisco",price:4.90,sku:"-",variants:1,img:""},
+  {id:47,name:"Mi Amor Adalya",category:"Shisha eléctrica",price:9.90,sku:"-",variants:1,img:""},
+  {id:48,name:"Noodles con queso y maiz",category:"Guarniciones",price:6.90,sku:"-",variants:1,img:""},
+  {id:49,name:"Tacos con Camarones Fritos",category:"Entrantes",price:11.99,sku:"-",variants:1,img:""},
+  {id:50,name:"Love 66",category:"Cocktails",price:9.80,sku:"-",variants:1,img:""},
+  {id:51,name:"Ensalada de algas",category:"Entrantes",price:5.99,sku:"-",variants:1,img:""},
+  {id:52,name:"KFC Miel Mostaza",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:53,name:"Pornstar",category:"Cocktails",price:9.80,sku:"-",variants:1,img:""},
+  {id:54,name:"Hawaii Adalya",category:"Shisha eléctrica",price:9.90,sku:"-",variants:1,img:""},
+  {id:55,name:"Envase Take away",category:"TAKE AWAY",price:1.00,sku:"-",variants:1,img:""},
+  {id:56,name:"Licor Hierbas Copa",category:"Licores&Mix",price:4.50,sku:"-",variants:1,img:""},
+  {id:57,name:"Hamburguesa de cangrejo blando",category:"Entrantes",price:11.90,sku:"-",variants:1,img:""},
+  {id:58,name:"WOW Style",category:"Salsas de Marisco",price:4.90,sku:"-",variants:1,img:""},
+  {id:59,name:"Love66 Adalya",category:"Shisha eléctrica",price:9.90,sku:"-",variants:1,img:""},
+  {id:60,name:"KFC Yang Yeam",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:61,name:"Camaron frito",category:"Entrantes",price:7.50,sku:"-",variants:1,img:""},
+  {id:62,name:"KFC New Garlic",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:63,name:"Tacos con cangrejo de caparazon blando frito",category:"Entrantes",price:14.99,sku:"-",variants:1,img:""},
+  {id:64,name:"Alitas WOW",category:"Entrantes",price:7.50,sku:"-",variants:1,img:""},
+  {id:65,name:"Roll de bogavante",category:"Entrantes",price:18.95,sku:"-",variants:1,img:""},
+  {id:66,name:"Apple mint 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:67,name:"Love 66 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:68,name:"WOW PLATTER FIESTA 5-6pers",category:"COMBOS",price:238.00,sku:"-",variants:1,img:""},
+  {id:69,name:"Mejillones Jumbo de concha verde ±420g",category:"Mariscos",price:16.95,sku:"-",variants:1,img:""},
+  {id:70,name:"Patas de cangrejos de nieve ±450g",category:"Mariscos",price:47.50,sku:"-",variants:1,img:""},
+  {id:71,name:"Alioli",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:72,name:"Tarta de Queso con Oreo",category:"Postres",price:8.00,sku:"-",variants:1,img:""},
+  {id:73,name:"Lambrusco Rosado Esp.- Casale BOT",category:"Vinos&Espumosos",price:18.00,sku:"-",variants:1,img:""},
+  {id:74,name:"Mantequilla de ajo",category:"Salsa (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:75,name:"Anguila a la plancha con Arroz",category:"Guarniciones",price:15.99,sku:"-",variants:1,img:""},
+  {id:76,name:"Ice Café Coconut Postre",category:"Postres",price:8.80,sku:"-",variants:1,img:""},
+  {id:77,name:"Langostinos tigre gigantes±420g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:78,name:"Arroz al vapor",category:"Guarniciones",price:2.99,sku:"-",variants:1,img:""},
+  {id:79,name:"Cajun Salsa",category:"Salsa (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:80,name:"Mojito",category:"Cocktails",price:8.90,sku:"-",variants:1,img:""},
+  {id:81,name:"Sex on the Beach",category:"Cocktails",price:8.90,sku:"-",variants:1,img:""},
+  {id:82,name:"Pornstar 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:83,name:"Apple mint",category:"Cocktails",price:9.80,sku:"-",variants:1,img:""},
+  {id:84,name:"Pimienta limón Salsa",category:"Salsa (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:85,name:"Extra picante",category:"NIVEL DE PICANTE (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:86,name:"Huevos cocidos en salsa 7 pcs",category:"Guarniciones",price:12.95,sku:"-",variants:1,img:""},
+  {id:87,name:"Vieiras ±340g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:88,name:"Tofu de pescado en salsa",category:"Guarniciones",price:6.50,sku:"-",variants:1,img:""},
+  {id:89,name:"Menta BigGreen Alfakher",category:"Shisha eléctrica",price:9.90,sku:"-",variants:1,img:""},
+  {id:90,name:"Vermut Martini Copa",category:"Licores&Mix",price:8.00,sku:"-",variants:1,img:""},
+  {id:91,name:"Patas de cangrejo de las nieves±400g",category:"Combo (No Pedir)",price:999.00,sku:"-",variants:1,img:""},
+  {id:92,name:"WOW Sichuan",category:"Salsas de Marisco",price:4.90,sku:"-",variants:1,img:""},
+  {id:93,name:"WOW PLATTER por 2pers",category:"COMBOS",price:72.80,sku:"-",variants:1,img:""},
+  {id:94,name:"WOW PLATTER por 4pers",category:"COMBOS",price:124.00,sku:"-",variants:1,img:""},
+  {id:95,name:"Patatas fritas con mayonesa",category:"Guarniciones",price:3.99,sku:"-",variants:1,img:""},
+  {id:96,name:"Patatas fritas especial",category:"Guarniciones",price:5.75,sku:"-",variants:1,img:""},
+  {id:97,name:"Patatas fritas Cajun",category:"Guarniciones",price:4.60,sku:"-",variants:1,img:""},
+  {id:98,name:"Fideos al ajo",category:"Guarniciones",price:5.99,sku:"-",variants:1,img:""},
+  {id:99,name:"Guisantes Edamame",category:"Guarniciones",price:4.50,sku:"-",variants:1,img:""},
+  {id:100,name:"Piña Colada Caramel 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:101,name:"Coco Mango Story",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:102,name:"Pineapple Peach Storm",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:103,name:"Virgin Mojito 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:104,name:"Mi Amor 0%",category:"Mocktails",price:8.80,sku:"-",variants:1,img:""},
+  {id:105,name:"Mi Amor",category:"Cocktails",price:9.80,sku:"-",variants:1,img:""},
+  {id:106,name:"Tacos de bogavante",category:"Entrantes",price:25.99,sku:"-",variants:1,img:""},
+  {id:107,name:"KFC Snow onion",category:"Entrantes",price:12.99,sku:"-",variants:1,img:""},
+  {id:108,name:"Blanco Dulce María COP",category:"Vinos&Espumosos",price:3.80,sku:"-",variants:1,img:""},
+  {id:109,name:"Black Label Copa",category:"Licores&Mix",price:10.00,sku:"-",variants:1,img:""},
+  {id:110,name:"Tanqueray Tonic Copa",category:"Licores&Mix",price:10.00,sku:"-",variants:1,img:""},
+  {id:111,name:"Brugal Colacola Copa",category:"Licores&Mix",price:10.00,sku:"-",variants:1,img:""},
+  {id:112,name:"Red Label Coca Cola Copa",category:"Licores&Mix",price:10.00,sku:"-",variants:1,img:""},
+  {id:113,name:"Gin Tonic Copa",category:"Licores&Mix",price:8.00,sku:"-",variants:1,img:""},
+  {id:114,name:"Combo Anti Inflación",category:"COMBOS",price:23.80,sku:"-",variants:1,img:""},
+  {id:115,name:"Beefeater Tonic Copa",category:"Licores&Mix",price:9.00,sku:"-",variants:1,img:""},
+  {id:116,name:"Black Label Chupito",category:"Licores&Mix",price:5.00,sku:"-",variants:1,img:""},
+  {id:117,name:"Barceló Copa",category:"Licores&Mix",price:8.00,sku:"-",variants:1,img:""},
+  {id:118,name:"Red Label Chupito",category:"Licores&Mix",price:3.50,sku:"-",variants:1,img:""},
+  {id:119,name:"Tequila Chupito",category:"Licores&Mix",price:3.50,sku:"-",variants:1,img:""},
+  {id:120,name:"Espumoso Dulce Moscatel Carmela BOT",category:"Vinos&Espumosos",price:18.00,sku:"-",variants:1,img:""},
+  {id:121,name:"Cava Brut - Lar de Plata BOT",category:"Vinos&Espumosos",price:21.00,sku:"-",variants:1,img:""},
+  {id:122,name:"Jack Daniel Chupito",category:"Licores&Mix",price:5.00,sku:"-",variants:1,img:""},
+  {id:123,name:"Bacardi Cola Copa",category:"Licores&Mix",price:8.00,sku:"-",variants:1,img:""},
+  {id:124,name:"Tinto Verano 500ml",category:"Cervezas&Sangrias",price:6.00,sku:"-",variants:1,img:""},
+  {id:125,name:"Vodka RedBull Copa",category:"Licores&Mix",price:9.90,sku:"-",variants:1,img:""},
+  {id:126,name:"Barceló CocaCola Copa",category:"Licores&Mix",price:9.00,sku:"-",variants:1,img:""},
+  {id:127,name:"Jack Daniel Cocacola Copa",category:"Licores&Mix",price:12.00,sku:"-",variants:1,img:""},
+  {id:128,name:"Royal bliss Crisp Soda",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:129,name:"Aquarius Naranja",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:130,name:"Minute Maid Melocoton",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:131,name:"Verdejo Blanco Vicaral BOT",category:"Vinos&Espumosos",price:21.00,sku:"-",variants:1,img:""},
+  {id:132,name:"VINO Albarino NAI Senora BOT",category:"Vinos&Espumosos",price:29.00,sku:"-",variants:1,img:""},
+  {id:133,name:"Minute Maid Naranja",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:134,name:"Té de Manzanilla",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:135,name:"Cangrejo de rio ±420g",category:"Mariscos",price:20.65,sku:"-",variants:1,img:""},
+  {id:136,name:"Cigalas ±450g",category:"Mariscos",price:20.95,sku:"-",variants:1,img:""},
+  {id:137,name:"Fanta Naranja",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:138,name:"Agua 1L Cabreiroa",category:"Bebidas",price:5.50,sku:"-",variants:1,img:""},
+  {id:139,name:"Royal Bliss GingerAle",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:140,name:"Sprite",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:141,name:"Café con leche",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:142,name:"Verdejo Blanco Vicaral COP",category:"Vinos&Espumosos",price:4.00,sku:"-",variants:1,img:""},
+  {id:143,name:"Fanta Limon",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:144,name:"Aquarius Limon",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:145,name:"Café Solo",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:146,name:"Minute Maid Piña",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:147,name:"Buey de Mar ±800g",category:"Mariscos",price:29.50,sku:"-",variants:1,img:""},
+  {id:148,name:"Coca Cola ZERO-ZERO Botellin",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:149,name:"Langostinos tigre gigantes ±420g",category:"Mariscos",price:47.50,sku:"-",variants:1,img:""},
+  {id:150,name:"Camarones (sin cabeza) ±450g",category:"Mariscos",price:17.65,sku:"-",variants:1,img:""},
+  {id:151,name:"Mantequilla de ajo",category:"Salsas de Marisco",price:4.90,sku:"-",variants:1,img:""},
+  {id:152,name:"Black Label CocaCola Copa",category:"Licores&Mix",price:12.00,sku:"-",variants:1,img:""},
+  {id:153,name:"Té de Tila",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:154,name:"Royal Bliss Berry Sensation",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:155,name:"Poleo menta",category:"Té y café",price:3.00,sku:"-",variants:1,img:""},
+  {id:156,name:"Fuze tea",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:157,name:"Café cortado",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:158,name:"Cappuccino",category:"Té y café",price:3.00,sku:"-",variants:1,img:""},
+  {id:159,name:"SANGRIA 1L",category:"Cervezas&Sangrias",price:9.90,sku:"-",variants:1,img:""},
+  {id:160,name:"Ketchup",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:161,name:"Mejillones ±400g",category:"Mariscos",price:15.95,sku:"-",variants:1,img:""},
+  {id:162,name:"Salsa Cajun",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:163,name:"Bolsa Kraft",category:"TAKE AWAY",price:0.30,sku:"-",variants:1,img:""},
+  {id:164,name:"Ice tea-Té de frutas casera",category:"Bebidas",price:8.80,sku:"-",variants:1,img:""},
+  {id:165,name:"Patatas (6pcs)",category:"Extras",price:3.25,sku:"-",variants:1,img:""},
+  {id:166,name:"Red Velvet",category:"Postres",price:8.00,sku:"-",variants:1,img:""},
+  {id:167,name:"Bogavante ±600g",category:"Mariscos",price:51.45,sku:"-",variants:1,img:""},
+  {id:168,name:"Vieiras ±450g",category:"Mariscos",price:20.65,sku:"-",variants:1,img:""},
+  {id:169,name:"Salsa Agridulce",category:"Salsas",price:0.50,sku:"-",variants:1,img:""},
+  {id:170,name:"Pimienta limón",category:"Salsas de Marisco",price:4.90,sku:"-",variants:1,img:""},
+  {id:171,name:"Camarones ±450g",category:"Mariscos",price:15.65,sku:"-",variants:1,img:""},
+  {id:172,name:"Salchichas Halal de Pollo (12pcs)",category:"Extras",price:3.95,sku:"-",variants:1,img:""},
+  {id:173,name:"Agua 500ML Cabreiroa",category:"Bebidas",price:3.00,sku:"-",variants:1,img:""},
+  {id:174,name:"Estrella Galicia Jarra 400ml",category:"Cervezas&Sangrias",price:5.00,sku:"-",variants:1,img:""},
+  {id:175,name:"Estrella galicia (Tercio 33cl)",category:"Cervezas&Sangrias",price:3.70,sku:"-",variants:1,img:""},
+  {id:176,name:"SANGRIA 500ML",category:"Cervezas&Sangrias",price:6.00,sku:"-",variants:1,img:""},
+  {id:177,name:"Tinto Verano 1L",category:"Cervezas&Sangrias",price:9.90,sku:"-",variants:1,img:""},
+  {id:178,name:"Estrella galicia Grifo 300ml",category:"Cervezas&Sangrias",price:3.50,sku:"-",variants:1,img:""},
+  {id:179,name:"Estrella Galicia Tostada 0.0% 330ml",category:"Cervezas&Sangrias",price:3.50,sku:"-",variants:1,img:""},
+  {id:180,name:"Erdinger Weibier 500ml",category:"Cervezas&Sangrias",price:5.00,sku:"-",variants:1,img:""},
+  {id:181,name:"Estrella Galicia 0.0% 330ml",category:"Cervezas&Sangrias",price:3.50,sku:"-",variants:1,img:""},
+  {id:182,name:"Almejas ±480g",category:"Mariscos",price:15.95,sku:"-",variants:1,img:""},
+  {id:183,name:"Espresso",category:"Té y café",price:2.00,sku:"-",variants:1,img:""},
+  {id:184,name:"Royal Bliss Tonic",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:185,name:"Agua con Gas Cabreiroa",category:"Bebidas",price:4.00,sku:"-",variants:1,img:""},
+  {id:186,name:"Double Espresso",category:"Té y café",price:4.50,sku:"-",variants:1,img:""},
+  {id:187,name:"Vino tinto Campo Burgos Rioja BOT",category:"Vinos&Espumosos",price:18.00,sku:"-",variants:1,img:""},
+  {id:188,name:"Albarino NAI Senora COP",category:"Vinos&Espumosos",price:5.50,sku:"-",variants:1,img:""},
+  {id:189,name:"Blanco Frizzante - L'Aura COP",category:"Vinos&Espumosos",price:4.00,sku:"-",variants:1,img:""},
+  {id:190,name:"Vino Blanco Frizzante L'Aura BOT",category:"Vinos&Espumosos",price:16.50,sku:"-",variants:1,img:""},
+  {id:191,name:"Red Label Copa",category:"Licores&Mix",price:8.00,sku:"-",variants:1,img:""},
+  {id:192,name:"Brugal Copa",category:"Licores&Mix",price:9.00,sku:"-",variants:1,img:""},
+  {id:193,name:"Jack Daniel Copa",category:"Licores&Mix",price:10.00,sku:"-",variants:1,img:""},
+  {id:194,name:"CocaCola Original",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:195,name:"Cola Zero",category:"Bebidas",price:3.45,sku:"-",variants:1,img:""},
+  {id:196,name:"Licor Crema Copa",category:"Licores&Mix",price:4.50,sku:"-",variants:1,img:""},
+  {id:197,name:"Té Rojo",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:198,name:"Café descafeinado",category:"Té y café",price:2.50,sku:"-",variants:1,img:""},
+  {id:199,name:"Estrella Galicia SinGluten 330ml",category:"Cervezas&Sangrias",price:4.50,sku:"-",variants:1,img:""},
+  {id:200,name:"COMBO#2(2pers)",category:"COMBOS",price:72.80,sku:"-",variants:1,img:""},
+  {id:201,name:"COMBO#1 (2pers)",category:"COMBOS",price:52.80,sku:"-",variants:1,img:""},
+  {id:202,name:"COMBO#4(3-4pers)",category:"COMBOS",price:99.80,sku:"-",variants:1,img:""},
+  {id:203,name:"Radler Lemon",category:"Cervezas&Sangrias",price:3.90,sku:"-",variants:1,img:""},
+  {id:204,name:"1906",category:"Cervezas&Sangrias",price:3.90,sku:"-",variants:1,img:""},
+  {id:205,name:"COMBO#3(2-3pers)",category:"COMBOS",price:86.80,sku:"-",variants:1,img:""},
+  {id:206,name:"Tinto Campo Burgos Rioja COP",category:"Vinos&Espumosos",price:3.80,sku:"-",variants:1,img:""},
+  {id:207,name:"Vino Blanco Dulce María BOT",category:"Vinos&Espumosos",price:21.00,sku:"-",variants:1,img:""}
+];
 
-const PRODUCTS=[["Patatas fritas dulces","Guarniciones","€5.75","31a93b3d-369d-4941-96cb-87a1a4dbfd3b"],["Palomitas de pollo","Entrantes","€6.50","e8c6b980-9607-47be-bf92-264765c8a618"],["KFC Soy Garlic","Entrantes","€12.99","0af9c17f-0c5b-4865-b25d-214a7f8e70c6"],["Calamar frito","Entrantes","€6.99","e8098efc-35ad-40b2-81e7-2664f2bcc928"],["Camarones fritos con patatas","Entrantes","€12.00","28522943-bd4e-4d44-aa83-b2adc9703a4b"],["KFC Honey butter","Entrantes","€12.99","0af9c17f-0c5b-4865-b25d-214a7f8e70c6"],["KFC Sweet yogur","Entrantes","€12.99","0af9c17f-0c5b-4865-b25d-214a7f8e70c6"],["Bogavante±600g","Combo (No Pedir)","€999.00","d9b2b413-03a2-4dab-b2a7-2d8a2a5d1d77"],["Camarones±340g","Combo (No Pedir)","€999.00","bc1ccf5c-71c9-4bfd-8fa5-5d699d562764"],["Medio","NIVEL DE PICANTE (No Pedir)","€999.00","fa350df7-5b9c-4f30-9c66-b0a7aa62dc4b"],["Pasta con mariscos","Entrantes","€15.99","9789053c-4856-46a6-85e1-2996e526dd3d"],["Piña Colada Caramel","Cocktails","€8.90","c47303b9-7ee9-4779-87ad-4182194b6923"],["Wow Style - Todos los sabores anteriores","Salsa (No Pedir)","€999.00",""],["Espresso Martini","Cocktails","€8.90",""],["Alitas WOW con patatas","Entrantes","€10.00","d84043cf-31ba-47d7-a872-e7b238982c7f"],["Virgin Strawberry Daiquiri 0%","Mocktails","€8.80","ee77b629-e5a9-456c-9d41-480b32b65df4"],["Pimientos de padrón","Entrantes","€6.50",""],["Almejas±340g","Combo (No Pedir)","€999.00","31e084a3-5d87-4143-b124-79750cd1d32e"],["Picante","NIVEL DE PICANTE (No Pedir)","€999.00","099b4bec-e48a-45d2-b8be-cd3917af41a9"],["Salchipapas","Guarniciones","€5.95","86f4328d-8785-4770-9e66-62531bb51c6e"],["WOW Sichuan (Con toque de pimienta Sichuan)","Salsa (No Pedir)","€999.00",""],["Flor de calamar±340g","Combo (No Pedir)","€999.00","c8cac387-af66-43be-bc58-358ac9094c77"],["Navajas±340g","Combo (No Pedir)","€999.00","6b60ae65-4b21-43a0-8902-8709786f5176"],["Gamba±340g","Combo (No Pedir)","€999.00","2d407e71-30d1-492b-9f55-4a4a6a148539"],["Salsa Tartar","Salsas de Marisco","€3.99","5505279c-edc3-4969-95ff-626b073c2941"],["Salsa de Soja","Salsas de Marisco","€3.99","a5b1f032-01cf-476b-abca-626e16219b46"],["Mayonesa Limón","Salsas de Marisco","€3.99","7379e010-12c1-45dd-80f2-2e0c74619282"],["Salsa kimchi","Salsas de Marisco","€3.99","95b57c53-ee9e-4ff0-b77d-fdc2507de399"],["Mantequilla de ajo","Salsas de Marisco","€4.90","f746c0dd-82c8-4e70-8ec6-28f128b6bf01"],["Salsa WOW","Salsas","€2.50","7e226c6d-7c8e-4ae8-bb7a-681d700db16d"],["Ensalada de algas","Entrantes","€5.99","f1bd8da1-f00f-4dec-ba82-09a020a5cf30"],["KFC Miel Mostaza","Entrantes","€12.99","0af9c17f-0c5b-4865-b25d-214a7f8e70c6"],["Pornstar","Cocktails","€9.80","4365e085-9373-4064-8896-69e110dbd65a"],["Hawaii Adalya","Shisha eléctrica","€9.90","ce3646dc-c055-45e4-83a6-2475321080b7"],["Envase Take away","TAKE AWAY","€1.00","e0555412-94b7-4ec3-acc5-dd86bc3ee229"],["Licor Hierbas Copa","Licores&Mix","€4.50","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Ice Dragon (Passionfruit & Guanabana)","Shisha eléctrica","€9.90","bc427c0b-0753-4cf2-9e70-94dd5c7b0a05"],["Licor 43 Copa","Licores&Mix","€6.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Estrella Damm Botín","Cervezas&Sangrias","€4.50","c6ad7a90-f0c1-4d24-9b37-8e5e6d4b3e52"],["Ron Tropical","Cocktails","€9.80","4365e085-9373-4064-8896-69e110dbd65a"],["Lychee Love","Mocktails","€8.80","f31e7d91-8bb4-4a5f-bc6e-2e5fb2fa9834"],["Coco Mango Story","Mocktails","€8.80","d5edc62d-26dc-4496-b3a0-63b300304c0e"],["Pineapple Peach Storm","Mocktails","€8.80","dee68e77-d969-4495-b9f3-c7e2e7381073"],["Virgin Mojito 0%","Mocktails","€8.80","2a737365-3613-46f4-ace4-4216fd977fd8"],["Mi Amor 0%","Mocktails","€8.80","8f7de409-6578-42a0-9d53-e26711184597"],["Mi Amor","Cocktails","€9.80","8f7de409-6578-42a0-9d53-e26711184597"],["Tacos de bogavante","Entrantes","€25.99","6fc4a4f1-4bc8-4ae9-b8d6-4e5f8a3d9f12"],["Flor de calamar frita","Entrantes","€12.99","c8cac387-af66-43be-bc58-358ac9094c77"],["Navajas a la plancha","Mariscos","€14.00","6b60ae65-4b21-43a0-8902-8709786f5176"],["Almejas al vino blanco","Mariscos","€14.00","31e084a3-5d87-4143-b124-79750cd1d32e"],["Gamba roja a la plancha","Mariscos","€28.00","2d407e71-30d1-492b-9f55-4a4a6a148539"],["Bogavante a la plancha","Mariscos","€55.00","d9b2b413-03a2-4dab-b2a7-2d8a2a5d1d77"],["Arroz negro con bogavante","Mariscos","€32.00",""],["Arroz con mariscos","Mariscos","€24.00",""],["Paella de bogavante","Mariscos","€38.00",""],["Langosta a la plancha","Mariscos","€65.00",""],["Ensalada WOW","Entrantes","€12.00",""],["Pan de ajo","Extras","€2.50",""],["WOW PLATTER por 2pers","COMBOS","€72.80","889773b1-c78e-4ba1-a256-361c71dc2420"],["WOW PLATTER por 4pers","COMBOS","€124.00","889773b1-c78e-4ba1-a256-361c71dc2420"],["Patatas fritas con mayonesa","Guarniciones","€3.99","31a93b3d-369d-4941-96cb-87a1a4dbfd3b"],["Patatas fritas especial","Guarniciones","€5.75","31a93b3d-369d-4941-96cb-87a1a4dbfd3b"],["Patatas fritas Cajun","Guarniciones","€4.60","31a93b3d-369d-4941-96cb-87a1a4dbfd3b"],["Fideos al ajo","Guarniciones","€5.99",""],["Guisantes Edamame","Guarniciones","€4.50",""],["Piña Colada Caramel 0%","Mocktails","€8.80","c47303b9-7ee9-4779-87ad-4182194b6923"],["Coco Mango Story","Mocktails","€8.80","d5edc62d-26dc-4496-b3a0-63b300304c0e"],["Pineapple Peach Storm","Mocktails","€8.80","dee68e77-d969-4495-b9f3-c7e2e7381073"],["Virgin Mojito 0%","Mocktails","€8.80","2a737365-3613-46f4-ace4-4216fd977fd8"],["Mi Amor 0%","Mocktails","€8.80","8f7de409-6578-42a0-9d53-e26711184597"],["Tacos de bogavante","Entrantes","€25.99",""],["Croquetas de jamón","Entrantes","€7.50","dd3b9a82-a89a-4e77-a57b-b571aef2c944"],["Gyozas","Entrantes","€7.50","0f42a5af-e3b3-4e7b-b77d-8e4fdd0f4714"],["Nachos con guacamole","Entrantes","€8.50","a6b7e082-aa86-4c90-af7e-4b8c50e9a8d7"],["Tostadas de bogavante","Entrantes","€22.00",""],["Pulpo a la gallega","Mariscos","€18.00",""],["Tarta de queso","Postres","€6.50",""],["Brownie con helado","Postres","€7.00",""],["Coulant de chocolate","Postres","€6.50",""],["Mochi de té verde","Postres","€5.00",""],["Agua Mineral","Bebidas","€2.00",""],["Coca-Cola","Bebidas","€2.50",""],["Coca-Cola Zero","Bebidas","€2.50",""],["Fanta Naranja","Bebidas","€2.50",""],["Fanta Limón","Bebidas","€2.50",""],["Red Bull","Bebidas","€3.50",""],["Schweppes Tonic","Bebidas","€2.50",""],["Schweppes Limón","Bebidas","€2.50",""],["Fuze tea","Bebidas","€3.45","a6ae09b2-0969-4910-a651-72dbb77b6749"],["Royal Bliss Berry Sensation","Bebidas","€3.45","aacc2095-c515-4c82-87f2-978509b559e9"],["Agua con Gas Cabreiroa","Bebidas","€4.00","43c5bf79-5148-4605-affb-53060302121a"],["Royal Bliss Tonic","Bebidas","€3.45","02c0aaa0-cb6e-48ef-88e0-7de02e7c4d84"],["Estrella Damm","Cervezas&Sangrias","€3.00","c6ad7a90-f0c1-4d24-9b37-8e5e6d4b3e52"],["Moritz","Cervezas&Sangrias","€3.00",""],["Victoria","Cervezas&Sangrias","€3.00",""],["Sin alcohol","Cervezas&Sangrias","€3.00",""],["Estrella Damm Lemon","Cervezas&Sangrias","€3.00",""],["Estrella Damm Caña","Cervezas&Sangrias","€2.50",""],["Estrella Damm Botín","Cervezas&Sangrias","€4.50","c6ad7a90-f0c1-4d24-9b37-8e5e6d4b3e52"],["Sangria jarra","Cervezas&Sangrias","€22.00",""],["Clabel de Sangria","Cervezas&Sangrias","€3.00",""],["Galicia 0.0% 330ml","Cervezas&Sangrias","€3.50","997d4e7d-b680-4ad0-87ad-49b5be3e32d7"],["Vino tinto Campo Burgos Rioja BOT","Vinos&Espumosos","€18.00","579d75e9-ae7f-4725-9f83-2f53b1a903a5"],["Tinto Campo Burgos Rioja COP","Vinos&Espumosos","€3.80","579d75e9-ae7f-4725-9f83-2f53b1a903a5"],["Albarino NAI Senora COP","Vinos&Espumosos","€5.50","c9b7a5d8-46ea-44a5-b404-4b72cb839696"],["Blanco Frizzante – L'Aura COP","Vinos&Espumosos","€4.00","e3451fa9-b1ea-4b92-99e4-2a41ab2718ef"],["Vino Blanco Frizzante L'Aura BOT","Vinos&Espumosos","€16.50","86689e25-8837-4cf4-904b-f5cf54064521"],["El Coto Copa","Vinos&Espumosos","€3.80","ecd21abb-4a4a-40ac-9db3-c79df38bc3e1"],["Copa de cava","Vinos&Espumosos","€5.00",""],["Red Label Copa","Licores&Mix","€8.00","1cc1498d-6a8a-4468-a262-aca850a63e1c"],["Brugal Copa","Licores&Mix","€9.00","1cc1498d-6a8a-4468-a262-aca850a63e1c"],["Black Label Copa","Licores&Mix","€10.00","1cc1498d-6a8a-4468-a262-aca850a63e1c"],["Black Label CocaCola Copa","Licores&Mix","€12.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Gin Tonic Copa","Licores&Mix","€8.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Tanqueray Tonic Copa","Licores&Mix","€10.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Beefeater London Garden Copa","Licores&Mix","€10.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Brugal Colacola Copa","Licores&Mix","€10.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Brugal Extra Viejo Cola Copa","Licores&Mix","€12.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Aperol Spritz Copa","Licores&Mix","€9.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Mojito Copa","Licores&Mix","€9.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Margarita Copa","Licores&Mix","€9.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Gin Lemon Copa","Licores&Mix","€8.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Vermut Copa","Licores&Mix","€5.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Vodka Tonic Copa","Licores&Mix","€8.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Whisky Sour Copa","Licores&Mix","€9.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Licor Herbes Copa","Licores&Mix","€4.50","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Licor 43 Copa","Licores&Mix","€6.00","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Licor Hierbas Copa","Licores&Mix","€4.50","7d7c7711-9375-4373-bd42-6b1df5a24e83"],["Espresso","Té y café","€2.00","4c548226-e7b5-430e-bf70-1dcaf5ba5d49"],["Double Espresso","Té y café","€4.50","579f1e8d-0e35-41b9-9d57-17b61294ac7f"],["Té de Tila","Té y café","€2.50","f2a7862d-d86f-420c-b102-a579e3b4f6ec"],["Poleo menta","Té y café","€3.00","9ceeed45-afd0-411a-b1ee-6247512bbdc0"],["Shisha Blue Adalya","Shisha eléctrica","€9.90","ce3646dc-c055-45e4-83a6-2475321080b7"],["Shisha Watermelon","Shisha eléctrica","€9.90","ce3646dc-c055-45e4-83a6-2475321080b7"],["Shisha Mint","Shisha eléctrica","€9.90","ce3646dc-c055-45e4-83a6-2475321080b7"],["Hawaii Adalya","Shisha eléctrica","€9.90","ce3646dc-c055-45e4-83a6-2475321080b7"],["Ice Dragon (Passionfruit & Guanabana)","Shisha eléctrica","€9.90","bc427c0b-0753-4cf2-9e70-94dd5c7b0a05"],["Envase Take away","TAKE AWAY","€1.00","e0555412-94b7-4ec3-acc5-dd86bc3ee229"],["Combo Anti Inflación","COMBOS","€23.80","50130299-9a1b-47e5-8a53-a2d6fc5684cd"],["Combo WOW","COMBOS","€28.00","50130299-9a1b-47e5-8a53-a2d6fc5684cd"],["Combo Familiar","COMBOS","€45.00","50130299-9a1b-47e5-8a53-a2d6fc5684cd"],["Combo Kids","COMBOS","€15.00","50130299-9a1b-47e5-8a53-a2d6fc5684cd"],["COMBO ESPECIAL","COMBOS","€35.00","50130299-9a1b-47e5-8a53-a2d6fc5684cd"],["WOW PLATTER por 2pers","COMBOS","€72.80","889773b1-c78e-4ba1-a256-361c71dc2420"],["WOW PLATTER por 4pers","COMBOS","€124.00","889773b1-c78e-4ba1-a256-361c71dc2420"],["WOW BO#3(2-3pers)","COMBOS","€86.80","889773b1-c78e-4ba1-a256-361c71dc2420"],["Almejas ±480g","Mariscos","€15.95","31e084a3-5d87-4143-b124-79750cd1d32e"],["Vino Blanco Dulce María BOT","Vinos&Espumosos","€21.00","ecd21abb-4a4a-40ac-9db3-c79df38bc3e1"]];
+let nextId = PRODUCTS.length + 1;
 
-function imgCellHtml(uuid,rowIdx){
-  const imgHtml=uuid?'<img src="'+BI+uuid+'/thumb.webp" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:6px;display:block" onerror="this.style.display=\'none\'">':'<div style="width:44px;height:44px;background:#f3f4f6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px">🍴</div>';
-  return '<div class="img-cell" onclick="triggerImgUpload(this,'+rowIdx+')" title="Cliquer pour changer la photo" style="cursor:pointer;position:relative;width:44px;height:44px;display:inline-block">'+imgHtml+'<div class="img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);border-radius:6px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;font-size:16px;color:#fff">📷</div><input type="file" class="file-inp" accept="image/*" style="display:none"></div>';
+// Build category filter
+const cats = [...new Set(PRODUCTS.map(p=>p.category))].sort();
+const sel = document.getElementById('catFilter');
+cats.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+
+function applyFilter(){
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  filtered = PRODUCTS.filter(p=>{
+    const matchQ = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+    const matchC = !cat || p.category === cat;
+    return matchQ && matchC;
+  });
+  currentPage = 1;
+  renderPage();
 }
-function buildTable(){
-  const tbody=document.getElementById('productBody');
-  tbody.innerHTML=PRODUCTS.map(([name,cat,price,uuid],i)=>{
-    const sN=name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
-    const sC=cat.replace(/&/g,'&amp;');
-    return '<tr data-name="'+sN.toLowerCase()+'" data-cat="'+sC+'"><td>'+imgCellHtml(uuid,i)+'</td><td class="pn">'+sN+'</td><td><span class="cat-badge">'+sC+'</span></td><td class="pp">'+price+'</td><td>-</td><td>1</td><td><button class="btn-edit" onclick="editProduct(this)">Edit</button> <button class="btn-delete" onclick="deleteProduct(this)">Delete</button></td></tr>';
+
+function renderPage(){
+  const start = (currentPage-1)*PAGE_SIZE;
+  const end = start+PAGE_SIZE;
+  const page = filtered.slice(start,end);
+  const tbody = document.getElementById('tbody');
+  document.getElementById('count-badge').textContent = filtered.length + ' products';
+  if(!page.length){tbody.innerHTML='<tr><td colspan="7" class="no-results">No products found</td></tr>';buildPagination();return;}
+  tbody.innerHTML = page.map(p=>{
+    const imgHtml = p.img
+      ? '<div class="img-cell" onclick="triggerImgUpload(this,'+p.id+')"><img src="'+p.img+'" alt=""/><div class="overlay">&#x1F4F7;</div><input type="file" accept="image/*" style="display:none" onchange="handleImgChange(this,'+p.id+')"/></div>'
+      : '<div class="img-cell" onclick="triggerImgUpload(this,'+p.id+')" style="color:#9ca3af;font-size:11px;">No img<div class="overlay">&#x1F4F7;</div><input type="file" accept="image/*" style="display:none" onchange="handleImgChange(this,'+p.id+')"/></div>';
+    return '<tr><td>'+imgHtml+'</td><td style="font-weight:500">'+esc(p.name)+'</td><td><span class="badge">'+esc(p.category)+'</span></td><td>'+'€'+p.price.toFixed(2)+'</td><td style="color:#9ca3af">'+esc(p.sku)+'</td><td style="text-align:center">'+p.variants+'</td><td class="actions"><button class="btn-edit" onclick="openEdit('+p.id+')">Edit</button><button class="btn-del" onclick="delProduct('+p.id+')">Delete</button></td></tr>';
   }).join('');
-  filteredRows=Array.from(tbody.querySelectorAll('tr'));
-  renderPage(1);
-}
-
-function triggerImgUpload(cell,idx){
-  const inp=cell.querySelector('.file-inp');
-  inp.onchange=function(){
-    const file=this.files[0];
-    if(!file)return;
-    const reader=new FileReader();
-    reader.onload=function(e){
-      const imgEl=cell.querySelector('img')||cell.querySelector('.no-img');
-      if(imgEl){imgEl.outerHTML='<img src="'+e.target.result+'" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:6px;display:block">';}
-      cell.title='Photo mise à jour';
-    };
-    reader.readAsDataURL(file);
-    this.value='';
-  };
-  inp.click();
-}
-
-function renderPage(p){
-  currentPage=p;
-  const start=(p-1)*PAGE_SIZE;
-  const end=Math.min(start+PAGE_SIZE,filteredRows.length);
-  const tbody=document.getElementById('productBody');
-  Array.from(tbody.querySelectorAll('tr')).forEach(r=>r.style.display='none');
-  filteredRows.slice(start,end).forEach(r=>r.style.display='');
-  const total=filteredRows.length;
-  document.getElementById('infoBar').textContent=total===0?'No products found':'Showing '+(start+1)+'–'+end+' of '+total+' products';
-  buildPagination();window.scrollTo(0,0);
+  buildPagination();
 }
 
 function buildPagination(){
-  const total=Math.ceil(filteredRows.length/PAGE_SIZE);
-  const bar=document.getElementById('paginationBar');
+  const total = Math.ceil(filtered.length/PAGE_SIZE);
+  const bar = document.getElementById('paginationBar');
   if(total<=1){bar.innerHTML='';return;}
-  let h='<button class="page-btn" onclick="renderPage('+(currentPage-1)+')" '+(currentPage===1?'disabled':'')+'>&laquo;</button>';
-  let s=Math.max(1,currentPage-2),e=Math.min(total,s+4);
-  if(e-s<4)s=Math.max(1,e-4);
-  for(let i=s;i<=e;i++)h+='<button class="page-btn '+(i===currentPage?'active':'')+'" onclick="renderPage('+i+')">'+i+'</button>';
-  h+='<button class="page-btn" onclick="renderPage('+(currentPage+1)+')" '+(currentPage===total?'disabled':'')+'>&raquo;</button>';
-  bar.innerHTML=h;
+  let html='<span>Page '+currentPage+' of '+total+'</span>';
+  if(currentPage>1) html+='<button class="page-btn" onclick="goPage('+(currentPage-1)+')">Prev</button>';
+  for(let i=1;i<=total;i++){html+='<button class="page-btn'+(i===currentPage?' active':'')+'" onclick="goPage('+i+')">'+i+'</button>';}
+  if(currentPage<total) html+='<button class="page-btn" onclick="goPage('+(currentPage+1)+')">Next</button>';
+  bar.innerHTML=html;
 }
 
-function applyFilter(){
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  const cat=document.getElementById('catFilter').value;
-  const tbody=document.getElementById('productBody');
-  filteredRows=Array.from(tbody.querySelectorAll('tr')).filter(r=>(!q||r.dataset.name.includes(q))&&(!cat||r.dataset.cat===cat));
-  renderPage(1);
+function goPage(p){currentPage=p;renderPage();window.scrollTo(0,0);}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function triggerImgUpload(cell,id){cell.querySelector('input[type=file]').click();}
+function handleImgChange(input,id){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const p=PRODUCTS.find(x=>x.id===id);
+    if(p){p.img=e.target.result;}
+    const cell=input.parentElement;
+    let img=cell.querySelector('img');
+    if(!img){img=document.createElement('img');cell.insertBefore(img,cell.firstChild);}
+    img.src=e.target.result;
+    cell.style.color='';
+    cell.firstChild.textContent='';
+  };
+  r.readAsDataURL(f);
+  input.value='';
 }
 
-function openAddModal(){editRow=null;document.getElementById('modalTitle').textContent='New Product';['fName','fPrice','fSku'].forEach(id=>document.getElementById(id).value='');document.getElementById('fCategory').value='';document.getElementById('productModal').classList.add('open');}
-function closeModal(){document.getElementById('productModal').classList.remove('open');}
-
-function editProduct(btn){
-  const row=btn.closest('tr');editRow=row;
-  document.getElementById('modalTitle').textContent='Edit Product';
-  document.getElementById('fName').value=row.querySelector('.pn').textContent;
-  const cb=row.querySelector('.cat-badge');document.getElementById('fCategory').value=cb?cb.textContent:'';
-  document.getElementById('fPrice').value=row.querySelector('.pp').textContent;
-  const cells=row.querySelectorAll('td');document.getElementById('fSku').value=cells[4]?cells[4].textContent:'-';
-  document.getElementById('productModal').classList.add('open');
+function openAdd(){document.getElementById('add_name').value='';document.getElementById('add_cat').value='';document.getElementById('add_price').value='';document.getElementById('add_sku').value='-';document.getElementById('add_variants').value='1';document.getElementById('addModal').classList.add('show');}
+function closeAdd(){document.getElementById('addModal').classList.remove('show');}
+function saveAdd(){
+  const name=document.getElementById('add_name').value.trim();
+  if(!name){alert('Name required');return;}
+  PRODUCTS.push({id:nextId++,name,category:document.getElementById('add_cat').value.trim()||'Uncategorized',price:parseFloat(document.getElementById('add_price').value)||0,sku:document.getElementById('add_sku').value.trim()||'-',variants:parseInt(document.getElementById('add_variants').value)||1,img:''});
+  closeAdd();applyFilter();
 }
 
-function saveProduct(){
-  const name=document.getElementById('fName').value.trim();
-  const cat=document.getElementById('fCategory').value;
-  const price=document.getElementById('fPrice').value.trim();
-  const sku=document.getElementById('fSku').value.trim()||'-';
-  if(!name){alert('Name is required');return;}
-  if(editRow){
-    editRow.querySelector('.pn').textContent=name;
-    const cb=editRow.querySelector('.cat-badge');if(cb)cb.textContent=cat;
-    editRow.querySelector('.pp').textContent=price;
-    const cells=editRow.querySelectorAll('td');if(cells[4])cells[4].textContent=sku;
-    editRow.dataset.name=name.toLowerCase();editRow.dataset.cat=cat;
-    editRow.style.background='#f0fdf4';setTimeout(()=>{if(editRow)editRow.style.background='';},1500);
-  }else{
-    const tbody=document.getElementById('productBody');
-    const nr=document.createElement('tr');nr.dataset.name=name.toLowerCase();nr.dataset.cat=cat;
-    nr.innerHTML='<td><div class="img-cell" title="Cliquer pour changer la photo"><span class="no-img">\ud83c\udf74</span><div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><input type="file" class="file-inp" accept="image/*"></div></td><td class="pn">'+name+'</td><td><span class="cat-badge">'+cat+'</span></td><td class="pp">'+price+'</td><td>'+sku+'</td><td>1</td><td><button class="btn-edit" onclick="editProduct(this)">Edit</button> <button class="btn-delete" onclick="deleteProduct(this)">Delete</button></td>';
-    const imgCell=nr.querySelector('.img-cell');if(imgCell)imgCell.onclick=function(){triggerImgUpload(this,-1);};
-    tbody.insertBefore(nr,tbody.firstChild);filteredRows.unshift(nr);renderPage(1);
-  }
-  closeModal();
+function openEdit(id){
+  const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  document.getElementById('edit_id').value=id;
+  document.getElementById('edit_name').value=p.name;
+  document.getElementById('edit_cat').value=p.category;
+  document.getElementById('edit_price').value=p.price;
+  document.getElementById('edit_sku').value=p.sku;
+  document.getElementById('edit_variants').value=p.variants;
+  document.getElementById('editModal').classList.add('show');
+}
+function closeEdit(){document.getElementById('editModal').classList.remove('show');}
+function saveEdit(){
+  const id=parseInt(document.getElementById('edit_id').value);
+  const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  p.name=document.getElementById('edit_name').value.trim();
+  p.category=document.getElementById('edit_cat').value.trim();
+  p.price=parseFloat(document.getElementById('edit_price').value)||0;
+  p.sku=document.getElementById('edit_sku').value.trim();
+  p.variants=parseInt(document.getElementById('edit_variants').value)||1;
+  closeEdit();applyFilter();
 }
 
-function deleteProduct(btn){
-  const row=btn.closest('tr');const name=row.querySelector('.pn').textContent;
-  if(confirm('Delete "'+name+'"?')){filteredRows=filteredRows.filter(r=>r!==row);row.remove();renderPage(currentPage);}
+function delProduct(id){
+  if(!confirm('Delete this product?'))return;
+  const i=PRODUCTS.findIndex(x=>x.id===id);
+  if(i>-1)PRODUCTS.splice(i,1);
+  applyFilter();
 }
 
-document.addEventListener('DOMContentLoaded',buildTable);
+// Auth check
+const tk = localStorage.getItem('token');
+if(!tk){window.location.href='login.html';}
+
+// Init
+applyFilter();
 </script>
 </body>
 </html>
