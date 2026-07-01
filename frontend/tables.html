@@ -1845,6 +1845,11 @@
       tbody.prepend(tr);
       closeCreate();
       document.getElementById('newTableName').value = '';
+      // Scroll to top to show the new table and highlight it
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      tr.style.background = '#f0fdf4';
+      tr.style.transition = 'background 1.5s';
+      setTimeout(() => { tr.style.background = ''; }, 2000);
     }
 
     function filterTables(query) {
