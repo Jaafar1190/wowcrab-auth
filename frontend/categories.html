@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOWCRAB – Categories</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100}
+    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
+    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
+    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
+    .sidebar-chevron{color:#9ca3af;font-size:12px}
+    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
+    .nav-item:hover{background:#f3f4f6;border-radius:6px}
+    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
+    .nav-item.disabled{opacity:0.45;pointer-events:none}
+    .nav-item svg{width:16px;height:16px;flex-shrink:0}
+    .sidebar-footer{padding:12px 16px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
+    .main{margin-left:236px;flex:1;padding:24px}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .page-title{font-size:22px;font-weight:700;color:#111827}
+    .header-right{display:flex;align-items:center;gap:12px}
+    .search-input{padding:8px 14px;border:1px solid #e5e7eb;border-radius:8px;font-size:13px;color:#374151;outline:none;width:220px}
+    .search-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,0.1)}
+    .btn-new{display:flex;align-items:center;gap:6px;padding:9px 16px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+    .btn-new:hover{background:#15803d}
+    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.07)}
+    thead{background:#f9fafb}
+    th{padding:12px 16px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.6px;border-bottom:1px solid #f3f4f6}
+    td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#f9fafb}
+    .actions{display:flex;gap:6px}
+    .btn-edit{padding:5px 10px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:12px;cursor:pointer}
+    .btn-edit:hover{background:#f3f4f6}
+    .btn-delete{padding:5px 10px;border:1px solid #fee2e2;border-radius:6px;background:#fff;color:#dc2626;font-size:12px;cursor:pointer}
+    .btn-delete:hover{background:#fef2f2}
+    .count-label{font-size:13px;color:#9ca3af}
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
+    .modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:480px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1}
+    .modal-title{font-size:18px;font-weight:700;color:#111827;margin-bottom:4px}
+    .modal-sub{font-size:13px;color:#9ca3af;margin-bottom:20px}
+    .form-group{margin-bottom:16px}
+    .form-label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+    .form-input{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none}
+    .form-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,0.1)}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-left">
+        <div class="sidebar-logo-img">🦀</div>
+        <div>
+          <div class="sidebar-logo-text">WOWCRAB</div>
+          <div class="sidebar-logo-sub">Wowcrab EU</div>
+        </div>
+      </div>
+      <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <div class="nav-section">Catalog</div>
+      <a class="nav-item active" href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 10h16M4 14h10M4 18h6"/></svg>Categories</a>
+      <a class="nav-item" href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Product Availability</a>
+      <a class="nav-item disabled" href="#">Modifier Availability</a>
+      <div class="nav-section">Sales</div>
+      <a class="nav-item" href="tables.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Tables</a>
+      <a class="nav-item" href="orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Orders</a>
+      <a class="nav-item" href="invoices.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Invoices</a>
+      <a class="nav-item disabled" href="#">Product Sales</a>
+      <a class="nav-item disabled" href="#">Order Items</a>
+      <a class="nav-item disabled" href="#">Deleted Items</a>
+      <div class="nav-section">Marketing</div>
+      <a class="nav-item" href="members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
+      <a class="nav-item disabled" href="#">Coupons</a>
+      <div class="nav-section">Payments &amp; Tax</div>
+      <a class="nav-item" href="payment-methods.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Payment Methods</a>
+      <a class="nav-item disabled" href="#">Payment Availability</a>
+      <a class="nav-item disabled" href="#">Payment Stats</a>
+      <a class="nav-item disabled" href="#">Transactions</a>
+    </nav>
+    <div class="sidebar-footer">franchise@wowcrab.nl</div>
+  </aside>
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Categories</div>
+        <div class="count-label" id="countLabel">22 categories</div>
+      </div>
+      <div class="header-right">
+        <input class="search-input" type="text" placeholder="Search categories..." oninput="filterCategories(this.value)">
+        <button class="btn-new" onclick="openCreateModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Category
+        </button>
+      </div>
+    </div>
+    <table id="categoriesTable">
+      <thead>
+        <tr>
+          <th>ORDER</th>
+          <th>IMAGE</th>
+          <th>NAME</th>
+          <th>COLOR</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody id="categoriesTbody">
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">1</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Cocktails</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">2</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Mocktails</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">3</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">COMBOS</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#fff5e5;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#fff5e5</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">4</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Entrantes</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">5</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Guarniciones</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">6</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Sopa</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">7</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Mariscos</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">8</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Salsas de Marisco</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">9</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Salsas</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">10</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Postres</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">11</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Extras</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">12</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Bebidas</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">13</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Cervezas&Sangrias</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">14</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Vinos&Espumosos</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">15</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Té y café</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">16</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Licores&Mix</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">17</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">TAKE AWAY</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#000000;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#000000</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">18</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Shisha eléctrica</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">19</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Combo (No Pedir)</td>
+          <td>—</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">20</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">NIVEL DE PICANTE (No Pedir)</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">21</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Salsa (No Pedir)</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#9ca3af;font-size:13px">22</td>
+          <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+          <td style="font-weight:500">Test</td>
+          <td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#ffffff;border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>#ffffff</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+              <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Create Modal -->
+  <div class="modal-overlay" id="createModal" onclick="if(event.target===this)closeCreate()">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeCreate()">✕</button>
+      <div class="modal-title">New Category</div>
+      <div class="modal-sub">Add a new category to your menu</div>
+      <div class="form-group">
+        <label class="form-label">Category Name</label>
+        <input class="form-input" id="newCatName" placeholder="e.g. Postres">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Color (hex)</label>
+        <input class="form-input" id="newCatColor" placeholder="#ffffff" value="#ffffff">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button onclick="closeCreate()" style="flex:1;padding:10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer;font-size:14px">Cancel</button>
+        <button onclick="createCategory()" style="flex:1;padding:10px;border:none;border-radius:8px;background:#16a34a;color:#fff;cursor:pointer;font-size:14px;font-weight:500">Add Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="editModal" onclick="if(event.target===this)closeEdit()">
+    <div class="modal" style="max-width:460px">
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+      <div class="modal-title">Edit Category</div>
+      <div class="modal-sub">Update the category information</div>
+      <div class="form-group">
+        <label class="form-label">Category Name</label>
+        <input class="form-input" id="editCatName" placeholder="Category name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Color (hex)</label>
+        <input class="form-input" id="editCatColor" placeholder="#ffffff">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button onclick="closeEdit()" style="flex:1;padding:10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer;font-size:14px">Cancel</button>
+        <button onclick="saveEdit()" style="flex:1;padding:10px;border:none;border-radius:8px;background:#16a34a;color:#fff;cursor:pointer;font-size:14px;font-weight:500">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (!localStorage.getItem('token')) window.location.href = '/login.html';
+
+    function updateCount() {
+      const visible = document.querySelectorAll('#categoriesTbody tr:not([style*="none"])').length;
+      document.getElementById('countLabel').textContent = visible + ' categories';
+    }
+
+    function filterCategories(q) {
+      const rows = document.querySelectorAll('#categoriesTbody tr');
+      const lq = q.toLowerCase();
+      rows.forEach(r => {
+        const name = r.cells[2] ? r.cells[2].textContent.toLowerCase() : '';
+        r.style.display = name.includes(lq) ? '' : 'none';
+      });
+      updateCount();
+    }
+
+    function openCreateModal() {
+      document.getElementById('newCatName').value = '';
+      document.getElementById('newCatColor').value = '#ffffff';
+      document.getElementById('createModal').style.display = 'flex';
+    }
+
+    function closeCreate() {
+      document.getElementById('createModal').style.display = 'none';
+    }
+
+    function createCategory() {
+      const name = document.getElementById('newCatName').value.trim();
+      const color = document.getElementById('newCatColor').value.trim() || '#ffffff';
+      if (!name) { alert('Please enter a category name'); return; }
+      const tbody = document.getElementById('categoriesTbody');
+      const rowCount = tbody.querySelectorAll('tr').length + 1;
+      const tr = document.createElement('tr');
+      const colorSwatch = `<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:${color};border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>${color}`;
+      tr.innerHTML = `
+        <td style="color:#9ca3af;font-size:13px">${rowCount}</td>
+        <td style="font-size:13px;color:#6b7280;width:60px">–</td>
+        <td style="font-weight:500">${name}</td>
+        <td>${colorSwatch}</td>
+        <td>
+          <div class="actions">
+            <button class="btn-edit" onclick="editCategory(this)" title="Edit category">Edit</button>
+            <button class="btn-delete" onclick="deleteRow(this)" title="Delete category">Delete</button>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+      closeCreate();
+      tr.scrollIntoView({behavior: 'smooth', block: 'center'});
+      tr.style.background = '#f0fdf4';
+      tr.style.transition = 'background 1.5s';
+      setTimeout(() => { tr.style.background = ''; }, 2000);
+      updateCount();
+    }
+
+    let _editRow = null;
+    function editCategory(btn) {
+      _editRow = btn.closest('tr');
+      const cells = _editRow.querySelectorAll('td');
+      const name = cells[2].textContent.trim();
+      // Extract color from cell 3 text (after the swatch span)
+      const colorCell = cells[3];
+      const colorText = colorCell.textContent.trim();
+      document.getElementById('editCatName').value = name;
+      document.getElementById('editCatColor').value = colorText !== '—' ? colorText : '#ffffff';
+      document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function saveEdit() {
+      if (!_editRow) return;
+      const name = document.getElementById('editCatName').value.trim();
+      const color = document.getElementById('editCatColor').value.trim() || '#ffffff';
+      if (!name) { alert('Please enter a category name'); return; }
+      const cells = _editRow.querySelectorAll('td');
+      cells[2].textContent = name;
+      cells[2].style.fontWeight = '500';
+      const colorSwatch = `<span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:${color};border:1px solid #e5e7eb;margin-right:6px;vertical-align:middle"></span>${color}`;
+      cells[3].innerHTML = colorSwatch;
+      closeEdit();
+      _editRow.style.background = '#eff6ff';
+      _editRow.style.transition = 'background 1.5s';
+      setTimeout(() => { if (_editRow) _editRow.style.background = ''; }, 2000);
+    }
+
+    function closeEdit() {
+      document.getElementById('editModal').style.display = 'none';
+      _editRow = null;
+    }
+
+    function deleteRow(btn) {
+      if (confirm('Delete this category?')) {
+        btn.closest('tr').remove();
+        updateCount();
+      }
+    }
+  </script>
+</body>
+</html>
