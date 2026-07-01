@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOWCRAB - Products</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0}
+    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
+    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
+    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
+    .sidebar-chevron{color:#9ca3af;font-size:12px}
+    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
+    .nav-item:hover{background:#f3f4f6;color:#111827;border-radius:6px}
+    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
+    .nav-item.disabled{opacity:0.45;pointer-events:none}
+    .nav-item svg{width:16px;height:16px;flex-shrink:0}
+    .sidebar-footer-email{font-size:12px;color:#9ca3af;padding:12px 16px}
+    .main{margin-left:236px;flex:1;padding:24px}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .page-title{font-size:24px;font-weight:700;color:#111827}
+    .search-bar{padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;width:300px;outline:none}
+    table{width:100%;background:#fff;border-radius:12px;border-collapse:collapse;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    th{padding:12px 16px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6}
+    td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#f9fafb}
+    .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+    .badge-green{background:#dcfce7;color:#16a34a}
+    .badge-red{background:#fee2e2;color:#dc2626}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-left">
+        <div class="sidebar-logo-img">🦀</div>
+        <div>
+          <div class="sidebar-logo-text">WOWCRAB</div>
+          <div class="sidebar-logo-sub">Wowcrab EU</div>
+        </div>
+      </div>
+      <svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+      <div class="nav-section">Catalog</div>
+      <a class="nav-item active" href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Product Availability</a>
+      <a class="nav-item disabled" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="14" y2="10"/><line x1="4" y1="14" x2="20" y2="14"/><line x1="4" y1="18" x2="14" y2="18"/></svg>Modifier Availability</a>
+      <div class="nav-section">Sales</div>
+      <a class="nav-item" href="tables.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>Tables</a>
+      <a class="nav-item" href="orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Orders</a>
+      <a class="nav-item" href="invoices.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Invoices</a>
+      <a class="nav-item disabled" href="#">Product Sales</a>
+      <a class="nav-item disabled" href="#">Order Items</a>
+      <a class="nav-item disabled" href="#">Deleted Items</a>
+      <div class="nav-section">Marketing</div>
+      <a class="nav-item" href="members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Members</a>
+      <a class="nav-item disabled" href="#">Coupons</a>
+      <div class="nav-section">Payments &amp; Tax</div>
+      <a class="nav-item" href="payment-methods.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Payment Methods</a>
+      <a class="nav-item disabled" href="#">Payment Availability</a>
+      <a class="nav-item disabled" href="#">Payment Stats</a>
+    </nav>
+    <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
+  </aside>
+  <main class="main">
+    <div class="page-header">
+      <div class="page-title">Product Availability</div>
+      <input class="search-bar" placeholder="Search products..."/>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td>1</td>
+        <td>Hamburguer de Camarão</td>
+        <td>Hamburguers</td>
+        <td>€11.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Hamburguer de Salmão</td>
+        <td>Hamburguers</td>
+        <td>€11.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Hamburguer de Caranguejo</td>
+        <td>Hamburguers</td>
+        <td>€12.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Hamburguer de Bacalhau</td>
+        <td>Hamburguers</td>
+        <td>€11.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Hamburguer Vegetariano</td>
+        <td>Hamburguers</td>
+        <td>€10.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Batatas Fritas</td>
+        <td>Acompanhamentos</td>
+        <td>€4.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Batatas Fritas com Molho</td>
+        <td>Acompanhamentos</td>
+        <td>€5.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Salada</td>
+        <td>Acompanhamentos</td>
+        <td>€3.50</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Água</td>
+        <td>Bebidas</td>
+        <td>€1.50</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Refrigerante</td>
+        <td>Bebidas</td>
+        <td>€2.50</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Cerveja</td>
+        <td>Bebidas</td>
+        <td>€3.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Vinho (copo)</td>
+        <td>Bebidas</td>
+        <td>€3.50</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>Sumo Natural</td>
+        <td>Bebidas</td>
+        <td>€3.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td>Café</td>
+        <td>Bebidas</td>
+        <td>€1.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>Sobremesa do Dia</td>
+        <td>Sobremesas</td>
+        <td>€4.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>16</td>
+        <td>Cheesecake</td>
+        <td>Sobremesas</td>
+        <td>€4.50</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>17</td>
+        <td>Mousse de Chocolate</td>
+        <td>Sobremesas</td>
+        <td>€4.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>18</td>
+        <td>Combo Família</td>
+        <td>Combos</td>
+        <td>€35.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>19</td>
+        <td>Combo Casal</td>
+        <td>Combos</td>
+        <td>€20.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>Combo Individual</td>
+        <td>Combos</td>
+        <td>€13.00</td>
+        <td><span class="badge badge-green">Available</span></td>
+      </tr>
+      </tbody>
+    </table>
+  </main>
+  <script>
+    if(!localStorage.getItem('token')){window.location.href='/login.html';}
+  </script>
+</body>
+</html>
