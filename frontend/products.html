@@ -57,6 +57,16 @@
     .form-input{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none}
     .form-input:focus{border-color:#16a34a;box-shadow:0 0 0 2px rgba(22,163,74,0.1)}
     .form-select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none;background:#fff}
+
+    /* Pagination */
+    .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding:0 4px}
+    .pagination-info{font-size:13px;color:#6b7280}
+    .pagination-controls{display:flex;align-items:center;gap:8px}
+    .page-btn{padding:6px 12px;border:1px solid #e5e7eb;border-radius:6px;background:#fff;color:#374151;font-size:13px;cursor:pointer;min-width:36px}
+    .page-btn:hover:not(:disabled){background:#f3f4f6;border-color:#d1d5db}
+    .page-btn:disabled{opacity:0.4;cursor:not-allowed}
+    .page-btn.active{background:#16a34a;color:#fff;border-color:#16a34a}
+    .page-numbers{display:flex;gap:4px}
   </style>
 </head>
 <body>
@@ -2442,6 +2452,14 @@
         </tr>
       </tbody>
     </table>
+    <div class="pagination" id="paginationBar">
+      <div class="pagination-info" id="paginationInfo"></div>
+      <div class="pagination-controls">
+        <button class="page-btn" id="prevBtn" onclick="goPage(currentPage-1)">&#8592; Prev</button>
+        <div class="page-numbers" id="pageNumbers"></div>
+        <button class="page-btn" id="nextBtn" onclick="goPage(currentPage+1)">Next &#8594;</button>
+      </div>
+    </div>
   </main>
 
   <!-- Create Product Modal -->
@@ -2504,19 +2522,79 @@
     // Auth check
     if (!localStorage.getItem('token')) window.location.href = '/login.html';
 
-    function updateCount() {
-      const visible = document.querySelectorAll('#productsTbody tr:not([style*="none"])').length;
-      document.getElementById('countLabel').textContent = visible + ' products';
+    // Initialize pagination on load
+    window.addEventListener('DOMContentLoaded', function() {
+      filteredRows = getAllRows();
+      renderPage();
+    });
+
+    const PAGE_SIZE = 50;
+    let currentPage = 1;
+    let filteredRows = [];
+
+    function getAllRows() {
+      return Array.from(document.querySelectorAll('#productsTbody tr'));
+    }
+
+    function applyFilter(q) {
+      const lq = (q || '').toLowerCase();
+      filteredRows = getAllRows().filter(r => {
+        const name = r.cells[0] ? r.cells[0].textContent.toLowerCase() : '';
+        return name.includes(lq);
+      });
+      currentPage = 1;
+      renderPage();
     }
 
     function filterProducts(q) {
-      const rows = document.querySelectorAll('#productsTbody tr');
-      const lq = q.toLowerCase();
-      rows.forEach(r => {
-        const name = r.cells[0] ? r.cells[0].textContent.toLowerCase() : '';
-        r.style.display = name.includes(lq) ? '' : 'none';
-      });
-      updateCount();
+      applyFilter(q);
+    }
+
+    function renderPage() {
+      const allRows = getAllRows();
+      // Hide all rows first
+      allRows.forEach(r => r.style.display = 'none');
+      // Show rows for current page
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const pageRows = filteredRows.slice(start, end);
+      pageRows.forEach(r => r.style.display = '');
+      // Update count label
+      document.getElementById('countLabel').textContent = filteredRows.length + ' products';
+      // Update pagination info
+      const totalPages = Math.max(1, Math.ceil(filteredRows.length / PAGE_SIZE));
+      const showing_start = filteredRows.length === 0 ? 0 : start + 1;
+      const showing_end = Math.min(end, filteredRows.length);
+      document.getElementById('paginationInfo').textContent =
+        'Showing ' + showing_start + '–' + showing_end + ' of ' + filteredRows.length + ' products';
+      // Update prev/next buttons
+      document.getElementById('prevBtn').disabled = currentPage <= 1;
+      document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+      // Render page numbers (show at most 5)
+      const pageNumsEl = document.getElementById('pageNumbers');
+      pageNumsEl.innerHTML = '';
+      let startP = Math.max(1, currentPage - 2);
+      let endP = Math.min(totalPages, startP + 4);
+      if (endP - startP < 4) startP = Math.max(1, endP - 4);
+      for (let p = startP; p <= endP; p++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (p === currentPage ? ' active' : '');
+        btn.textContent = p;
+        btn.onclick = (function(pg) { return function() { goPage(pg); }; })(p);
+        pageNumsEl.appendChild(btn);
+      }
+    }
+
+    function goPage(p) {
+      const totalPages = Math.max(1, Math.ceil(filteredRows.length / PAGE_SIZE));
+      if (p < 1 || p > totalPages) return;
+      currentPage = p;
+      renderPage();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function updateCount() {
+      renderPage();
     }
 
     // Create
