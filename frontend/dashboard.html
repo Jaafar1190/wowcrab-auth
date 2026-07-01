@@ -47,7 +47,7 @@
     .btn-logout:hover{background:#fef2f2;color:#dc2626;border-color:#fca5a5}
 
     /* STAT CARDS */
-    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+    .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
     .stat-card{background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e5e7eb}
     .stat-label{font-size:12px;color:#6b7280;margin-bottom:6px;font-weight:400}
     .stat-value{font-size:24px;font-weight:700;color:#111827;display:inline}
@@ -203,6 +203,11 @@
       <div class="stat-label">Avg Order</div>
       <div><span class="stat-value">EUR 0.00</span><span class="stat-dash">-</span></div>
     </div>
+    <div class="stat-card" style="border-top:3px solid #ef4444">
+      <div class="stat-label" style="color:#dc2626;font-weight:600">Commandes annulées</div>
+      <div><span class="stat-value" style="color:#dc2626">1</span></div>
+      <div class="stat-sub">total annulées</div>
+    </div>
     <div class="stat-card">
       <div class="stat-label">Refund Rate</div>
       <div><span class="stat-value">0.0%</span> <span class="stat-sub">0/0</span></div>
@@ -279,9 +284,9 @@
   }
 
   const chartData = {
-    '1d': { labels: ['00h','04h','08h','12h','16h','20h','24h'], data: [0,0,0,0,0,0,0] },
-    '7d': { labels: ['06-26','06-27','06-28','06-29','06-30','07-01','07-02'], data: [480,200,150,100,180,600,750] },
-    '14d': { labels: ['06-19','06-21','06-23','06-25','06-27','06-29','07-01'], data: [300,450,200,350,500,280,600] },
+    '1d': { labels: ['00h','04h','08h','12h','16h','20h','24h'], data: [0,0,0,0,0,0,0], cancelled: [0,0,0,0,0,0,0] },
+    '7d': { labels: ['06-26','06-27','06-28','06-29','06-30','07-01','07-02'], data: [480,200,150,100,180,600,750], cancelled: [1,0,0,0,0,0,0] },
+    '14d': { labels: ['06-19','06-21','06-23','06-25','06-27','06-29','07-01'], data: [300,450,200,350,500,280,600], cancelled: [0,0,0,1,0,0,0] },
     '30d': { labels: ['06-01','06-08','06-15','06-22','06-29'], data: [1200,800,1500,1100,900] }
   };
 
@@ -291,6 +296,7 @@
     data: {
       labels: chartData['7d'].labels,
       datasets: [{
+        label: 'Revenue (EUR)',
         data: chartData['7d'].data,
         borderColor: '#16a34a',
         backgroundColor: 'rgba(22,163,74,0.06)',
@@ -300,12 +306,27 @@
         pointBorderColor: '#fff',
         pointBorderWidth: 1.5,
         tension: 0.3,
-        fill: true
+        fill: true,
+        yAxisID: 'y'
+      },{
+        label: 'Annulées',
+        data: chartData['7d'].cancelled,
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,0.04)',
+        borderWidth: 2,
+        pointRadius: 5,
+        pointBackgroundColor: '#ef4444',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        tension: 0.2,
+        fill: false,
+        borderDash: [5,3],
+        yAxisID: 'y1'
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+      plugins: { legend: { display: true, labels: { color:'#374151', font:{size:11}, boxWidth:12, padding:12 } }, tooltip: { mode: 'index', intersect: false } },
       scales: {
         x: {
           grid: { color: '#f3f4f6', drawBorder: false },
@@ -317,6 +338,17 @@
           ticks: { color: '#9ca3af', font: { size: 11 } },
           beginAtZero: true,
           border: { display: false }
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          grid: { drawOnChartArea: false },
+          ticks: { color: '#ef4444', font: { size: 10 }, stepSize: 1 },
+          border: { display: false },
+          min: 0,
+          max: 5,
+          title: { display: true, text: 'Annulées', color: '#ef4444', font:{size:10} }
         }
       }
     }
