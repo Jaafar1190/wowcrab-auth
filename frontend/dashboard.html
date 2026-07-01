@@ -357,6 +357,7 @@
   function updateChart(period) {
     chart.data.labels = chartData[period].labels;
     chart.data.datasets[0].data = chartData[period].data;
+    chart.data.datasets[1].data = chartData[period].cancelled;
     chart.update();
   }
 </script>
