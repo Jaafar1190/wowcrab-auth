@@ -1,91 +1,237 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WOWCRAB - Payment Methods</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f9fafb;display:flex;min-height:100vh;color:#111827}
-    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0}
-    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-    .sidebar-logo-left{display:flex;align-items:center;gap:10px}
-    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:16px}
-    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px}
-    .sidebar-logo-sub{font-size:11px;color:#9ca3af;font-weight:400}
-    .sidebar-chevron{color:#9ca3af;font-size:12px}
-    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
-    .nav-section{padding:16px 12px 4px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px}
-    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;color:#6b7280;cursor:pointer;transition:all 0.12s;text-decoration:none}
-    .nav-item:hover{background:#f3f4f6;color:#111827;border-radius:6px}
-    .nav-item.active{background:#f0fdf4;color:#16a34a;border-radius:6px;font-weight:500}
-    .nav-item.disabled{opacity:0.45;pointer-events:none}
-    .sidebar-footer-email{font-size:12px;color:#9ca3af;padding:12px 16px}
-    .main{margin-left:236px;flex:1;padding:24px}
-    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-    .page-title{font-size:24px;font-weight:700;color:#111827}
-    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-    .card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border:1px solid #e5e7eb}
-    .card-icon{width:48px;height:48px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:12px}
-    .card-name{font-size:16px;font-weight:600;color:#111827;margin-bottom:4px}
-    .card-desc{font-size:13px;color:#6b7280}
-    .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-top:8px;display:inline-block}
-    .badge-green{background:#dcfce7;color:#16a34a}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WOWCRAB – Payment Methods</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f3f4f6;display:flex;min-height:100vh}
+.sidebar{width:240px;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid #e5e7eb;font-size:20px;font-weight:700;color:#16a34a;display:flex;align-items:center;gap:8px}
+.sidebar-section{padding:8px 0}
+.sidebar-section-title{font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;padding:8px 16px 4px}
+.sidebar-link{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;color:#374151;text-decoration:none;border-radius:6px;margin:1px 8px;transition:background .15s}
+.sidebar-link:hover{background:#f3f4f6}
+.sidebar-link.active{background:#dcfce7;color:#16a34a;font-weight:600}
+.sidebar-link.disabled{color:#9ca3af;pointer-events:none}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:22px;font-weight:700;color:#111827}
+.content{padding:24px;flex:1}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.toolbar input{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;width:260px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:background .15s}
+.btn-primary{background:#16a34a;color:#fff}
+.btn-primary:hover{background:#15803d}
+.btn-outline{background:#fff;color:#374151;border:1px solid #d1d5db}
+.btn-outline:hover{background:#f9fafb}
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:#f9fafb;padding:10px 12px;text-align:left;font-weight:600;color:#6b7280;font-size:12px;text-transform:uppercase;border-bottom:1px solid #e5e7eb}
+tbody tr{border-bottom:1px solid #f3f4f6;transition:background .1s}
+tbody tr:hover{background:#fafafa}
+tbody td{padding:10px 12px;color:#111827;vertical-align:middle}
+.badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:12px;font-weight:500}
+.badge-builtin{background:#dcfce7;color:#16a34a}
+.badge-custom{background:#dbeafe;color:#1d4ed8}
+.badge-pos{background:#f3e8ff;color:#6b21a8}
+.badge-online{background:#fef9c3;color:#854d0e}
+.icon-pm{width:40px;height:40px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:20px}
+.actions{display:flex;gap:6px}
+.actions button{padding:5px 10px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:500}
+.btn-edit{background:#dbeafe;color:#1d4ed8}
+.btn-edit:hover{background:#bfdbfe}
+.btn-del{background:#fee2e2;color:#dc2626}
+.btn-del:hover{background:#fecaca}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:440px;max-width:95vw}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:16px;color:#111827}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.no-results{text-align:center;padding:40px;color:#9ca3af;font-size:14px}
+</style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div class="sidebar-logo"><div class="sidebar-logo-left"><div class="sidebar-logo-img">🦀</div><div><div class="sidebar-logo-text">WOWCRAB</div><div class="sidebar-logo-sub">Wowcrab EU</div></div></div><svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"/></svg></div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">Overview</div>
-      <a class="nav-item" href="dashboard.html">Dashboard</a>
-      <div class="nav-section">Catalog</div>
-      <a class="nav-item" href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16M4 10h16M4 14h10M4 18h6"/></svg>Categories</a>
-    <a class="nav-item" href="catalog-products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>Products</a>
-      <a class="nav-item" href="products.html">Product Availability</a>
-      <a class="nav-item disabled" href="#">Modifier Availability</a>
-      <div class="nav-section">Sales</div>
-      <a class="nav-item" href="tables.html">Tables</a>
-      <a class="nav-item" href="orders.html">Orders</a>
-      <a class="nav-item" href="invoices.html">Invoices</a>
-      <a class="nav-item disabled" href="#">Product Sales</a>
-      <a class="nav-item disabled" href="#">Order Items</a>
-      <a class="nav-item disabled" href="#">Deleted Items</a>
-      <div class="nav-section">Marketing</div>
-      <a class="nav-item" href="members.html">Members</a>
-      <a class="nav-item disabled" href="#">Coupons</a>
-      <div class="nav-section">Payments &amp; Tax</div>
-      <a class="nav-item active" href="payment-methods.html">Payment Methods</a>
-      <a class="nav-item disabled" href="#">Payment Availability</a>
-      <a class="nav-item disabled" href="#">Payment Stats</a>
-    </nav>
-    <div class="sidebar-footer-email">franchise@wowcrab.nl</div>
-  </aside>
-  <main class="main">
-    <div class="page-header">
-      <div class="page-title">Payment Methods</div>
+<aside class="sidebar">
+  <div class="sidebar-logo">&#x1F980; WOWCRAB</div>
+  <nav>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Main</div>
+      <a href="dashboard.html" class="sidebar-link">&#x1F4CA; Dashboard</a>
     </div>
-    <div class="cards">
-      <div class="card">
-        <div class="card-icon">💵</div>
-        <div class="card-name">Cash</div>
-        <div class="card-desc">Accept cash payments at the counter</div>
-        <span class="badge badge-green">Active</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">💳</div>
-        <div class="card-name">Bank Card</div>
-        <div class="card-desc">Accept debit and credit card payments</div>
-        <span class="badge badge-green">Active</span>
-      </div>
-      <div class="card">
-        <div class="card-icon">🌐</div>
-        <div class="card-name">Adyen Online</div>
-        <div class="card-desc">Online payments via Adyen payment gateway</div>
-        <span class="badge badge-green">Active</span>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Catalog</div>
+      <a href="categories.html" class="sidebar-link">&#x1F4CB; Categories</a>
+      <a href="catalog-products.html" class="sidebar-link">&#x1F6CD; Products</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4E6; Product Order</a>
+      <a href="#" class="sidebar-link disabled">&#x1F371; Combos</a>
+      <a href="#" class="sidebar-link disabled">&#x2699;&#xFE0F; Modifiers</a>
+      <a href="#" class="sidebar-link disabled">&#x26A0;&#xFE0F; Allergens</a>
+      <a href="#" class="sidebar-link disabled">&#x1F4DD; Menus</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Availability</div>
+      <a href="products.html" class="sidebar-link">&#x2714;&#xFE0F; Product Availability</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Sales</div>
+      <a href="tables.html" class="sidebar-link">&#x1F374; Tables</a>
+      <a href="orders.html" class="sidebar-link">&#x1F4CB; Orders</a>
+      <a href="invoices.html" class="sidebar-link">&#x1F4C4; Invoices</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">People</div>
+      <a href="members.html" class="sidebar-link">&#x1F465; Members</a>
+      <a href="payment-methods.html" class="sidebar-link active">&#x1F4B3; Payment Methods</a>
+    </div>
+  </nav>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <h1>Payment Methods <span id="count-badge" style="font-size:14px;font-weight:400;color:#6b7280;margin-left:8px"></span></h1>
+    <button class="btn btn-primary" onclick="openAdd()">+ Add Method</button>
+  </div>
+  <div class="content">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search payment methods..." oninput="applyFilter()"/>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr>
+          <th style="width:60px"></th><th>NAME</th><th>CODE</th><th>TYPE</th><th>CHANNELS</th><th>PROVIDER</th><th>ACTIONS</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h3>Add Payment Method</h3>
+    <div class="form-group"><label>Name</label><input id="add_name" placeholder="e.g. Cash"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Code</label><input id="add_code" placeholder="e.g. cash"/></div>
+      <div class="form-group"><label>Type</label>
+        <select id="add_type"><option value="Built-in">Built-in</option><option value="Custom">Custom</option></select>
       </div>
     </div>
-  </main>
-  <script>if(!localStorage.getItem('token')){window.location.href='/login.html';}</script>
+    <div class="form-row">
+      <div class="form-group"><label>Channels</label>
+        <select id="add_channels"><option value="pos">pos</option><option value="online">online</option><option value="pos, online">pos, online</option></select>
+      </div>
+      <div class="form-group"><label>Provider</label><input id="add_provider" placeholder="e.g. adyen or -"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAdd()">Add Method</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>Edit Payment Method</h3>
+    <input type="hidden" id="edit_id"/>
+    <div class="form-group"><label>Name</label><input id="edit_name"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Code</label><input id="edit_code"/></div>
+      <div class="form-group"><label>Type</label>
+        <select id="edit_type"><option value="Built-in">Built-in</option><option value="Custom">Custom</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Channels</label>
+        <select id="edit_channels"><option value="pos">pos</option><option value="online">online</option><option value="pos, online">pos, online</option></select>
+      </div>
+      <div class="form-group"><label>Provider</label><input id="edit_provider"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEdit()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let filtered=[];
+const ICONS={cash:'&#x1F4B5;',card:'&#x1F4B3;',adyen_online:'&#x1F310;',default:'&#x1F4B0;'};
+const METHODS=[
+{id:1,name:"Cash",code:"cash",type:"Built-in",channels:"pos",provider:"-"},
+{id:2,name:"Bank Card",code:"card",type:"Built-in",channels:"pos",provider:"-"},
+{id:3,name:"Adyen Online",code:"adyen_online",type:"Built-in",channels:"online",provider:"adyen"}
+];
+let nextId=METHODS.length+1;
+
+function getIcon(code){return ICONS[code]||ICONS.default;}
+
+function applyFilter(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=METHODS.filter(m=>!q||(m.name.toLowerCase().includes(q)||m.code.toLowerCase().includes(q)||m.type.toLowerCase().includes(q)));
+  renderPage();
+}
+
+function renderPage(){
+  document.getElementById('count-badge').textContent=filtered.length+' methods';
+  const tbody=document.getElementById('tbody');
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="7" class="no-results">No methods found</td></tr>';return;}
+  tbody.innerHTML=filtered.map(m=>{
+    const typeBadge='<span class="badge '+(m.type==='Built-in'?'badge-builtin':'badge-custom')+'">'+esc(m.type)+'</span>';
+    const chBadge='<span class="badge '+(m.channels==='online'?'badge-online':'badge-pos')+'">'+esc(m.channels)+'</span>';
+    return '<tr><td><div class="icon-pm">'+getIcon(m.code)+'</div></td><td style="font-weight:600">'+esc(m.name)+'</td><td style="font-family:monospace;font-size:13px;color:#6b7280">'+esc(m.code)+'</td><td>'+typeBadge+'</td><td>'+chBadge+'</td><td style="color:#6b7280">'+esc(m.provider)+'</td><td class="actions"><button class="btn-edit" onclick="openEdit('+m.id+')">Edit</button><button class="btn-del" onclick="delMethod('+m.id+')">Delete</button></td></tr>';
+  }).join('');
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function openAdd(){['add_name','add_code','add_provider'].forEach(id=>document.getElementById(id).value='');document.getElementById('addModal').classList.add('show');}
+function closeAdd(){document.getElementById('addModal').classList.remove('show');}
+function saveAdd(){
+  const name=document.getElementById('add_name').value.trim();
+  if(!name){alert('Name required');return;}
+  METHODS.push({id:nextId++,name,code:document.getElementById('add_code').value.trim(),type:document.getElementById('add_type').value,channels:document.getElementById('add_channels').value,provider:document.getElementById('add_provider').value.trim()||'-'});
+  closeAdd();applyFilter();
+}
+
+function openEdit(id){
+  const m=METHODS.find(x=>x.id===id);if(!m)return;
+  document.getElementById('edit_id').value=id;
+  document.getElementById('edit_name').value=m.name;
+  document.getElementById('edit_code').value=m.code;
+  document.getElementById('edit_type').value=m.type;
+  document.getElementById('edit_channels').value=m.channels;
+  document.getElementById('edit_provider').value=m.provider;
+  document.getElementById('editModal').classList.add('show');
+}
+function closeEdit(){document.getElementById('editModal').classList.remove('show');}
+function saveEdit(){
+  const id=parseInt(document.getElementById('edit_id').value);
+  const m=METHODS.find(x=>x.id===id);if(!m)return;
+  m.name=document.getElementById('edit_name').value.trim();
+  m.code=document.getElementById('edit_code').value.trim();
+  m.type=document.getElementById('edit_type').value;
+  m.channels=document.getElementById('edit_channels').value;
+  m.provider=document.getElementById('edit_provider').value.trim();
+  closeEdit();applyFilter();
+}
+
+function delMethod(id){
+  if(!confirm('Delete this payment method?'))return;
+  const i=METHODS.findIndex(x=>x.id===id);
+  if(i>-1)METHODS.splice(i,1);
+  applyFilter();
+}
+
+const tk=localStorage.getItem('token');
+if(!tk)window.location.href='login.html';
+applyFilter();
+</script>
 </body>
 </html>
