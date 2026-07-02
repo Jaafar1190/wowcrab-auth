@@ -64,8 +64,11 @@ tbody td{padding:10px 12px;color:#111827;vertical-align:middle}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 .no-results{text-align:center;padding:40px;color:#9ca3af;font-size:14px}
 </style>
+<link rel="stylesheet" href="responsive.css"/>
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle" onclick="document.querySelector('.sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.querySelector('.sidebar').classList.remove('open');this.classList.remove('open')"></div>
 <aside class="sidebar">
   <div class="sidebar-logo">&#x1F980; WOWCRAB</div>
   <nav>
