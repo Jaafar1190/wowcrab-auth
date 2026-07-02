@@ -66,8 +66,11 @@
     .btn-save{flex:1;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer}
     .btn-save:hover{background:#15803d}
   </style>
+<link rel="stylesheet" href="responsive.css"/>
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle" onclick="document.querySelector('.sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.querySelector('.sidebar').classList.remove('open');this.classList.remove('open')"></div>
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-logo-left">
