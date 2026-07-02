@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOWCRAB – Product Sales</title>
+  <link rel="stylesheet" href="responsive.css"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',system-ui,sans-serif;background:#f9fafb;display:flex;min-height:100vh;}
+    .sidebar{width:236px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:200;overflow-y:auto;}
+    .sidebar-logo{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+    .sidebar-logo-left{display:flex;align-items:center;gap:10px;}
+    .sidebar-logo-img{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fee2e2,#fca5a5);display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .sidebar-logo-text{font-size:14px;font-weight:700;color:#111827;letter-spacing:0.5px;}
+    .sidebar-logo-sub{font-size:11px;color:#9ca3af;}
+    .sidebar-chevron{color:#9ca3af;font-size:12px;}
+    .sidebar-nav{flex:1;padding:8px 0;overflow-y:auto;}
+    .nav-section{padding:16px 12px 4px;font-size:10px;font-weight:700;color:#9ca3af;letter-spacing:1px;text-transform:uppercase;}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:13px;color:#374151;text-decoration:none;border-radius:6px;margin:1px 8px;transition:background 0.15s;}
+    .nav-item:hover{background:#f3f4f6;color:#111827;}
+    .nav-item.active{background:#f0fdf4;color:#16a34a;font-weight:600;}
+    .nav-item.disabled{color:#d1d5db;pointer-events:none;}
+    .nav-icon{width:16px;height:16px;opacity:0.7;flex-shrink:0;}
+    .sidebar-footer{padding:12px;border-top:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#6b7280;}
+    .main{margin-left:236px;flex:1;padding:24px;min-height:100vh;}
+    .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+    .page-title{font-size:22px;font-weight:700;color:#111827;}
+    .page-sub{font-size:13px;color:#6b7280;margin-top:2px;}
+    .filters-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+    .filter-btn{padding:6px 14px;border:1px solid #e5e7eb;border-radius:20px;font-size:13px;background:#fff;cursor:pointer;color:#374151;transition:all 0.15s;}
+    .filter-btn:hover{border-color:#6b7280;}
+    .date-input{border:1px solid #e5e7eb;border-radius:8px;padding:6px 10px;font-size:13px;color:#374151;}
+    .date-sep{color:#9ca3af;font-size:13px;}
+    .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+    .kpi-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 20px;}
+    .kpi-label{font-size:12px;color:#6b7280;margin-bottom:6px;}
+    .kpi-value{font-size:22px;font-weight:700;color:#111827;}
+    .kpi-value.negative{color:#dc2626;}
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .section-title{font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.8px;}
+    .section-count{font-size:12px;color:#9ca3af;}
+    .tbl-outer{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:28px;}
+    .tbl-outer table{width:100%;border-collapse:collapse;}
+    .tbl-outer th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f3f4f6;background:#fafafa;}
+    .tbl-outer td{padding:12px 16px;font-size:13px;color:#374151;border-bottom:1px solid #f9fafb;}
+    .tbl-outer tr:last-child td{border-bottom:none;}
+    .tbl-outer tr:hover td{background:#f9fafb;}
+    .text-right{text-align:right;}
+    .text-neg{color:#dc2626;}
+    .share-bar{display:flex;align-items:center;gap:8px;}
+    .share-pct{font-size:12px;color:#6b7280;min-width:36px;text-align:right;}
+    .bar-bg{flex:1;height:6px;background:#f3f4f6;border-radius:3px;min-width:60px;}
+    .bar-fill{height:6px;background:#16a34a;border-radius:3px;}
+    @media(max-width:768px){.kpi-row{grid-template-columns:1fr 1fr;}}
+    @media(max-width:480px){.kpi-row{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<button class="menu-toggle" id="menuToggle" onclick="document.querySelector('.sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.querySelector('.sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('open')"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-left">
+      <div class="sidebar-logo-img">🦀</div>
+      <div>
+        <div class="sidebar-logo-text">WOWCRAB</div>
+        <div class="sidebar-logo-sub">Wowcrab EU</div>
+      </div>
+    </div>
+    <span class="sidebar-chevron">⌄</span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <a href="dashboard.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <div class="nav-section">Catalog</div>
+    <a href="categories.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+      Categories
+    </a>
+    <a href="catalog-products.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+      Products
+    </a>
+    <a href="products.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      Product Availability
+    </a>
+    <a href="modifier-availability.html" class="nav-item disabled">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 105.93 19.07"/></svg>
+      Modifier Availability
+    </a>
+    <div class="nav-section">Sales</div>
+    <a href="tables.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      Tables
+    </a>
+    <a href="orders.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Orders
+    </a>
+    <a href="invoices.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Invoices
+    </a>
+    <a href="product-sales.html" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Product Sales
+    </a>
+    <a href="order-items.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Order Items
+    </a>
+    <a href="deleted-items.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      Deleted Items
+    </a>
+    <div class="nav-section">Marketing</div>
+    <a href="members.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Members
+    </a>
+    <a href="coupons.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Coupons
+    </a>
+    <div class="nav-section">Payments &amp; Tax</div>
+    <a href="payment-methods.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Payment Methods
+    </a>
+    <a href="#" class="nav-item disabled">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Payment Availability
+    </a>
+    <a href="#" class="nav-item disabled">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Transactions
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="sidebar-footer-email">franchise@wowcrab.nl</span>
+  </div>
+</div>
+<div class="main" id="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Product Sales</div>
+      <div class="page-sub">Sales breakdown by category and product.</div>
+    </div>
+    <div class="filters-row" style="margin-bottom:0;">
+      <select class="date-input" id="storeFilter" onchange="render()">
+        <option value="all">All stores</option>
+        <option value="wowcrab-lisboa">WOWCRAB Lisboa</option>
+      </select>
+      <input type="date" class="date-input" id="dateFrom" value="2026-06-26" onchange="render()"/>
+      <span class="date-sep">—</span>
+      <input type="date" class="date-input" id="dateTo" value="2026-07-02" onchange="render()"/>
+    </div>
+  </div>
+
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <div class="section-header">
+    <div class="section-title">Category Sales</div>
+    <div class="section-count" id="catCount"></div>
+  </div>
+  <div class="tbl-outer">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th class="text-right">Qty</th>
+          <th class="text-right">Sales</th>
+          <th class="text-right">Discounts</th>
+          <th class="text-right">Refund Qty</th>
+          <th class="text-right">Refund Amt</th>
+          <th class="text-right">Net Revenue</th>
+          <th class="text-right">Share</th>
+        </tr>
+      </thead>
+      <tbody id="catBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Product Sales</div>
+    <div class="section-count" id="prodCount"></div>
+  </div>
+  <div class="tbl-outer">
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th class="text-right">Qty</th>
+          <th class="text-right">Sales</th>
+          <th class="text-right">Discounts</th>
+          <th class="text-right">Refund Qty</th>
+          <th class="text-right">Refund Amt</th>
+          <th class="text-right">Net Revenue</th>
+          <th class="text-right">Share</th>
+        </tr>
+      </thead>
+      <tbody id="prodBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem('token');
+if (!token) { window.location.href = 'login.html'; }
+
+const catData = [
+  {cat:'COMBOS',qty:10,sales:1175.70,disc:0,refQty:0,refAmt:0,net:1175.70,share:76.6},
+  {cat:'Cocktails',qty:17,sales:161.30,disc:-8.90,refQty:0,refAmt:0,net:152.40,share:9.9},
+  {cat:'Mocktails',qty:9,sales:79.20,disc:0,refQty:0,refAmt:0,net:79.20,share:5.2},
+  {cat:'Entrées',qty:4,sales:40.97,disc:0,refQty:0,refAmt:0,net:40.97,share:2.7},
+  {cat:'Soupe',qty:2,sales:27.60,disc:0,refQty:0,refAmt:0,net:27.60,share:1.8},
+  {cat:'Desserts',qty:2,sales:16.00,disc:0,refQty:0,refAmt:0,net:16.00,share:1.0},
+  {cat:'Fruits de mer',qty:1,sales:15.95,disc:0,refQty:0,refAmt:0,net:15.95,share:1.0},
+  {cat:'Chicha électronique avec vrai tabac',qty:1,sales:9.90,disc:0,refQty:0,refAmt:0,net:9.90,share:0.6},
+  {cat:'Bières&Sangrias',qty:1,sales:5.00,disc:0,refQty:0,refAmt:0,net:5.00,share:0.3},
+  {cat:'Extras',qty:1,sales:4.25,disc:0,refQty:0,refAmt:0,net:4.25,share:0.3},
+  {cat:'Accompagnements',qty:1,sales:3.99,disc:0,refQty:0,refAmt:0,net:3.99,share:0.3},
+  {cat:'Boissons',qty:1,sales:3.00,disc:0,refQty:0,refAmt:0,net:3.00,share:0.2},
+];
+
+const prodData = [
+  {prod:'WOW PLATTER FÊTE 5-6pers',qty:2,sales:476.00,disc:0,refQty:0,refAmt:0,net:476.00,share:31.0},
+  {prod:'COMBO#4 (3-4pers)',qty:4,sales:407.70,disc:0,refQty:0,refAmt:0,net:407.70,share:26.6},
+  {prod:'COMBO#3 (2-3pers)',qty:1,sales:88.70,disc:0,refQty:0,refAmt:0,net:88.70,share:5.8},
+  {prod:'Love 66',qty:8,sales:78.40,disc:-8.90,refQty:0,refAmt:0,net:69.50,share:5.1},
+  {prod:'COMBO#2 (2pers)',qty:1,sales:77.70,disc:0,refQty:0,refAmt:0,net:77.70,share:5.1},
+  {prod:'WOW PLATTER 2pers',qty:1,sales:72.80,disc:0,refQty:0,refAmt:0,net:72.80,share:4.7},
+  {prod:'COMBO#1 (2pers)',qty:1,sales:52.80,disc:0,refQty:0,refAmt:0,net:52.80,share:3.4},
+  {prod:'Bisque de homard',qty:2,sales:27.60,disc:0,refQty:0,refAmt:0,net:27.60,share:1.8},
+  {prod:'Mojito',qty:3,sales:26.70,disc:0,refQty:0,refAmt:0,net:26.70,share:1.7},
+  {prod:'Tarta de Queso con Oreo',qty:2,sales:16.00,disc:0,refQty:0,refAmt:0,net:16.00,share:1.0},
+  {prod:'Langouste grillée',qty:1,sales:15.95,disc:0,refQty:0,refAmt:0,net:15.95,share:1.0},
+  {prod:'Piña Colada Caramel',qty:1,sales:8.90,disc:0,refQty:0,refAmt:0,net:8.90,share:0.6},
+  {prod:'Chicha électronique avec vrai tabac',qty:1,sales:9.90,disc:0,refQty:0,refAmt:0,net:9.90,share:0.6},
+  {prod:'Sangria',qty:1,sales:5.00,disc:0,refQty:0,refAmt:0,net:5.00,share:0.3},
+  {prod:'Maiz con condimentos (3pcs)',qty:1,sales:4.25,disc:0,refQty:0,refAmt:0,net:4.25,share:0.3},
+];
+
+function fmt(n){return n===0?'-':'€'+Math.abs(n).toFixed(2);}
+function fmtNeg(n){return n===0?'-':'<span class="text-neg">-€'+Math.abs(n).toFixed(2)+'</span>';}
+
+function render(){
+  const total = catData.reduce((s,r)=>s+r.net,0);
+  const discTotal = catData.reduce((s,r)=>s+r.disc,0);
+  const refTotal = catData.reduce((s,r)=>s+r.refAmt,0);
+  const gross = catData.reduce((s,r)=>s+r.sales,0);
+
+  document.getElementById('kpiRow').innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">Grand Total</div><div class="kpi-value">€'+gross.toFixed(2)+'</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Discounts</div><div class="kpi-value negative">-€'+Math.abs(discTotal).toFixed(2)+'</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Refunds</div><div class="kpi-value">€'+Math.abs(refTotal).toFixed(2)+'</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Net Income</div><div class="kpi-value">€'+total.toFixed(2)+'</div></div>';
+
+  document.getElementById('catCount').textContent = catData.length+' categories';
+  document.getElementById('catBody').innerHTML = catData.map(r=>
+    '<tr><td>'+r.cat+'</td><td class="text-right">'+r.qty+'</td><td class="text-right">'+fmt(r.sales)+'</td>'+
+    '<td class="text-right">'+(r.disc<0?fmtNeg(r.disc):'-')+'</td>'+
+    '<td class="text-right">-</td><td class="text-right">-</td>'+
+    '<td class="text-right">'+fmt(r.net)+'</td>'+
+    '<td class="text-right"><div class="share-bar"><span class="share-pct">'+r.share+'%</span><div class="bar-bg"><div class="bar-fill" style="width:'+r.share+'%"></div></div></div></td></tr>'
+  ).join('');
+
+  document.getElementById('prodCount').textContent = prodData.length+' products';
+  document.getElementById('prodBody').innerHTML = prodData.map(r=>
+    '<tr><td>'+r.prod+'</td><td class="text-right">'+r.qty+'</td><td class="text-right">'+fmt(r.sales)+'</td>'+
+    '<td class="text-right">'+(r.disc<0?fmtNeg(r.disc):'-')+'</td>'+
+    '<td class="text-right">-</td><td class="text-right">-</td>'+
+    '<td class="text-right">'+fmt(r.net)+'</td>'+
+    '<td class="text-right"><div class="share-bar"><span class="share-pct">'+r.share+'%</span><div class="bar-bg"><div class="bar-fill" style="width:'+r.share+'%"></div></div></div></td></tr>'
+  ).join('');
+}
+
+render();
+</script>
+</body>
+</html>
