@@ -1,0 +1,114 @@
+/* WOWCRAB Responsive CSS v1.0 */
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 300;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+}
+.menu-toggle:hover { background: #f3f4f6; }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.40);
+  z-index: 240;
+  cursor: pointer;
+}
+.sidebar-overlay.open { display: block; }
+
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    z-index: 250;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 6px 0 30px rgba(0,0,0,0.18);
+  }
+  .menu-toggle { display: flex; }
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .page-header {
+    padding-left: 52px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px 14px 56px;
+  }
+  .page-header .btn-primary,
+  .page-header button,
+  .btn-create {
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .top-title, h1.page-title { font-size: 18px !important; }
+  .search-row, .top-controls { flex-wrap: wrap; gap: 8px; }
+  .search-bar { width: 100% !important; max-width: 100% !important; }
+  .tbl-outer, .table-outer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 10px;
+  }
+  .tbl-outer table, .table-outer table { min-width: 500px; }
+  .matrix-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .matrix-table { min-width: 700px; }
+  .matrix-info { flex-wrap: wrap; gap: 8px; }
+  .stats-row { flex-direction: column !important; gap: 12px; }
+  .stat-card { width: 100% !important; min-width: unset !important; }
+  .modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px 16px 0 0 !important;
+    margin: 0 !important;
+    max-height: 92dvh;
+    overflow-y: auto;
+  }
+  .form-2col {
+    grid-template-columns: 1fr !important;
+    display: grid;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-footer {
+    flex-direction: column !important;
+    gap: 8px;
+  }
+  .modal-footer button {
+    width: 100% !important;
+    justify-content: center;
+  }
+  .btn-edit, .btn-delete {
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+}
