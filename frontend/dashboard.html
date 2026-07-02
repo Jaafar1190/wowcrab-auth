@@ -77,8 +77,11 @@
 
     @media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:16px}.stats-grid{grid-template-columns:1fr 1fr}.bottom-grid{grid-template-columns:1fr}}
   </style>
+<link rel="stylesheet" href="responsive.css"/>
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle" onclick="document.querySelector('.sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.querySelector('.sidebar').classList.remove('open');this.classList.remove('open')"></div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
